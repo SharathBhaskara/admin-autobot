@@ -21,7 +21,6 @@ import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Executable;
 import com.novicehacks.autobot.types.Monitor;
 import com.novicehacks.autobot.types.Server;
-import com.novicehacks.autobot.types.SysConfig;
 
 /**
  * This is the Acutal API exposed to the clients, which will load all the

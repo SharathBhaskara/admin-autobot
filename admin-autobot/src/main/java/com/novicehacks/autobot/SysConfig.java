@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.types;
+package com.novicehacks.autobot;
 
 /**
  * SysConfig is a singleton, and the properties will be loaded from

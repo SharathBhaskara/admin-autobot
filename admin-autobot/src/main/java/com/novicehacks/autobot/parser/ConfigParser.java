@@ -9,7 +9,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.types.SysConfig;
+import com.novicehacks.autobot.SysConfig;
 
 /**
  * ConfigParser is a singleton implementation. It is really of no use to create
