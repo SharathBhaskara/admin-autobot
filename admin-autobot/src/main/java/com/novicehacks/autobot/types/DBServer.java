@@ -29,4 +29,10 @@ public class DBServer implements Server {
 		return null;
 	}
 
+	@Override
+	public int compareTo(Server o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

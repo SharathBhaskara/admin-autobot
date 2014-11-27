@@ -1,6 +1,8 @@
 package com.novicehacks.autobot.types;
 
 /**
+ * SysConfig is a singleton, and the properties will be loaded from
+ * autobot.properties using the ConfigParser.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
@@ -12,6 +14,23 @@ public final class SysConfig {
 	private String serverFileLocation;
 	private String monitorFileLocation;
 	private String executableFileLocation;
+	private String tokenSeperator;
+	private String executableDelay;
+
+	private SysConfig() {
+	}
+
+	private static class SysConfigSingleton {
+		private static SysConfig instance = new SysConfig();
+
+		public static SysConfig getInstance() {
+			return instance;
+		}
+	}
+
+	public static SysConfig getInstance() {
+		return SysConfigSingleton.getInstance();
+	}
 
 	public String getResourceFolder() {
 		return resourceFolder;
@@ -51,6 +70,22 @@ public final class SysConfig {
 
 	public void setExecutableFileLocation(String executableFileLocation) {
 		this.executableFileLocation = executableFileLocation;
+	}
+
+	public String getTokenSeperator() {
+		return tokenSeperator;
+	}
+
+	public void setTokenSeperator(String tokenSeperator) {
+		this.tokenSeperator = tokenSeperator;
+	}
+
+	public String getExecutableDelay() {
+		return executableDelay;
+	}
+
+	public void setExecutableDelay(String executableDelay) {
+		this.executableDelay = executableDelay;
 	}
 
 }

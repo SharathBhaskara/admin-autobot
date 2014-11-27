@@ -1,8 +1,13 @@
 package com.novicehacks.autobot;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.types.Command;
+import com.novicehacks.autobot.types.Executable;
 import com.novicehacks.autobot.types.Monitor;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.SysConfig;
@@ -28,29 +33,21 @@ import com.novicehacks.autobot.types.SysConfig;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
-public final class AutobotConfig implements Cloneable {
+public final class ResourceConfig implements Cloneable {
 
-	private static boolean configLoaded = false;
+	private static AtomicBoolean ConfigLoaded = new AtomicBoolean(false);
 	private Set<Server> servers;
 	private Set<Command> commands;
-	private Set<String> executables;
+	private Set<Executable> executables;
 	private Set<Monitor> monitors;
+	private SysConfig config;
 
-	private AutobotConfig() {
-	}
+	private Logger logger = LogManager.getLogger(ResourceConfig.class);
 
 	/**
-	 * Singleton implementation using an inner class.
-	 * 
-	 * @author Sharath Chand Bhaskara for NoviceHacks
-	 *
+	 * Private Constructor, will make no instance created outside this class.
 	 */
-	private static class AutobotConfigSingleton {
-		private static AutobotConfig instance = new AutobotConfig();
-
-		public static AutobotConfig getInstance() {
-			return instance;
-		}
+	private ResourceConfig() {
 	}
 
 	/**
@@ -74,13 +71,20 @@ public final class AutobotConfig implements Cloneable {
 	 *            threshold
 	 */
 	public void loadConfig(SysConfig config, Set<Server> serverSet,
-			Set<Command> command, Set<String> executables, Set<Monitor> monitors) {
-		if (!configLoaded) {
-
+			Set<Command> command, Set<Executable> executables, Set<Monitor> monitors) {
+		logger.entry();
+		if (!ConfigLoaded.get()) {
+			ConfigLoaded.set(true);
+			this.servers = serverSet;
+			this.config = config;
+			this.commands = command;
+			this.monitors = monitors;
+			this.executables = executables;
 		} else {
 			throw new IllegalStateException(
 					"Load Config cannot be called multiple times");
 		}
+		logger.exit();
 	}
 
 	/**
@@ -88,8 +92,42 @@ public final class AutobotConfig implements Cloneable {
 	 * 
 	 * @return Configuration Object will the system and resource configurations.
 	 */
-	public static AutobotConfig getInstance() {
+	protected static ResourceConfig getInstance() {
 		return AutobotConfigSingleton.getInstance();
+	}
+
+	/**
+	 * Singleton implementation using an inner class.
+	 * 
+	 * @author Sharath Chand Bhaskara for NoviceHacks
+	 *
+	 */
+	private static class AutobotConfigSingleton {
+		private static ResourceConfig instance = new ResourceConfig();
+
+		public static ResourceConfig getInstance() {
+			return instance;
+		}
+	}
+
+	public Set<Server> servers() {
+		return servers;
+	}
+
+	public Set<Command> commands() {
+		return commands;
+	}
+
+	public Set<Executable> executables() {
+		return executables;
+	}
+
+	public Set<Monitor> monitors() {
+		return monitors;
+	}
+
+	public SysConfig sysconfig() {
+		return config;
 	}
 
 }

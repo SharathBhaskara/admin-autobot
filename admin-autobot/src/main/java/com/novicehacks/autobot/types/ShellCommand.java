@@ -60,4 +60,14 @@ public class ShellCommand implements Command {
 		this.commandString = commandString;
 	}
 
+	@Override
+	public int compareTo(Command object) {
+		return this.commandId().compareTo(object.commandId());
+	}
+
+	
+	@Override
+	public String toString() {
+		return commandString;
+	}
 }

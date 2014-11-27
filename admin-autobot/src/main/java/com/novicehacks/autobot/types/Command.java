@@ -5,7 +5,7 @@ package com.novicehacks.autobot.types;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
-public interface Command {
+public interface Command extends Comparable<Command> {
 
 	public String command();
 

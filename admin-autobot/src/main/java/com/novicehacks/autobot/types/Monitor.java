@@ -6,7 +6,7 @@ package com.novicehacks.autobot.types;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
-public class Monitor {
+public class Monitor implements Comparable<Monitor> {
 
 	/**
 	 * Monitor Type enum with Disc and CPU constants.
@@ -15,7 +15,16 @@ public class Monitor {
 	 *
 	 */
 	public enum Type {
-		Disk, CPU;
+		Disk, CPU, Other;
+
+		public static Type fromValue(String name) {
+			for (Type type : Type.values()) {
+				if (type.name().equalsIgnoreCase(name)) {
+					return type;
+				}
+			}
+			return Other;
+		}
 	}
 
 	private String description;
@@ -23,7 +32,13 @@ public class Monitor {
 	private Boolean hasHeader;
 	private Integer row;
 	private Integer column;
+	private Integer threshold;
 	private Type monitorType;
+	private String commandLine;
+
+	public Monitor(String line) {
+		this.commandLine = line;
+	}
 
 	public String getDescription() {
 		return description;
@@ -71,6 +86,28 @@ public class Monitor {
 
 	public void setMonitorType(Type monitorType) {
 		this.monitorType = monitorType;
+	}
+
+	public String getCommandLine() {
+		return commandLine;
+	}
+
+	public Integer getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(Integer threshold) {
+		this.threshold = threshold;
+	}
+
+	@Override
+	public String toString() {
+		return commandLine;
+	}
+
+	@Override
+	public int compareTo(Monitor o) {
+		return this.commandLine.compareTo(o.commandLine);
 	}
 
 }

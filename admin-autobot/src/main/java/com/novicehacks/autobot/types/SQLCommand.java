@@ -24,4 +24,10 @@ public class SQLCommand implements Command {
 		return null;
 	}
 
+	@Override
+	public int compareTo(Command o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

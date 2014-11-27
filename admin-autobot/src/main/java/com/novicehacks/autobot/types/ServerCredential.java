@@ -38,5 +38,10 @@ public class ServerCredential {
 	public void setSshKey(String sshKey) {
 		this.sshKey = sshKey;
 	}
+	
+	@Override
+	public String toString() {
+		return loginid+"-"+password;
+	}
 
 }
