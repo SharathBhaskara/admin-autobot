@@ -9,7 +9,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.SysConfig;
+import com.novicehacks.autobot.config.SysConfig;
 
 /**
  * ConfigParser is a singleton implementation. It is really of no use to create
@@ -22,6 +22,10 @@ import com.novicehacks.autobot.SysConfig;
  *
  */
 public class ConfigParser {
+	/**
+	 * All the below constants define the property names in autobot.properties,
+	 * and are used to populate the state of SysConfig
+	 */
 	public static final String ConfigFile = "autobot.properties";
 	private static final String ResourceFolder = "ResourceFolder";
 	private static final String CommandResource = "CommandFileName";
@@ -30,6 +34,8 @@ public class ConfigParser {
 	private static final String MonitorResource = "MonitorsFileName";
 	private static final String TokenSeperator = "TokenSeperator";
 	private static final String ExecutableDelay = "ExecutableDelay";
+	private static final String ShellConsoleFolder = "ShellConsoleFolder";
+	private static final String ConnectionTimout = "ServerConnectionTimeout";
 
 	private Logger logger = LogManager.getLogger(ConfigParser.class);
 	private Properties properties;
@@ -147,6 +153,7 @@ public class ConfigParser {
 	}
 
 	/**
+	 * Creates the SysConfig object from the properties loaded.
 	 * 
 	 * @return
 	 */
@@ -164,6 +171,10 @@ public class ConfigParser {
 				.getProperty(CommandResource));
 		config.setTokenSeperator(this.properties.getProperty(TokenSeperator));
 		config.setExecutableDelay(this.properties.getProperty(ExecutableDelay));
+		config.setShellConsoleFolder(this.properties
+				.getProperty(ShellConsoleFolder));
+		config.setServerConnectionTimeout(this.properties
+				.getProperty(ConnectionTimout));
 		return config;
 	}
 }

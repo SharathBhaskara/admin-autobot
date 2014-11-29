@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.SysConfig;
+import com.novicehacks.autobot.config.SysConfig;
 
 /**
  * Basic Implementation for all the parsers.

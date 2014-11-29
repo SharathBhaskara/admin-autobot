@@ -1,4 +1,4 @@
-package com.novicehacks.autobot;
+package com.novicehacks.autobot.config;
 
 /**
  * SysConfig is a singleton, and the properties will be loaded from
@@ -16,6 +16,8 @@ public final class SysConfig {
 	private String executableFileLocation;
 	private String tokenSeperator;
 	private String executableDelay;
+	private String shellConsoleFolder;
+	private String serverConnectionTimeout;
 
 	private SysConfig() {
 	}
@@ -86,6 +88,41 @@ public final class SysConfig {
 
 	public void setExecutableDelay(String executableDelay) {
 		this.executableDelay = executableDelay;
+	}
+
+	public String getShellConsoleFolder() {
+		return shellConsoleFolder;
+	}
+
+	public void setShellConsoleFolder(String shellConsoleFolder) {
+		this.shellConsoleFolder = shellConsoleFolder;
+	}
+
+	public String getServerConnectionTimeout() {
+		return serverConnectionTimeout;
+	}
+
+	public void setServerConnectionTimeout(String serverConnectionTimeout) {
+		this.serverConnectionTimeout = serverConnectionTimeout;
+	}
+
+	/**
+	 * Parses the property, if any problem then we will return a default timeout
+	 * of 3 minutes.
+	 * 
+	 * @return
+	 */
+	public int serverConnectionTimeout() {
+		Integer timeout;
+		try {
+			timeout = Integer.parseInt(this.serverConnectionTimeout);
+		} catch (Exception ex) {
+			if (Thread.interrupted()) {
+				Thread.currentThread().interrupt();
+			}
+			timeout = 3 * 60;
+		}
+		return timeout;
 	}
 
 }

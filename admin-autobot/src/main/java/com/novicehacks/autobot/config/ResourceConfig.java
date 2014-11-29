@@ -1,4 +1,4 @@
-package com.novicehacks.autobot;
+package com.novicehacks.autobot.config;
 
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;

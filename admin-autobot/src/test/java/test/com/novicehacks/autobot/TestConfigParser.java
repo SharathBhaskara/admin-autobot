@@ -10,8 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.novicehacks.autobot.AutobotConfigManager;
-import com.novicehacks.autobot.ResourceConfig;
+import com.novicehacks.autobot.config.AutobotConfigManager;
+import com.novicehacks.autobot.config.ResourceConfig;
 import com.novicehacks.autobot.parser.ConfigParser;
 
 public class TestConfigParser {
