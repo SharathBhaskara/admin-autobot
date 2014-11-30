@@ -1,2 +1,0 @@
-Tempdb Utilization ;sp_helpdb tempdb,1,2;S001
-Process Information ;ps -eaf | grep weblogic;S002
