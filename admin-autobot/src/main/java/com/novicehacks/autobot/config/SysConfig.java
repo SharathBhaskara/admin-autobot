@@ -1,5 +1,10 @@
 package com.novicehacks.autobot.config;
 
+import java.util.Properties;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * SysConfig is a singleton, and the properties will be loaded from
  * autobot.properties using the ConfigParser.
@@ -8,6 +13,21 @@ package com.novicehacks.autobot.config;
  *
  */
 public final class SysConfig {
+
+	private Logger logger = LogManager.getLogger(SysConfig.class);
+
+	public static final String ConfigFile = "autobot.properties";
+	private static final String ResourceFolder = "ResourceFolder";
+	private static final String CommandResource = "CommandFileName";
+	private static final String ServerResource = "ServerFileName";
+	private static final String ExecutableResource = "ExecutableFileName";
+	private static final String MonitorResource = "MonitorsFileName";
+	private static final String TokenSeperator = "TokenSeperator";
+	private static final String ExecutableDelay = "ExecutableDelay";
+	private static final String ShellConsoleFolder = "ShellConsoleFolder";
+	private static final String ConnectionTimout = "ServerConnectionTimeout";
+	private static final String MaxExecutableTimeout = "MaxExecutableTimeout";
+	private static final String MonitoringEnabled = "MonitoringEnabled";
 
 	private String resourceFolder;
 	private String commandFileLocation;
@@ -20,10 +40,17 @@ public final class SysConfig {
 	private String serverConnectionTimeout;
 	private String executableTimeout;
 	private String monitoringEnabled;
+	private static boolean ConfigLoaded = false;
 
 	private SysConfig() {
 	}
 
+	/**
+	 * Private static inner class for Creating a Singleton object.
+	 * 
+	 * @author Sharath Chand Bhaskara for NoviceHacks
+	 *
+	 */
 	private static class SysConfigSingleton {
 		private static SysConfig instance = new SysConfig();
 
@@ -32,8 +59,44 @@ public final class SysConfig {
 		}
 	}
 
+	/**
+	 * Returns the Singleton instance of the SysConfig object.
+	 * 
+	 * @return
+	 */
 	public static SysConfig getInstance() {
 		return SysConfigSingleton.getInstance();
+	}
+
+	public void loadConfig(Properties properties) {
+		logger.entry();
+		if (!ConfigLoaded) {
+			logger.debug("Loading the SysConfig object");
+			ConfigLoaded = true;
+			SysConfig config;
+			config = SysConfig.getInstance();
+			config.setResourceFolder(properties.getProperty(ResourceFolder));
+			config.setExecutableFileLocation(properties
+					.getProperty(ExecutableResource));
+			config.setMonitorFileLocation(properties
+					.getProperty(MonitorResource));
+			config.setServerFileLocation(properties.getProperty(ServerResource));
+			config.setCommandFileLocation(properties
+					.getProperty(CommandResource));
+			config.setTokenSeperator(properties.getProperty(TokenSeperator));
+			config.setExecutableDelay(properties.getProperty(ExecutableDelay));
+			config.setShellConsoleFolder(properties
+					.getProperty(ShellConsoleFolder));
+			config.setServerConnectionTimeout(properties
+					.getProperty(ConnectionTimout));
+			config.setExecutableTimeout(properties
+					.getProperty(MaxExecutableTimeout));
+			config.setMonitoringEnabled(properties
+					.getProperty(MonitoringEnabled));
+		} else {
+			logger.warn("Overrding the SysConfig Object is disabled");
+		}
+		logger.exit();
 	}
 
 	public String getResourceFolder() {
@@ -56,23 +119,23 @@ public final class SysConfig {
 		return executableFileLocation;
 	}
 
-	public void setResourceFolder(String resourceFolder) {
+	private void setResourceFolder(String resourceFolder) {
 		this.resourceFolder = resourceFolder;
 	}
 
-	public void setCommandFileLocation(String commandFileLocation) {
+	private void setCommandFileLocation(String commandFileLocation) {
 		this.commandFileLocation = commandFileLocation;
 	}
 
-	public void setServerFileLocation(String serverFileLocation) {
+	private void setServerFileLocation(String serverFileLocation) {
 		this.serverFileLocation = serverFileLocation;
 	}
 
-	public void setMonitorFileLocation(String monitorFileLocation) {
+	private void setMonitorFileLocation(String monitorFileLocation) {
 		this.monitorFileLocation = monitorFileLocation;
 	}
 
-	public void setExecutableFileLocation(String executableFileLocation) {
+	private void setExecutableFileLocation(String executableFileLocation) {
 		this.executableFileLocation = executableFileLocation;
 	}
 
@@ -80,7 +143,7 @@ public final class SysConfig {
 		return tokenSeperator;
 	}
 
-	public void setTokenSeperator(String tokenSeperator) {
+	private void setTokenSeperator(String tokenSeperator) {
 		this.tokenSeperator = tokenSeperator;
 	}
 
@@ -88,7 +151,7 @@ public final class SysConfig {
 		return executableDelay;
 	}
 
-	public void setExecutableDelay(String executableDelay) {
+	private void setExecutableDelay(String executableDelay) {
 		this.executableDelay = executableDelay;
 	}
 
@@ -96,7 +159,7 @@ public final class SysConfig {
 		return shellConsoleFolder;
 	}
 
-	public void setShellConsoleFolder(String shellConsoleFolder) {
+	private void setShellConsoleFolder(String shellConsoleFolder) {
 		this.shellConsoleFolder = shellConsoleFolder;
 	}
 
@@ -104,7 +167,7 @@ public final class SysConfig {
 		return serverConnectionTimeout;
 	}
 
-	public void setServerConnectionTimeout(String serverConnectionTimeout) {
+	private void setServerConnectionTimeout(String serverConnectionTimeout) {
 		this.serverConnectionTimeout = serverConnectionTimeout;
 	}
 
@@ -151,7 +214,7 @@ public final class SysConfig {
 		return executableTimeout;
 	}
 
-	public void setExecutableTimeout(String executableTimeout) {
+	private void setExecutableTimeout(String executableTimeout) {
 		this.executableTimeout = executableTimeout;
 	}
 
@@ -178,7 +241,7 @@ public final class SysConfig {
 		return monitoringEnabled;
 	}
 
-	public void setMonitoringEnabled(String monitoringEnabled) {
+	private void setMonitoringEnabled(String monitoringEnabled) {
 		this.monitoringEnabled = monitoringEnabled;
 	}
 

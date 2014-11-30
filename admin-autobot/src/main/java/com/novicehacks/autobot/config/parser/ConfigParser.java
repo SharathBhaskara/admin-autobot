@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.parser;
+package com.novicehacks.autobot.config.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,11 +32,6 @@ public class ConfigParser {
 	private static final String ServerResource = "ServerFileName";
 	private static final String ExecutableResource = "ExecutableFileName";
 	private static final String MonitorResource = "MonitorsFileName";
-	private static final String TokenSeperator = "TokenSeperator";
-	private static final String ExecutableDelay = "ExecutableDelay";
-	private static final String ShellConsoleFolder = "ShellConsoleFolder";
-	private static final String ConnectionTimout = "ServerConnectionTimeout";
-	private static final String MaxExecutableTimeout = "MaxExecutableTimeout";
 
 	private Logger logger = LogManager.getLogger(ConfigParser.class);
 	private Properties properties;
@@ -79,9 +74,13 @@ public class ConfigParser {
 	}
 
 	/**
+	 * <p>
 	 * Loads the properties object, with the configuration in the
 	 * autobot.properties file.
-	 * 
+	 * </p>
+	 * <p>
+	 * Will also Load the SystemConfig object
+	 * </p>
 	 * throws IllegalStateException when unable to create the properties from
 	 * the resource file
 	 */
@@ -98,6 +97,8 @@ public class ConfigParser {
 			throw new IllegalStateException("Loading System Config Failed", e);
 		}
 		this.properties = properties;
+		/* Load System Config Object also from Properties */
+		SysConfig.getInstance().loadConfig(properties);
 		logger.exit();
 	}
 
@@ -159,25 +160,10 @@ public class ConfigParser {
 	 * @return
 	 */
 	public SysConfig systemConfig() {
-		SysConfig config;
-		config = SysConfig.getInstance();
-		config.setResourceFolder(this.properties.getProperty(ResourceFolder));
-		config.setExecutableFileLocation(this.properties
-				.getProperty(ExecutableResource));
-		config.setMonitorFileLocation(this.properties
-				.getProperty(MonitorResource));
-		config.setServerFileLocation(this.properties
-				.getProperty(ServerResource));
-		config.setCommandFileLocation(this.properties
-				.getProperty(CommandResource));
-		config.setTokenSeperator(this.properties.getProperty(TokenSeperator));
-		config.setExecutableDelay(this.properties.getProperty(ExecutableDelay));
-		config.setShellConsoleFolder(this.properties
-				.getProperty(ShellConsoleFolder));
-		config.setServerConnectionTimeout(this.properties
-				.getProperty(ConnectionTimout));
-		config.setExecutableTimeout(this.properties
-				.getProperty(MaxExecutableTimeout));
-		return config;
+		/*
+		 * Returns the singleton instance which is loaded already durint the
+		 * class instantiation
+		 */
+		return SysConfig.getInstance();
 	}
 }

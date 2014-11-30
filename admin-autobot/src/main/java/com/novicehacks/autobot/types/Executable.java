@@ -1,12 +1,15 @@
 package com.novicehacks.autobot.types;
 
+import com.novicehacks.autobot.ExecutableManager;
+
 /**
  * 
  * Executable is the command and server id combination, which will be executed
- * after every scheduled period of time.
+ * after every scheduled period of time. {@link ExecutableManager} will read all
+ * the executables and will execute the commands on corresponding server.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
- *
+ * @see ExecutableManager
  */
 public class Executable implements Comparable<Executable> {
 

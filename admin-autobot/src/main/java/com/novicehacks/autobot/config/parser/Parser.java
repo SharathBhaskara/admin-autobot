@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.parser;
+package com.novicehacks.autobot.config.parser;
 
 import java.io.IOException;
 import java.io.InputStream;

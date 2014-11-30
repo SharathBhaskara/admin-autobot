@@ -232,8 +232,7 @@ public class ShellExecutor implements Runnable {
 				logger.debug("Creating a new Session for executing the command");
 				session = connection.openSession();
 				if (command != null && command.command() != null) {
-					logger.debug("Executing the command : {}",
-							command.commandId());
+					logger.debug("Executing the command : {}", command.id());
 					session.execCommand(command.command());
 				} else {
 					logger.warn("Invalid command submitted : ");
@@ -248,7 +247,7 @@ public class ShellExecutor implements Runnable {
 				 * StringBuffer, Breaks when there is nothing to read from.
 				 */
 				logger.debug("Logging the results after the command : {}",
-						command.commandId());
+						command.id());
 				while (true) {
 					_outputLine = _buffer.readLine();
 					if (_outputLine == null)
@@ -273,13 +272,21 @@ public class ShellExecutor implements Runnable {
 		/**
 		 * Will execute the command, and log the results in ShellConsole
 		 */
+		@Override
 		public void run() {
 			String _output;
 			try {
 				_output = execute();
 				/* Logging the results in the shell console */
-				new Thread(new ShellConsole(_output, server, command)).start();
-			} catch (IOException e) {
+				Thread t = new Thread(
+						new ShellConsole(_output, server, command));
+				t.start();
+				/*
+				 * Preventing the Thread being killed before completion of
+				 * logging to console
+				 */
+				t.join();
+			} catch (IOException | InterruptedException e) {
 				logger.error("Execution of command failed", e);
 			}
 		}

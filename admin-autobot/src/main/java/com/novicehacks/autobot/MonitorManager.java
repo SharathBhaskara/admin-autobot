@@ -1,12 +1,13 @@
 package com.novicehacks.autobot;
 
+import com.novicehacks.autobot.types.Incomplete;
+
 /**
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
- *         <p>
- *         TODO working on the monitor
- *         </p>
+ * @incomplete for future implementations
  */
+@Incomplete
 public class MonitorManager {
 
 }

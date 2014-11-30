@@ -1,9 +1,16 @@
 package com.novicehacks.autobot.types;
 
+import com.novicehacks.autobot.shell.ShellExecutor;
+
 /**
+ * A Unix Server is used to store the credentials and execute the ShellCommands
+ * on the server. Unix Server and Shell Command are used by the ShellExecutor
+ * for executing on the physical machines identified by the IPAddress in this
+ * instance.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
- *
+ * @see ShellCommand
+ * @see ShellExecutor
  */
 public class UnixServer implements Server {
 	private String serverLine;
@@ -17,18 +24,22 @@ public class UnixServer implements Server {
 		this.serverLine = line;
 	}
 
+	@Override
 	public ServerCredential[] credentials() {
 		return this.credentials;
 	}
 
+	@Override
 	public String ipaddress() {
 		return this.ipAddress;
 	}
 
+	@Override
 	public String name() {
 		return this.name;
 	}
 
+	@Override
 	public String id() {
 		return this.id;
 	}

@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.MonitorManager;
+import com.novicehacks.autobot.ReportManager;
 import com.novicehacks.autobot.config.SysConfig;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
@@ -20,7 +21,7 @@ import com.novicehacks.autobot.types.Server;
  * <p>
  * Will write the content into the temporary file in the folder specified by the
  * SysConfig.ShellConsoleFolder. The content written by this console is used in
- * {@link MonitorManager}
+ * Reporting and Monitoring
  * </p>
  * 
  * <p>
@@ -31,10 +32,13 @@ import com.novicehacks.autobot.types.Server;
  * </ol>
  * So that we can capture all the data at once in the data file,
  * </p>
+ * <p>
+ * <strong>TODO: Make the log generation more configurable</strong>
+ * </p>
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
  * @see MonitorManager
- *
+ * @see ReportManager
  */
 public class ShellConsole implements Runnable {
 	/**

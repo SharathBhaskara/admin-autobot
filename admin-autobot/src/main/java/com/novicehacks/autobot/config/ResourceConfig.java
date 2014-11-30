@@ -45,7 +45,6 @@ public final class ResourceConfig {
 	private Set<Command> commands;
 	private Set<Executable> executables;
 	private Set<Monitor> monitors;
-	private SysConfig config;
 
 	private Logger logger = LogManager.getLogger(ResourceConfig.class);
 
@@ -62,8 +61,6 @@ public final class ResourceConfig {
 	 * <em>Throwing the exception is being reviewed and might be modified in the next releases</em>
 	 * </p>
 	 * 
-	 * @param config
-	 *            The System Configuration object containing system properties
 	 * @param serverSet
 	 *            Set of servers where the commands to be executed
 	 * @param command
@@ -75,14 +72,12 @@ public final class ResourceConfig {
 	 *            Set of commands to be monitored and reported if crossing the
 	 *            threshold
 	 */
-	protected void loadConfig(SysConfig config, Set<Server> serverSet,
-			Set<Command> command, Set<Executable> executables,
-			Set<Monitor> monitors) {
+	protected void loadConfig(Set<Server> serverSet, Set<Command> command,
+			Set<Executable> executables, Set<Monitor> monitors) {
 		logger.entry();
 		if (!ConfigLoaded.get()) {
 			ConfigLoaded.set(true);
 			this.servers = serverSet;
-			this.config = config;
 			this.commands = command;
 			this.monitors = monitors;
 			this.executables = executables;
@@ -95,12 +90,22 @@ public final class ResourceConfig {
 		logger.exit();
 	}
 
+	/**
+	 * Creates a sample type for passing to BotUtils.createMap method.
+	 * 
+	 * @return
+	 */
 	private Server serverType() {
 		Server server;
 		server = new UnixServer("Temp Server");
 		return server;
 	}
 
+	/**
+	 * Create a sample type for passing to BotUtils.createMap method.
+	 * 
+	 * @return
+	 */
 	private Command commandType() {
 		Command command;
 		command = new ShellCommand("Temp Command");
@@ -116,24 +121,40 @@ public final class ResourceConfig {
 		return ResourceConfigSingleton.getInstance();
 	}
 
+	/**
+	 * A Set of Servers parsed from the resource file.
+	 * 
+	 * @return
+	 */
 	public Set<Server> servers() {
 		return servers;
 	}
 
+	/**
+	 * A Set of Commands parsed from the resource file
+	 * 
+	 * @return
+	 */
 	public Set<Command> commands() {
 		return commands;
 	}
 
+	/**
+	 * A Set of Executables parsed from the resource file
+	 * 
+	 * @return
+	 */
 	public Set<Executable> executables() {
 		return executables;
 	}
 
+	/**
+	 * A Set of Monitors parsed from the resource file.
+	 * 
+	 * @return
+	 */
 	public Set<Monitor> monitors() {
 		return monitors;
-	}
-
-	public SysConfig sysconfig() {
-		return config;
 	}
 
 	/**
@@ -150,10 +171,20 @@ public final class ResourceConfig {
 		}
 	}
 
+	/**
+	 * A Map of Servers identified by serverId as key.
+	 * 
+	 * @return
+	 */
 	public Map<String, Server> serverMap() {
 		return serverMap;
 	}
 
+	/**
+	 * A Map of Commands identified by commandId as key.
+	 * 
+	 * @return
+	 */
 	public Map<String, Command> commandMap() {
 		return commandMap;
 	}

@@ -6,7 +6,7 @@ package com.novicehacks.autobot.types;
  * <em><strong>Note:</strong> sshKey authentication is for future use.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
- *
+ * @See Server
  */
 public class ServerCredential {
 
@@ -38,10 +38,10 @@ public class ServerCredential {
 	public void setSshKey(String sshKey) {
 		this.sshKey = sshKey;
 	}
-	
+
 	@Override
 	public String toString() {
-		return loginid+"-"+password;
+		return loginid + "-" + password;
 	}
 
 }

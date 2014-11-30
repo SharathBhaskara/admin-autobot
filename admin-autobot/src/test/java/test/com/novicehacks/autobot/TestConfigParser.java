@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.ResourceConfig;
-import com.novicehacks.autobot.parser.ConfigParser;
+import com.novicehacks.autobot.config.parser.ConfigParser;
 
 public class TestConfigParser {
 	Logger logger = LogManager.getLogger();

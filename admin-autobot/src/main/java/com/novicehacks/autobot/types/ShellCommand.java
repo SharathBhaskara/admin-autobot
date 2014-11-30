@@ -1,9 +1,10 @@
 package com.novicehacks.autobot.types;
 
 /**
+ * The Command object for executing in a Unix Server.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
- *
+ * @See UnixServer
  */
 public class ShellCommand implements Command {
 
@@ -16,14 +17,17 @@ public class ShellCommand implements Command {
 		this.commandString = commandString;
 	}
 
+	@Override
 	public String command() {
 		return this.command;
 	}
 
-	public String commandId() {
+	@Override
+	public String id() {
 		return this.id;
 	}
 
+	@Override
 	public String description() {
 		return this.description;
 	}
@@ -62,7 +66,7 @@ public class ShellCommand implements Command {
 
 	@Override
 	public int compareTo(Command object) {
-		return this.commandId().compareTo(object.commandId());
+		return this.id().compareTo(object.id());
 	}
 
 	@Override

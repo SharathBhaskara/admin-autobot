@@ -1,10 +1,16 @@
 package com.novicehacks.autobot.types;
 
+import com.novicehacks.autobot.MonitorManager;
+
 /**
  * Monitor is a command that has to be monitored.
  * 
+ * <p>
+ * <strong> Under development</strong>
+ * </p>
+ * 
  * @author Sharath Chand Bhaskara for NoviceHacks
- *
+ * @see MonitorManager
  */
 public class Monitor implements Comparable<Monitor> {
 

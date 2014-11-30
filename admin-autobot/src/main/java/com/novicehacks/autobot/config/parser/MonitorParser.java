@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.parser;
+package com.novicehacks.autobot.config.parser;
 
 import java.util.Map;
 import java.util.Set;

@@ -4,21 +4,25 @@ package com.novicehacks.autobot.types;
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
  * 
- * @deprecated For future use, under development and research
+ * @incomplete For future use, under development and research
  *
  */
+@Incomplete
 public class SQLCommand implements Command {
 
+	@Override
 	public String command() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String commandId() {
+	@Override
+	public String id() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String description() {
 		// TODO Auto-generated method stub
 		return null;

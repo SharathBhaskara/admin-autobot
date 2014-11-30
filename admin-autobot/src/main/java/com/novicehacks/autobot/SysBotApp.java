@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.types.Incomplete;
 
 /**
  * <p>
@@ -49,7 +50,6 @@ public class SysBotApp {
 		/* Start the ExecutableManager with a delay */
 		SysBotApp app = new SysBotApp();
 		logger.info("Loading the Configurations");
-		AutobotConfigManager.loadSystemConfig();
 		AutobotConfigManager.loadResourceConfig();
 		logger.info("Starting the ExecutableManager with a scheduled delay");
 		app.StartExecutableManager();
@@ -61,11 +61,13 @@ public class SysBotApp {
 		}
 	}
 
+	@Incomplete
 	private void StartMonitoringManager() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Incomplete
 	private void StartReportManager() {
 		// TODO Auto-generated method stub
 
