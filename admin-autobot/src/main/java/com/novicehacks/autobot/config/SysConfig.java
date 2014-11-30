@@ -18,6 +18,8 @@ public final class SysConfig {
 	private String executableDelay;
 	private String shellConsoleFolder;
 	private String serverConnectionTimeout;
+	private String executableTimeout;
+	private String monitoringEnabled;
 
 	private SysConfig() {
 	}
@@ -123,6 +125,76 @@ public final class SysConfig {
 			timeout = 3 * 60;
 		}
 		return timeout;
+	}
+
+	/**
+	 * Maximum Execution Period for all the executables defined, Can be
+	 * configured in autobot.properties. Defaults to 60 minutes if not
+	 * specified.
+	 * 
+	 * @return maximum execution period for all the executables.
+	 */
+	public int MaxExecutionPeriod() {
+		Integer timeout;
+		try {
+			timeout = Integer.parseInt(this.executableTimeout);
+		} catch (Exception ex) {
+			if (Thread.interrupted()) {
+				Thread.currentThread().interrupt();
+			}
+			timeout = 60;
+		}
+		return timeout;
+	}
+
+	public String getExecutableTimeout() {
+		return executableTimeout;
+	}
+
+	public void setExecutableTimeout(String executableTimeout) {
+		this.executableTimeout = executableTimeout;
+	}
+
+	/**
+	 * Execution delay for all executables defined, Can be configured in
+	 * autobot.properties. Defaults to 6 hours if not specified.
+	 * 
+	 * @return Delay of execution of executables.
+	 */
+	public long ExecutableDelay() {
+		Integer timeout;
+		try {
+			timeout = Integer.parseInt(this.executableTimeout);
+		} catch (Exception ex) {
+			if (Thread.interrupted()) {
+				Thread.currentThread().interrupt();
+			}
+			timeout = 6;
+		}
+		return timeout;
+	}
+
+	public String getMonitoringEnabled() {
+		return monitoringEnabled;
+	}
+
+	public void setMonitoringEnabled(String monitoringEnabled) {
+		this.monitoringEnabled = monitoringEnabled;
+	}
+
+	/**
+	 * Defaults to false
+	 * 
+	 * @return
+	 */
+	public boolean MonitoringEnabled() {
+		Boolean status;
+		try {
+			status = new Boolean(monitoringEnabled);
+		} catch (NullPointerException ex) {
+			status = false;
+		}
+		return status;
 	}
 
 }

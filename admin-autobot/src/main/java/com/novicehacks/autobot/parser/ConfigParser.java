@@ -36,6 +36,7 @@ public class ConfigParser {
 	private static final String ExecutableDelay = "ExecutableDelay";
 	private static final String ShellConsoleFolder = "ShellConsoleFolder";
 	private static final String ConnectionTimout = "ServerConnectionTimeout";
+	private static final String MaxExecutableTimeout = "MaxExecutableTimeout";
 
 	private Logger logger = LogManager.getLogger(ConfigParser.class);
 	private Properties properties;
@@ -175,6 +176,8 @@ public class ConfigParser {
 				.getProperty(ShellConsoleFolder));
 		config.setServerConnectionTimeout(this.properties
 				.getProperty(ConnectionTimout));
+		config.setExecutableTimeout(this.properties
+				.getProperty(MaxExecutableTimeout));
 		return config;
 	}
 }

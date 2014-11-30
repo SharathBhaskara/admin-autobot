@@ -30,4 +30,10 @@ public class SQLCommand implements Command {
 		return 0;
 	}
 
+	@Override
+	public String mapKey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -87,4 +87,9 @@ public class UnixServer implements Server {
 		return serverLine;
 	}
 
+	@Override
+	public String mapKey() {
+		return this.id;
+	}
+
 }

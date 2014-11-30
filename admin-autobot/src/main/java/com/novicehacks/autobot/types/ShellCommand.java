@@ -65,9 +65,13 @@ public class ShellCommand implements Command {
 		return this.commandId().compareTo(object.commandId());
 	}
 
-	
 	@Override
 	public String toString() {
 		return commandString;
+	}
+
+	@Override
+	public String mapKey() {
+		return this.id;
 	}
 }

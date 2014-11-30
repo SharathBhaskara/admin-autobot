@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +36,13 @@ public class ShellExecutor implements Runnable {
 	private Connection connection;
 	private Logger logger = LogManager.getLogger(ShellExecutor.class);
 
+	/**
+	 * Will instantiate the ShellExecutor with the server and an array of
+	 * commands to be executed on the server.
+	 * 
+	 * @param server
+	 * @param commands
+	 */
 	public ShellExecutor(Server server, Command... commands) {
 		if (BotUtils.NotNullParams(server, commands)) {
 			throw new IllegalArgumentException(
@@ -42,6 +50,25 @@ public class ShellExecutor implements Runnable {
 		}
 		this.server = server;
 		this.commands = commands;
+	}
+
+	/**
+	 * <p>
+	 * Will instantiate the ShellExecutor with the server and an array of
+	 * commands to be executed on the server.
+	 * </p>
+	 * <p>
+	 * Alternate for the command array constructor, be cautious not to send a
+	 * null collection, as it will throw an NPE.
+	 * </p>
+	 * 
+	 * @param server
+	 * @param commands
+	 * @throws NullPointerException
+	 *             if commands collections is null.
+	 */
+	public ShellExecutor(Server server, Collection<Command> commands) {
+		this(server, commands.toArray(new Command[] {}));
 	}
 
 	@Override

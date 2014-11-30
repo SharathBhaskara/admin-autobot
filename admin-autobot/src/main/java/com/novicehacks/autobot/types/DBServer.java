@@ -35,4 +35,10 @@ public class DBServer implements Server {
 		return 0;
 	}
 
+	@Override
+	public String mapKey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

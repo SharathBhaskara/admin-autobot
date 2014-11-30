@@ -1,15 +1,19 @@
 package com.novicehacks.autobot.config;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.novicehacks.autobot.BotUtils;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Executable;
 import com.novicehacks.autobot.types.Monitor;
 import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.types.ShellCommand;
+import com.novicehacks.autobot.types.UnixServer;
 
 /**
  * <p>
@@ -32,10 +36,12 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
-public final class ResourceConfig implements Cloneable {
+public final class ResourceConfig {
 
 	private static AtomicBoolean ConfigLoaded = new AtomicBoolean(false);
 	private Set<Server> servers;
+	private Map<String, Server> serverMap;
+	private Map<String, Command> commandMap;
 	private Set<Command> commands;
 	private Set<Executable> executables;
 	private Set<Monitor> monitors;
@@ -69,8 +75,9 @@ public final class ResourceConfig implements Cloneable {
 	 *            Set of commands to be monitored and reported if crossing the
 	 *            threshold
 	 */
-	public void loadConfig(SysConfig config, Set<Server> serverSet,
-			Set<Command> command, Set<Executable> executables, Set<Monitor> monitors) {
+	protected void loadConfig(SysConfig config, Set<Server> serverSet,
+			Set<Command> command, Set<Executable> executables,
+			Set<Monitor> monitors) {
 		logger.entry();
 		if (!ConfigLoaded.get()) {
 			ConfigLoaded.set(true);
@@ -79,6 +86,8 @@ public final class ResourceConfig implements Cloneable {
 			this.commands = command;
 			this.monitors = monitors;
 			this.executables = executables;
+			this.commandMap = BotUtils.CreateMap(command, commandType());
+			this.serverMap = BotUtils.CreateMap(serverSet, serverType());
 		} else {
 			throw new IllegalStateException(
 					"Load Config cannot be called multiple times");
@@ -86,27 +95,25 @@ public final class ResourceConfig implements Cloneable {
 		logger.exit();
 	}
 
+	private Server serverType() {
+		Server server;
+		server = new UnixServer("Temp Server");
+		return server;
+	}
+
+	private Command commandType() {
+		Command command;
+		command = new ShellCommand("Temp Command");
+		return command;
+	}
+
 	/**
 	 * Returns the singleton instance of the AutobotConfig object.
 	 * 
 	 * @return Configuration Object will the system and resource configurations.
 	 */
-	protected static ResourceConfig getInstance() {
-		return AutobotConfigSingleton.getInstance();
-	}
-
-	/**
-	 * Singleton implementation using an inner class.
-	 * 
-	 * @author Sharath Chand Bhaskara for NoviceHacks
-	 *
-	 */
-	private static class AutobotConfigSingleton {
-		private static ResourceConfig instance = new ResourceConfig();
-
-		public static ResourceConfig getInstance() {
-			return instance;
-		}
+	public static ResourceConfig getInstance() {
+		return ResourceConfigSingleton.getInstance();
 	}
 
 	public Set<Server> servers() {
@@ -127,6 +134,28 @@ public final class ResourceConfig implements Cloneable {
 
 	public SysConfig sysconfig() {
 		return config;
+	}
+
+	/**
+	 * Singleton implementation using an inner class.
+	 * 
+	 * @author Sharath Chand Bhaskara for NoviceHacks
+	 *
+	 */
+	private static class ResourceConfigSingleton {
+		private static ResourceConfig instance = new ResourceConfig();
+
+		public static ResourceConfig getInstance() {
+			return instance;
+		}
+	}
+
+	public Map<String, Server> serverMap() {
+		return serverMap;
+	}
+
+	public Map<String, Command> commandMap() {
+		return commandMap;
 	}
 
 }
