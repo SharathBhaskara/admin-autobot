@@ -42,6 +42,9 @@ public final class SysConfig {
 	private String monitoringEnabled;
 	private static boolean ConfigLoaded = false;
 
+	/**
+	 * Private Constructor for the singleton implementation.
+	 */
 	private SysConfig() {
 	}
 
@@ -68,6 +71,12 @@ public final class SysConfig {
 		return SysConfigSingleton.getInstance();
 	}
 
+	/**
+	 * Loads the configuration from the properties, if and only if the
+	 * configuration is not already loaded.
+	 * 
+	 * @param properties
+	 */
 	public void loadConfig(Properties properties) {
 		logger.entry();
 		if (!ConfigLoaded) {
@@ -99,81 +108,181 @@ public final class SysConfig {
 		logger.exit();
 	}
 
+	/**
+	 * Returns the Path to the folder where Resources can be found
+	 * 
+	 * @return
+	 */
 	public String getResourceFolder() {
 		return resourceFolder;
 	}
 
+	/**
+	 * Returns the path to the file where the Autobot Commands can be found
+	 * 
+	 * @return
+	 */
 	public String getCommandFileLocation() {
 		return commandFileLocation;
 	}
 
+	/**
+	 * Returns the path to the file where the Autobot Servers can be found
+	 * 
+	 * @return
+	 */
 	public String getServerFileLocation() {
 		return serverFileLocation;
 	}
 
+	/**
+	 * Returns the path to the file where the Autobot Monitors can be found
+	 * 
+	 * @return
+	 */
 	public String getMonitorFileLocation() {
 		return monitorFileLocation;
 	}
 
+	/**
+	 * Returns the path to the file where the Executable command information can
+	 * be found
+	 * 
+	 * @return
+	 */
 	public String getExecutableFileLocation() {
 		return executableFileLocation;
 	}
 
+	/**
+	 * Sets the path of the resource folder where the resources can be found.
+	 * 
+	 * @param resourceFolder
+	 */
 	private void setResourceFolder(String resourceFolder) {
 		this.resourceFolder = resourceFolder;
 	}
 
+	/**
+	 * Sets the path of the Command File for the autobot application.
+	 * 
+	 * @param commandFileLocation
+	 */
 	private void setCommandFileLocation(String commandFileLocation) {
 		this.commandFileLocation = commandFileLocation;
 	}
 
+	/**
+	 * Sets the path of the Servers file for the Autobot Application.
+	 * 
+	 * @param serverFileLocation
+	 */
 	private void setServerFileLocation(String serverFileLocation) {
 		this.serverFileLocation = serverFileLocation;
 	}
 
+	/**
+	 * Sets the path of the Monitors file for the Autobot application.
+	 * 
+	 * @param monitorFileLocation
+	 */
 	private void setMonitorFileLocation(String monitorFileLocation) {
 		this.monitorFileLocation = monitorFileLocation;
 	}
 
+	/**
+	 * Sets the path of the Executable commands file for the Autobot
+	 * Application.
+	 * 
+	 * @param executableFileLocation
+	 */
 	private void setExecutableFileLocation(String executableFileLocation) {
 		this.executableFileLocation = executableFileLocation;
 	}
 
+	/**
+	 * Returns the token separator property used in compiling the tokens from
+	 * the resource files.
+	 * 
+	 * @return
+	 */
 	public String getTokenSeperator() {
 		return tokenSeperator;
 	}
 
+	/**
+	 * Sets the token separator to be used for compiling the Autobot
+	 * Configuration objects, from the resource files
+	 * 
+	 * @param tokenSeperator
+	 */
 	private void setTokenSeperator(String tokenSeperator) {
 		this.tokenSeperator = tokenSeperator;
 	}
 
+	/**
+	 * Returns the time delay set in the configuration, for executing the
+	 * executable commands
+	 * 
+	 * @return
+	 */
 	public String getExecutableDelay() {
 		return executableDelay;
 	}
 
+	/**
+	 * Sets the time delay for executing the executable commands by the Autobot
+	 * application.
+	 * 
+	 * @param executableDelay
+	 */
 	private void setExecutableDelay(String executableDelay) {
 		this.executableDelay = executableDelay;
 	}
 
+	/**
+	 * Returns the path of the folder where the output from the remote boxes
+	 * will be logged.
+	 * 
+	 * @return
+	 */
 	public String getShellConsoleFolder() {
 		return shellConsoleFolder;
 	}
 
+	/**
+	 * Sets the path of the folder where the output from the remote boxes to be
+	 * logged by the autobot application
+	 * 
+	 * @param shellConsoleFolder
+	 */
 	private void setShellConsoleFolder(String shellConsoleFolder) {
 		this.shellConsoleFolder = shellConsoleFolder;
 	}
 
+	/**
+	 * Returns the connection time out delay, used when connecting to the remote
+	 * box using SSH / Telnet.
+	 * 
+	 * @return
+	 */
 	public String getServerConnectionTimeout() {
 		return serverConnectionTimeout;
 	}
 
+	/**
+	 * Sets the connection timeout delay, used when connecting to the remote box
+	 * using SSH/ Telnet
+	 * 
+	 * @param serverConnectionTimeout
+	 */
 	private void setServerConnectionTimeout(String serverConnectionTimeout) {
 		this.serverConnectionTimeout = serverConnectionTimeout;
 	}
 
 	/**
 	 * Parses the property, if any problem then we will return a default timeout
-	 * of 3 minutes.
+	 * of 180 seconds
 	 * 
 	 * @return
 	 */
@@ -210,10 +319,22 @@ public final class SysConfig {
 		return timeout;
 	}
 
+	/**
+	 * Returns The amount of time that the thread needs to wait for the
+	 * executable to be complete.
+	 * 
+	 * @return
+	 */
 	public String getExecutableTimeout() {
 		return executableTimeout;
 	}
 
+	/**
+	 * Sets the amount of time that the thread needs to wait for the executable
+	 * to be complete.
+	 * 
+	 * @param executableTimeout
+	 */
 	private void setExecutableTimeout(String executableTimeout) {
 		this.executableTimeout = executableTimeout;
 	}
@@ -237,10 +358,22 @@ public final class SysConfig {
 		return timeout;
 	}
 
+	/**
+	 * Returns whether monitoring feature of the autobot applications is enabled
+	 * or not.
+	 * 
+	 * @return
+	 */
 	public String getMonitoringEnabled() {
 		return monitoringEnabled;
 	}
 
+	/**
+	 * Set the monitoring feature of the application to enabled
+	 * 
+	 * @param monitoringEnabled
+	 *            true if needed to enabled false otherwise
+	 */
 	private void setMonitoringEnabled(String monitoringEnabled) {
 		this.monitoringEnabled = monitoringEnabled;
 	}
@@ -258,6 +391,47 @@ public final class SysConfig {
 			status = false;
 		}
 		return status;
+	}
+
+	/**
+	 * DefaultTimeDelay has default values for the time delays to be used across
+	 * the application, to maintain consistencies.
+	 * 
+	 * @author Sharath Chand Bhaskara for NoviceHacks!
+	 *
+	 */
+	public enum DefaultTimeDelay {
+		LongTimeInMinutes(10), ShortTimeInMinutes(3), TinyTimeInMinutes(1), LongTimeInSeconds(
+				300), ShortTimeInSeconds(120), TinyTimeInSeconds(30);
+
+		private int delay;
+
+		DefaultTimeDelay(int time) {
+			delay = time;
+		}
+
+		public int delay() {
+			return delay;
+		}
+
+	}
+
+	/**
+	 * Returns LongTimeInMinutes 
+	 * 
+	 * @return
+	 */
+	public long longTimeoutInMinutes() {
+		return DefaultTimeDelay.LongTimeInMinutes.delay();
+	}
+
+	/**
+	 * Returns ShortTimeoutInSeconds
+	 * 
+	 * @return
+	 */
+	public long shortTimeoutInSeconds() {
+		return DefaultTimeDelay.ShortTimeInSeconds.delay();
 	}
 
 }

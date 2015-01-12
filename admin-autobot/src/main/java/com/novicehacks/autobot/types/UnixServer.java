@@ -19,6 +19,7 @@ public class UnixServer implements Server {
 	private String ipAddress;
 	private String name;
 	private ServerCredential[] credentials;
+	private String[] initializationCommands;
 
 	public UnixServer(String line) {
 		this.serverLine = line;
@@ -101,6 +102,32 @@ public class UnixServer implements Server {
 	@Override
 	public String mapKey() {
 		return this.id;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.novicehacks.autobot.types.Server#initCommands()
+	 */
+	@Override
+	public String[] initCommands() {
+		return this.initializationCommands;
+
+	}
+
+	/**
+	 * @return the initializationCommands
+	 */
+	public String[] getInitializationCommands() {
+		return initializationCommands;
+	}
+
+	/**
+	 * @param initializationCommands
+	 *            the initializationCommands to set
+	 */
+	public void setInitializationCommands(String[] initializationCommands) {
+		this.initializationCommands = initializationCommands;
 	}
 
 }

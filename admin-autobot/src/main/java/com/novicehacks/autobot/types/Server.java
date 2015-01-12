@@ -18,6 +18,8 @@ package com.novicehacks.autobot.types;
 public interface Server extends Comparable<Server>, Mappable {
 
 	public ServerCredential[] credentials();
+	
+	public String[] initCommands();
 
 	public String ipaddress();
 

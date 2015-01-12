@@ -44,7 +44,7 @@ public class ShellExecutor implements Runnable {
 	 * @param commands
 	 */
 	public ShellExecutor(Server server, Command... commands) {
-		if (BotUtils.NotNullParams(server, commands)) {
+		if (!BotUtils.NotNullParams(server, commands)) {
 			throw new IllegalArgumentException(
 					"Invalid server and command passed to ShellExecutor");
 		}
@@ -91,6 +91,12 @@ public class ShellExecutor implements Runnable {
 						this.server.name());
 				return;
 			}
+			/* Execute the Init Commands if exists */
+			//TODO needs to evaluate on how to execute these commands..
+			
+			/*if (server.initCommands() != null) {
+				executeInitCommand(server.initCommands());
+			}*/
 			ExecutorService service = Executors.newCachedThreadPool();
 			/* Executing the commands */
 			for (Command command : commands) {
@@ -98,8 +104,10 @@ public class ShellExecutor implements Runnable {
 				executeCommand(service, command);
 			}
 			service.shutdown();
-			service.awaitTermination(5, TimeUnit.MINUTES);
-			if (service.isTerminated()) {
+			boolean status = service.awaitTermination(SysConfig.getInstance()
+					.longTimeoutInMinutes(), TimeUnit.MINUTES);
+			logger.info("Status of the threads executing commands {}", status);
+			if (!service.isTerminated()) {
 				logger.warn("Threads not completed, after 5 minutes so terminating them for performance issues");
 			}
 
@@ -119,6 +127,58 @@ public class ShellExecutor implements Runnable {
 			CloseConnection();
 		}
 
+		logger.exit();
+	}
+
+	/**
+	 * @param initCommand
+	 * @throws IOException
+	 */
+	private void executeInitCommand(String[] initCommands) throws IOException {
+		Session session = null;
+		BufferedReader _buffer = null;
+		InputStream _is = null;
+		StringBuffer _storageBuffer;
+		String _outputLine;
+		logger.entry();
+		try {
+			/*
+			 * Session will be opened and the init command will be executed.
+			 */
+			logger.debug("Creating a new Session for executing the command");
+			session = connection.openSession();
+			for (String command : initCommands) {
+				logger.debug("Executing Server Init Command :  {}", command);
+				// TODO some problem in executing initializing commands
+				session.execCommand(command);
+				_is = new StreamGobbler(session.getStdout());
+				_buffer = new BufferedReader(new InputStreamReader(_is));
+				_storageBuffer = new StringBuffer();
+				/*
+				 * Reads from the remote stream and and append to the
+				 * StringBuffer, Breaks when there is nothing to read from.
+				 */
+				while (true) {
+					_outputLine = _buffer.readLine();
+					logger.trace("Output for Command Id : {} is :  {}",
+							command, _outputLine);
+					if (_outputLine == null || _outputLine.equals(""))
+						break;
+					_storageBuffer.append(_outputLine);
+					_storageBuffer.append("\n");
+				}
+				logger.debug("Output for Command {} is : \n", command,
+						_storageBuffer.toString());
+			}
+		} finally {
+			/* Closing the resources for preventing memory leaks */
+			if (_buffer != null)
+				_buffer.close();
+			if (_is != null)
+				_is.close();
+			if (session != null)
+				session.close();
+		}
 		logger.exit();
 	}
 
@@ -157,7 +217,7 @@ public class ShellExecutor implements Runnable {
 				this.server.ipaddress());
 		connection = new Connection(this.server.ipaddress());
 		connection.connect(null, SysConfig.getInstance()
-				.serverConnectionTimeout(), 0);
+				.serverConnectionTimeout(),10*30*1000);
 		logger.debug("Authenticating the connection with credentials");
 		Boolean authenticated = false;
 		StringBuilder buffer = new StringBuilder();
@@ -185,7 +245,7 @@ public class ShellExecutor implements Runnable {
 					"Make sure user based authentication listed and supported by the server below : {}",
 					buffer.toString());
 		}
-
+		this.connection = connection;
 		logger.exit();
 	}
 
@@ -193,8 +253,9 @@ public class ShellExecutor implements Runnable {
 	 * Closes the connection on the server if its still connected.
 	 */
 	private void CloseConnection() {
-		logger.entry();
-		this.connection.close();
+		logger.entry(this.connection);
+		if (this.connection != null)
+			this.connection.close();
 		logger.exit();
 	}
 
@@ -250,10 +311,12 @@ public class ShellExecutor implements Runnable {
 						command.id());
 				while (true) {
 					_outputLine = _buffer.readLine();
-					if (_outputLine == null)
+					logger.trace("Output for Command Id : {} is :  {}",
+							command.id(), _outputLine);
+					if (_outputLine == null || _outputLine.equals(""))
 						break;
 					_storageBuffer.append(_outputLine);
-					_storageBuffer.append("%n");
+					_storageBuffer.append("\n");
 				}
 				logger.exit();
 				return _storageBuffer.toString();

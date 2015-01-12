@@ -1,2 +1,3 @@
 Tempdb Utilization ;sp_helpdb tempdb,1,2;S001
-Process Information ;ps -eaf | grep weblogic;S002
+Process Information ;ps -eaf | grep sh;S002
+Disk Information; df -kh;S003

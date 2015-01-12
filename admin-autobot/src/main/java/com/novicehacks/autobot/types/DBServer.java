@@ -45,4 +45,13 @@ public class DBServer implements Server {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.novicehacks.autobot.types.Server#initCommands()
+	 */
+	@Override
+	public String[] initCommands() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

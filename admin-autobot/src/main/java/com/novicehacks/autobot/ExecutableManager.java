@@ -2,13 +2,18 @@ package com.novicehacks.autobot;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -84,10 +89,10 @@ public class ExecutableManager implements Runnable {
 			serverId = executable.getServerId();
 			commandId = executable.getCommandId();
 			if (executableIdMap.containsKey(serverId)) {
-				commandIdSet = new HashSet<String>();
+				commandIdSet = executableIdMap.get(serverId);
 				commandIdSet.add(commandId);
 			} else {
-				commandIdSet = executableIdMap.get(serverId);
+				commandIdSet = new HashSet<String>();
 				commandIdSet.add(commandId);
 			}
 			executableIdMap.put(serverId, commandIdSet);
@@ -116,12 +121,45 @@ public class ExecutableManager implements Runnable {
 		 */
 		logger.entry();
 		ExecutorService service = Executors.newCachedThreadPool();
+		Map<Server, Future<?>> futureList = null;
 		for (Server server : executableMap.keySet()) {
 			ShellExecutor executor;
+			futureList = new HashMap<Server, Future<?>>();
 			executor = new ShellExecutor(server, executableMap.get(server));
-			service.submit(executor);
+			Future<?> future = service.submit(executor);
+			futureList.put(server, future);
 		}
 		service.shutdown();
+		/* Wait till termination before proceeding to call the Future Objects */
+		try {
+			service.awaitTermination(
+					SysConfig.DefaultTimeDelay.LongTimeInMinutes.delay(),
+					TimeUnit.MINUTES);
+		} catch (InterruptedException ex) {
+			logger.error(
+					"Thread interrupted when executing the command on remote system.",
+					ex);
+			Thread.currentThread().interrupt();
+		}
+		/*
+		 * Check if the futures are not having any exceptions and report any
+		 * failures;
+		 */
+		if (futureList != null) {
+			for (Server server : futureList.keySet()) {
+				Future<?> future = futureList.get(server);
+				try {
+					future.get(SysConfig.getInstance().shortTimeoutInSeconds(),
+							TimeUnit.SECONDS);
+				} catch (InterruptedException | ExecutionException
+						| TimeoutException e) {
+					logger.error(
+							"Error Raised in executing commands on Server : "
+									+ server, e);
+				}
+
+			}
+		}
 		try {
 			boolean status = service.awaitTermination(SysConfig.getInstance()
 					.MaxExecutionPeriod(), TimeUnit.MINUTES);

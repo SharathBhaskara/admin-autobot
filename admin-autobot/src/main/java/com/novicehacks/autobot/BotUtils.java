@@ -15,8 +15,8 @@ import com.novicehacks.autobot.types.Mappable;
 public class BotUtils {
 
 	/**
-	 * Will check that none of the parameters are having null values. If any one
-	 * params is having null then it will return a false.
+	 * Will check that none of the parameters are having null values. If even one
+	 * param is having null then it will return a false.
 	 * 
 	 * @param params
 	 * @return <p>

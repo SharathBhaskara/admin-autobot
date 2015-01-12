@@ -29,7 +29,7 @@ public abstract class Parser<T> implements Callable<Set<T>> {
 	}
 
 	/**
-	 * Loops in all the lines of a resource, and creates tokens for each line
+	 * Loops for all the lines of a resource, and creates tokens for each line
 	 * based on the token separator property in the sysconfig
 	 * 
 	 * @return A List of String tokens in the file.

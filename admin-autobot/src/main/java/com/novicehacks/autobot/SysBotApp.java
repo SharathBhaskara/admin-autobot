@@ -3,6 +3,7 @@ package com.novicehacks.autobot;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -76,8 +77,22 @@ public class SysBotApp {
 	private void StartExecutableManager() {
 		logger.entry();
 		ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-		service.scheduleWithFixedDelay(ExecutableManager.getInstance(), 0,
-				SysConfig.getInstance().ExecutableDelay(), TimeUnit.HOURS);
+		ScheduledFuture<?> future = service.scheduleWithFixedDelay(
+				ExecutableManager.getInstance(), 0, SysConfig.getInstance()
+						.ExecutableDelay(), TimeUnit.MINUTES);
+		try {
+			System.out.println(future.getDelay(TimeUnit.MINUTES));
+			future.get(SysConfig.getInstance().longTimeoutInMinutes(),
+					TimeUnit.MINUTES);
+		} catch (InterruptedException | TimeoutException e) {
+			logger.info("Scheduled Future Timedout / Interrupted : {}", e);
+			if (Thread.interrupted()) {
+				Thread.currentThread().interrupt();
+			}
+		} catch (ExecutionException e) {
+			logger.error(
+					"Exception raised in Executing Commands on Servers : ", e);
+		}
 		logger.exit();
 	}
 }

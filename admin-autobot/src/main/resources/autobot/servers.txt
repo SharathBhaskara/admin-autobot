@@ -1,3 +1,2 @@
-0010;QAServer;10.410.255.38;sharath;password;sharath3;password3
-0011;DevServer;10.310.255.38;sharath;password;sharath2;password2
-0012;ProdServer;10.210.255.38;sharath;password;sharath1;password1
+0010;QAServer;sdf.org;init:\b;init:\r;init:\r;init:who;novicehacks;novicehacks;cooldude12;C00lDud3
+0011;Local Server;192.168.40.129;init:\b;init:\r;init:\r;init:who;novicehacks;novicehacks

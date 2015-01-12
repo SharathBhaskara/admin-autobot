@@ -1,5 +1,6 @@
 package com.novicehacks.autobot.shell;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ByteChannel;
@@ -79,7 +80,24 @@ public class ShellConsole implements Runnable {
 
 	@Override
 	public void run() {
-		logger.entry();
+		logger.entry("Content Length: " + content.length());
+		logger.debug("Logging the content on the to the file path : "
+				+ ConsolePath.toString());
+		if (Files.notExists(ConsolePath)) {
+			try {
+				Files.createDirectories(Paths.get(SysConfig.getInstance()
+						.getShellConsoleFolder()));
+				Files.createFile(ConsolePath);
+			} catch (IOException e) {
+				logger.fatal("Error while creating the Shell Console File", e);
+				/*
+				 * Current Thread will be interrupted to safely exit the
+				 * application
+				 */
+				Thread.currentThread().interrupt();
+				return;
+			}
+		}
 		try (ByteChannel _byteChannel = Files.newByteChannel(ConsolePath,
 				StandardOpenOption.WRITE, StandardOpenOption.SYNC,
 				StandardOpenOption.APPEND)) {
@@ -93,23 +111,22 @@ public class ShellConsole implements Runnable {
 			_byteChannel.write(contentBuffer);
 			_byteChannel.write(footerBuffer);
 		} catch (IOException e) {
-			logger.error("Error While writing to Shell Console File : {} %n",
-					e, e);
+			logger.error("Error While writing to Shell Console File : {}", e, e);
 		}
 		logger.exit();
 	}
 
 	private String getFooter() {
 		StringBuilder buffer = new StringBuilder();
-		buffer.append("*******************************************************%n");
+		buffer.append("*******************************************************\n");
 		buffer.append("Started processing Unix Commands On Server :");
 		if (this.server != null) {
 			buffer.append(this.server.ipaddress());
 		} else {
 			buffer.append("Unknown");
 		}
-		buffer.append("%n");
-		buffer.append("*******************************************************%n");
+		buffer.append("\n");
+		buffer.append("*******************************************************\n");
 
 		buffer.append("Executing :");
 		if (this.command != null) {
@@ -117,15 +134,15 @@ public class ShellConsole implements Runnable {
 		} else {
 			buffer.append("Unknown Command");
 		}
-		buffer.append("%n");
-		buffer.append("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%n");
+		buffer.append("\n");
+		buffer.append("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
 		return buffer.toString();
 	}
 
 	private String getHeader() {
 		StringBuilder buffer = new StringBuilder();
-		buffer.append("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%n");
+		buffer.append("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 		return buffer.toString();
 	}
 }
