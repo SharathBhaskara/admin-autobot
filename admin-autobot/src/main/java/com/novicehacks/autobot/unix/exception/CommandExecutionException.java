@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.shell.refactored;
+package com.novicehacks.autobot.unix.exception;
 
 import java.util.Collection;
 

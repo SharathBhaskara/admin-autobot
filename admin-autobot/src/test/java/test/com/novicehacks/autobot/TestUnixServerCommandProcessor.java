@@ -19,12 +19,12 @@ import org.mockito.MockitoAnnotations;
 
 import test.com.novicehacks.autobot.categories.IntegrationTest;
 
+import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.config.AutobotConfigManager;
-import com.novicehacks.autobot.shell.refactored.ThreadManager;
-import com.novicehacks.autobot.shell.refactored.UnixServerCommandProcessor;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ServerCredential;
+import com.novicehacks.autobot.unix.UnixServerCommandProcessor;
 
 public class TestUnixServerCommandProcessor {
 	@Mock

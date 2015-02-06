@@ -18,11 +18,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.ResourceConfig;
 import com.novicehacks.autobot.config.SysConfig;
-import com.novicehacks.autobot.shell.refactored.ThreadManager;
-import com.novicehacks.autobot.shell.refactored.UnixServerCommandProcessor;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Executable;
 import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.unix.UnixServerCommandProcessor;
 
 /**
  * Executable Manager thread is a singleton instance, will load the executables

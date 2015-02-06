@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.novicehacks.autobot.shell.refactored;
+package com.novicehacks.autobot.unix;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -17,9 +17,11 @@ import org.apache.logging.log4j.Logger;
 import ch.ethz.ssh2.Connection;
 
 import com.novicehacks.autobot.BotUtils;
+import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.config.SysConfig;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.unix.exception.CommandExecutionException;
 
 /**
  * 

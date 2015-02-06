@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.shell.refactored;
+package com.novicehacks.autobot.unix.exception;
 
 /**
  * Wrapper for exceptions raised when trying to connect to the server.

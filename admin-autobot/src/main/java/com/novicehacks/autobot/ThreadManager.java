@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.shell.refactored;
+package com.novicehacks.autobot;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ExecutorService;

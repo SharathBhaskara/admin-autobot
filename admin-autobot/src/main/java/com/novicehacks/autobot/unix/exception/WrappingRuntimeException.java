@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.shell.refactored;
+package com.novicehacks.autobot.unix.exception;
 
 public abstract class WrappingRuntimeException extends RuntimeException {
 

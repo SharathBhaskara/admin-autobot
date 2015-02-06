@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.SysConfig;
-import com.novicehacks.autobot.shell.refactored.ThreadManager;
 import com.novicehacks.autobot.types.Incomplete;
 
 /**

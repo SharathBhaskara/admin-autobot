@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.shell.refactored;
+package com.novicehacks.autobot.unix;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import ch.ethz.ssh2.ServerHostKeyVerifier;
 import com.novicehacks.autobot.config.SysConfig;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ServerCredential;
+import com.novicehacks.autobot.unix.exception.ServerConnectionException;
 
 final class UnixServerHandle {
 

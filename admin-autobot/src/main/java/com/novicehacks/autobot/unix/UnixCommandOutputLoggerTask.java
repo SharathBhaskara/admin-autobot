@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.shell.refactored;
+package com.novicehacks.autobot.unix;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -15,6 +15,7 @@ import com.novicehacks.autobot.BotUtils;
 import com.novicehacks.autobot.config.SysConfig;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.unix.exception.UnixOutputLoggingException;
 
 public class UnixCommandOutputLoggerTask implements Runnable {
 
@@ -82,9 +83,11 @@ public class UnixCommandOutputLoggerTask implements Runnable {
 
 	@Override
 	public void run() {
+		logger.entry ();
 		prepareContent ();
-		logger.debug (content);
+		logger.trace (content);
 		writeContent ();
+		logger.exit ();
 	}
 
 	private void writeContent() {

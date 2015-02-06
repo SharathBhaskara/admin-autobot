@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.shell.refactored;
+package com.novicehacks.autobot.unix;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,8 +13,10 @@ import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 
 import com.novicehacks.autobot.BotUtils;
+import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.unix.exception.CommandExecutionException;
 
 /**
  * Executes each command on a server in a seperate session and in seperate
