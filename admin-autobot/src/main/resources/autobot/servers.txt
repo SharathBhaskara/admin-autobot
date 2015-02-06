@@ -1,2 +1,2 @@
 0010;QAServer;sdf.org;init:\b;init:\r;init:\r;init:who;novicehacks;novicehacks;cooldude12;C00lDud3
-0011;Local Server;192.168.40.129;init:\b;init:\r;init:\r;init:who;novicehacks;novicehacks
+0011;Local Server;192.168.40.133;novicehacks;novicehacks

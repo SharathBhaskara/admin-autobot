@@ -35,7 +35,7 @@ public class TestShellInterface {
 			String _outputLine;
 			if (connection.isAuthenticationComplete()) {
 
-				String commands[] = { "\b", "\r", "\r", "who" };
+				String commands[] = { "\b", "\r", "\r", "who", "df -kh", "ls" };
 				for (String cmd : commands) {
 					session = connection.openSession();
 					session.execCommand(cmd);

@@ -15,8 +15,8 @@ import com.novicehacks.autobot.types.Mappable;
 public class BotUtils {
 
 	/**
-	 * Will check that none of the parameters are having null values. If even one
-	 * param is having null then it will return a false.
+	 * Will check that none of the parameters are having null values. If even
+	 * one param is having null then it will return a false.
 	 * 
 	 * @param params
 	 * @return <p>
@@ -26,13 +26,13 @@ public class BotUtils {
 	 *         false if any object has null value
 	 *         </p>
 	 */
-	public static boolean NotNullParams(Object... params) {
+	public static boolean HasNullReferences(Object... params) {
 		for (Object object : params) {
 			if (object == null) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -42,15 +42,15 @@ public class BotUtils {
 	 * @param collection
 	 * @return
 	 */
-	public static Map<String, Mappable> CreateMap(
-			Collection<? extends Mappable> collection) {
+	public static Map<String, Mappable>
+			CreateMap(Collection<? extends Mappable> collection) {
 		Map<String, Mappable> finalMap;
-		finalMap = new TreeMap<String, Mappable>();
-		if (collection == null || collection.size() == 0) {
+		finalMap = new TreeMap<String, Mappable> ();
+		if (collection == null || collection.size () == 0) {
 			return finalMap;
 		}
 		for (Mappable mappable : collection) {
-			finalMap.put(mappable.mapKey(), mappable);
+			finalMap.put (mappable.mapKey (), mappable);
 		}
 		return finalMap;
 	}
@@ -60,27 +60,39 @@ public class BotUtils {
 	 * map will be the <em>mapKey</em> of the object.
 	 * 
 	 * @param collection
-	 *            collection of objects from which the map is created
+	 *        collection of objects from which the map is created
 	 * @param type
-	 *            reference to tell which type of objects are returned, no
-	 *            implication in the map creation logic.
+	 *        reference to tell which type of objects are returned, no
+	 *        implication in the map creation logic.
 	 * @return Map of the objects in collection with the key as given in
 	 *         Mappable.mapKey element
 	 * @throws ClassCastException
-	 *             if the object cannot be casted to the Type specified in T.
+	 *         if the object cannot be casted to the Type specified in T.
 	 */
-	public static <T> Map<String, T> CreateMap(
-			Collection<? extends Mappable> collection, T type) {
+	public static <T> Map<String, T>
+			CreateMap(Collection<? extends Mappable> collection, T type) {
 		Map<String, T> finalMap;
-		finalMap = new TreeMap<String, T>();
-		if (collection == null || collection.size() == 0) {
+		finalMap = new TreeMap<String, T> ();
+		if (collection == null || collection.size () == 0) {
 			return finalMap;
 		}
 		for (Mappable mappable : collection) {
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings ("unchecked")
 			T object = (T) mappable;
-			finalMap.put(mappable.mapKey(), object);
+			finalMap.put (mappable.mapKey (), object);
 		}
 		return finalMap;
+	}
+
+	/**
+	 * Propogates the Interrupted Exception if the exception is
+	 * InterruptedException or Thread is interrupted.
+	 * 
+	 * @param ex
+	 */
+	public static void propogateInterruptIfExist(Exception exception) {
+		if (exception instanceof InterruptedException || Thread.interrupted ()) {
+			Thread.currentThread ().interrupt ();
+		}
 	}
 }

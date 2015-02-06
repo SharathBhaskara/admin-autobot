@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.shell.refactored.ThreadManager;
 import com.novicehacks.autobot.types.Incomplete;
 
 /**
@@ -44,21 +45,23 @@ import com.novicehacks.autobot.types.Incomplete;
  *
  */
 public class SysBotApp {
-	private static Logger logger = LogManager.getLogger(SysBotApp.class);
+	private static Logger	logger	= LogManager.getLogger (SysBotApp.class);
 
-	public static void main(String[] args) throws InterruptedException,
-			ExecutionException, TimeoutException {
+	public static void main(String[] args)	throws InterruptedException,
+											ExecutionException,
+											TimeoutException {
 		/* Start the ExecutableManager with a delay */
-		SysBotApp app = new SysBotApp();
-		logger.info("Loading the Configurations");
-		AutobotConfigManager.loadResourceConfig();
-		logger.info("Starting the ExecutableManager with a scheduled delay");
-		app.StartExecutableManager();
-		logger.info("Starting the ReportingManager with a scheduled delay");
-		app.StartReportManager();
-		if (SysConfig.getInstance().MonitoringEnabled()) {
-			logger.info("Starting the Monitoring Thread");
-			app.StartMonitoringManager();
+		SysBotApp app = new SysBotApp ();
+		ThreadManager.getInstance ().InitiateThreadPool (true);
+		logger.info ("Loading the Configurations");
+		AutobotConfigManager.loadResourceConfig ();
+		logger.info ("Starting the ExecutableManager with a scheduled delay");
+		app.StartExecutableManager ();
+		logger.info ("Starting the ReportingManager with a scheduled delay");
+		app.StartReportManager ();
+		if (SysConfig.getInstance ().MonitoringEnabled ()) {
+			logger.info ("Starting the Monitoring Thread");
+			app.StartMonitoringManager ();
 		}
 	}
 
@@ -75,24 +78,22 @@ public class SysBotApp {
 	}
 
 	private void StartExecutableManager() {
-		logger.entry();
-		ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-		ScheduledFuture<?> future = service.scheduleWithFixedDelay(
-				ExecutableManager.getInstance(), 0, SysConfig.getInstance()
-						.ExecutableDelay(), TimeUnit.MINUTES);
+		logger.entry ();
+		ScheduledExecutorService service = Executors.newScheduledThreadPool (1);
+		ScheduledFuture<?> future = service.scheduleWithFixedDelay (
+				ExecutableManager.getInstance (), 0, SysConfig.getInstance ().ExecutableDelay (),
+				TimeUnit.MINUTES);
 		try {
-			System.out.println(future.getDelay(TimeUnit.MINUTES));
-			future.get(SysConfig.getInstance().longTimeoutInMinutes(),
-					TimeUnit.MINUTES);
+			System.out.println (future.getDelay (TimeUnit.MINUTES));
+			future.get (SysConfig.getInstance ().longTimeoutInMinutes (), TimeUnit.MINUTES);
 		} catch (InterruptedException | TimeoutException e) {
-			logger.info("Scheduled Future Timedout / Interrupted : {}", e);
-			if (Thread.interrupted()) {
-				Thread.currentThread().interrupt();
+			logger.info ("Scheduled Future Timedout / Interrupted : {}", e);
+			if (Thread.interrupted ()) {
+				Thread.currentThread ().interrupt ();
 			}
 		} catch (ExecutionException e) {
-			logger.error(
-					"Exception raised in Executing Commands on Servers : ", e);
+			logger.error ("Exception raised in Executing Commands on Servers : ", e);
 		}
-		logger.exit();
+		logger.exit ();
 	}
 }
