@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.unix.exception;
+package com.novicehacks.autobot.ssh.exception;
 
 public class UnixOutputLoggingException extends WrappingRuntimeException {
 

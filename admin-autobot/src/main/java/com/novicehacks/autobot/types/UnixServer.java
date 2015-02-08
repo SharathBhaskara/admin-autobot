@@ -1,7 +1,5 @@
 package com.novicehacks.autobot.types;
 
-import com.novicehacks.autobot.shell.ShellExecutor;
-
 /**
  * A Unix Server is used to store the credentials and execute the ShellCommands
  * on the server. Unix Server and Shell Command are used by the ShellExecutor
@@ -13,15 +11,15 @@ import com.novicehacks.autobot.shell.ShellExecutor;
  * @see ShellExecutor
  */
 public class UnixServer implements Server {
-	private String serverLine;
-	private String description;
-	private String id;
-	private String ipAddress;
-	private String name;
-	private ServerCredential[] credentials;
-	private String[] initializationCommands;
+	private String				serverLine;
+	private String				description;
+	private String				id;
+	private String				ipAddress;
+	private String				name;
+	private ServerCredential[]	credentials;
+	private String[]			initializationCommands;
 
-	public UnixServer(String line) {
+	public UnixServer (String line) {
 		this.serverLine = line;
 	}
 
@@ -47,7 +45,7 @@ public class UnixServer implements Server {
 
 	@Override
 	public int compareTo(Server object) {
-		return this.id().compareTo(object.id());
+		return this.id ().compareTo (object.id ());
 	}
 
 	public String getDescription() {
@@ -106,7 +104,6 @@ public class UnixServer implements Server {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.novicehacks.autobot.types.Server#initCommands()
 	 */
 	@Override
@@ -124,7 +121,7 @@ public class UnixServer implements Server {
 
 	/**
 	 * @param initializationCommands
-	 *            the initializationCommands to set
+	 *        the initializationCommands to set
 	 */
 	public void setInitializationCommands(String[] initializationCommands) {
 		this.initializationCommands = initializationCommands;

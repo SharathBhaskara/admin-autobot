@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.unix.exception;
+package com.novicehacks.autobot.ssh.exception;
 
 /**
  * Wrapper for exceptions raised when trying to connect to the server.

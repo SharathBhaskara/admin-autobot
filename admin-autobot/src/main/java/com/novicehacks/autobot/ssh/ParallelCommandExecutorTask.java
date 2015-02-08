@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.unix;
+package com.novicehacks.autobot.ssh;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,14 +9,11 @@ import java.util.concurrent.Future;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ch.ethz.ssh2.Connection;
-import ch.ethz.ssh2.Session;
-
 import com.novicehacks.autobot.BotUtils;
 import com.novicehacks.autobot.ThreadManager;
+import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
-import com.novicehacks.autobot.unix.exception.CommandExecutionException;
 
 /**
  * Executes each command on a server in a seperate session and in seperate
@@ -25,15 +22,16 @@ import com.novicehacks.autobot.unix.exception.CommandExecutionException;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class UnixParallelCommandExecutorTask implements Runnable {
+class ParallelCommandExecutorTask implements Runnable {
 
-	private Connection		connection;
-	private Server			server;
-	private Command			command;
-	private Session			session;
-	private StringBuilder	commandOutputBuffer;
-	private Future<?>		commandOutputLoggerTaskFuture;
-	private Logger			logger	= LogManager.getLogger (UnixParallelCommandExecutorTask.class);
+	private CustomizedSSHConnection	connection;
+	private CustomizedSSHSession	session;
+	private Server					server;
+	private Command					command;
+	private StringBuilder			commandOutputBuffer;
+	private Future<?>				commandOutputLoggerTaskFuture;
+	private Logger					logger	= LogManager
+													.getLogger (ParallelCommandExecutorTask.class);
 
 	/**
 	 * 
@@ -41,19 +39,21 @@ public class UnixParallelCommandExecutorTask implements Runnable {
 	 * @param unixCommand
 	 * @throws CommandExecutionException
 	 */
-	UnixParallelCommandExecutorTask (Connection shellConnection, Server server, Command unixCommand) {
-		validateParams (shellConnection, unixCommand);
+	protected ParallelCommandExecutorTask (	CustomizedSSHConnection shellConnection,
+											Server server,
+											Command unixCommand) {
+		validateParams (shellConnection, server, unixCommand);
 		this.connection = shellConnection;
 		this.server = server;
 		this.command = unixCommand;
 	}
 
-	private void validateParams(Connection shellConnection, Command unixCommand) {
-		logger.entry (shellConnection, unixCommand);
-		if (BotUtils.HasNullReferences (shellConnection, unixCommand))
+	private void validateParams(CustomizedSSHConnection shellConnection,
+								Server server,
+								Command unixCommand) {
+		if (BotUtils.HasNullReferences (shellConnection, server, unixCommand))
 			throw new CommandExecutionException ("Invalid Connection / Command Passed",
 					new IllegalArgumentException ());
-		logger.exit ();
 	}
 
 	/**
@@ -63,8 +63,7 @@ public class UnixParallelCommandExecutorTask implements Runnable {
 	@Override
 	public void run() {
 		createSession ();
-		executeCommand ();
-		endSession ();
+		executeCommandAndDisconnectSession ();
 		logCommandOutputAsynchronously ();
 	}
 
@@ -73,6 +72,14 @@ public class UnixParallelCommandExecutorTask implements Runnable {
 			this.session = this.connection.openSession ();
 		} catch (IOException ex) {
 			throw new CommandExecutionException ("Unable to create a session on Connection", ex);
+		}
+	}
+
+	private void executeCommandAndDisconnectSession() {
+		try {
+			executeCommand ();
+		} finally {
+			endSession ();
 		}
 	}
 
@@ -97,13 +104,11 @@ public class UnixParallelCommandExecutorTask implements Runnable {
 		} catch (IOException ex) {
 			logger.error ("Failed to execute command on the session : {}", this.command, ex);
 			throw new CommandExecutionException ("Command Execution Failed : " + unixCommand, ex);
-		} finally {
-			endSession ();
 		}
 	}
 
 	private void endSession() {
-		this.session.close ();
+		this.session.disconnect ();
 	}
 
 	private void executeCommandInSessionAndCollectOutput(String unixCommand) throws IOException {
@@ -113,7 +118,7 @@ public class UnixParallelCommandExecutorTask implements Runnable {
 
 	private void collectOutputFromSession() throws IOException {
 		commandOutputBuffer = new StringBuilder ();
-		InputStream inputStream = session.getStdout ();
+		InputStream inputStream = session.getStdOut ();
 		parseAndPopulateOutput (inputStream);
 	}
 
@@ -134,11 +139,11 @@ public class UnixParallelCommandExecutorTask implements Runnable {
 	}
 
 	private void logCommandOutputAsynchronously() {
-		UnixCommandOutputLoggerTask loggerTask;
+		SSHOutputLoggerTask loggerTask;
 		String commandOutput = this.commandOutputBuffer.toString ();
 		Server unixServer = server;
 		Command unixCommand = command;
-		loggerTask = new UnixCommandOutputLoggerTask (unixServer, unixCommand, commandOutput);
+		loggerTask = new SSHOutputLoggerTask (unixServer, unixCommand, commandOutput);
 		commandOutputLoggerTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				loggerTask);
 	}

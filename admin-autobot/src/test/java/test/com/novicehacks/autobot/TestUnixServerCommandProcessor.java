@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
@@ -21,10 +20,10 @@ import test.com.novicehacks.autobot.categories.IntegrationTest;
 
 import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.config.AutobotConfigManager;
+import com.novicehacks.autobot.ssh.SSHServerCommandProcessor;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ServerCredential;
-import com.novicehacks.autobot.unix.UnixServerCommandProcessor;
 
 public class TestUnixServerCommandProcessor {
 	@Mock
@@ -34,7 +33,7 @@ public class TestUnixServerCommandProcessor {
 	@Mock
 	Command								unixCommand2;
 
-	private UnixServerCommandProcessor	commandProcessor;
+	private SSHServerCommandProcessor	commandProcessor;
 	Logger								logger	= LogManager
 														.getLogger (TestUnixServerCommandProcessor.class);
 
@@ -49,7 +48,7 @@ public class TestUnixServerCommandProcessor {
 		MockitoAnnotations.initMocks (this);
 		setupStubOfServer ();
 		setupStubOfCommands ();
-		commandProcessor = new UnixServerCommandProcessor (server, unixCommand1, unixCommand2);
+		commandProcessor = new SSHServerCommandProcessor (server, unixCommand1, unixCommand2);
 		ThreadManager.getInstance ().InitiateThreadPool (true);
 	}
 
@@ -94,7 +93,6 @@ public class TestUnixServerCommandProcessor {
 	}
 
 	@Test
-	@Ignore
 	@Category (IntegrationTest.class)
 	public void testParallelExecution() throws InterruptedException {
 		when (server.initCommands ()).thenReturn (new String[] { });

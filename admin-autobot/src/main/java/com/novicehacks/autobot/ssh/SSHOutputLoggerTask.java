@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.unix;
+package com.novicehacks.autobot.ssh;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -13,11 +13,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.BotUtils;
 import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
-import com.novicehacks.autobot.unix.exception.UnixOutputLoggingException;
 
-public class UnixCommandOutputLoggerTask implements Runnable {
+class SSHOutputLoggerTask implements Runnable {
 
 	private Server				server;
 	private Command				command;
@@ -27,13 +27,11 @@ public class UnixCommandOutputLoggerTask implements Runnable {
 	private final int			seperatorLength	= 50;
 	private String				headerSeparatorContent;
 	private String				footerSeparatorContent;
-	// private static final ReentrantLock OutputFileLock = new ReentrantLock ();
 	private static Path			OutputFilePath;
 	private static final String	OutputFile		= "botconsole.log";
-	private Logger				logger			= LogManager
-														.getLogger (UnixCommandOutputLoggerTask.class);
+	private Logger				logger			= LogManager.getLogger (SSHOutputLoggerTask.class);
 
-	public UnixCommandOutputLoggerTask (Server unixServer, Command unixCommand, String commandOutput) {
+	protected SSHOutputLoggerTask (Server unixServer, Command unixCommand, String commandOutput) {
 		this ();
 		validateParams (unixServer, unixCommand, commandOutput);
 		this.server = unixServer;
@@ -41,19 +39,19 @@ public class UnixCommandOutputLoggerTask implements Runnable {
 		this.commandOutput = commandOutput;
 	}
 
-	public UnixCommandOutputLoggerTask (String commandOutput, boolean appendRawContent) {
+	protected SSHOutputLoggerTask (String commandOutput, boolean appendRawContent) {
 		this ();
 		this.commandOutput = commandOutput;
 		this.appendRawContent = appendRawContent;
 	}
 
-	private UnixCommandOutputLoggerTask (Server unixServer, Command unixCommand) {
+	private SSHOutputLoggerTask (Server unixServer, Command unixCommand) {
 		this ();
 		this.server = unixServer;
 		this.command = unixCommand;
 	}
 
-	private UnixCommandOutputLoggerTask () {
+	private SSHOutputLoggerTask () {
 		initializeOutputFileForWriting ();
 	}
 
@@ -88,6 +86,22 @@ public class UnixCommandOutputLoggerTask implements Runnable {
 		logger.trace (content);
 		writeContent ();
 		logger.exit ();
+	}
+
+	protected static String newLine() {
+		return System.lineSeparator ();
+	}
+
+	protected static String getHeader(Server server, Command command) {
+		SSHOutputLoggerTask task = new SSHOutputLoggerTask (server, command);
+		String content = task.getHeaderContent ();
+		return content;
+	}
+
+	protected static String getFooter() {
+		SSHOutputLoggerTask task = new SSHOutputLoggerTask ();
+		String content = task.getFooterContent ();
+		return content;
 	}
 
 	private void writeContent() {
@@ -229,19 +243,4 @@ public class UnixCommandOutputLoggerTask implements Runnable {
 		return buffer.toString ();
 	}
 
-	static String newLine() {
-		return System.lineSeparator ();
-	}
-
-	static String getHeader(Server server, Command command) {
-		UnixCommandOutputLoggerTask task = new UnixCommandOutputLoggerTask (server, command);
-		String content = task.getHeaderContent ();
-		return content;
-	}
-
-	static String getFooter() {
-		UnixCommandOutputLoggerTask task = new UnixCommandOutputLoggerTask ();
-		String content = task.getFooterContent ();
-		return content;
-	}
 }

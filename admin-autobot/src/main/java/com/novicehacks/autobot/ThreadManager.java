@@ -151,6 +151,7 @@ public class ThreadManager {
 		temp = this.executorService;
 		executorServiceLock.lockInterruptibly ();
 		destroyThreadPool ();
+		InitiateThreadPool ();
 		executorServiceLock.unlock ();
 		return temp;
 	}

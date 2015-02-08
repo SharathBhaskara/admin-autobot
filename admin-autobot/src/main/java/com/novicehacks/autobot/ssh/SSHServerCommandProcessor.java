@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.novicehacks.autobot.unix;
+package com.novicehacks.autobot.ssh;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -14,29 +11,33 @@ import java.util.concurrent.TimeoutException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ch.ethz.ssh2.Connection;
-
 import com.novicehacks.autobot.BotUtils;
 import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
-import com.novicehacks.autobot.unix.exception.CommandExecutionException;
 
 /**
+ * The Master Task to execute the commands on the SSHserver.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
  * 
+ * @see ParallelCommandExecutorTask
+ * @see SequentialCommandExecutorTask
+ * 
  */
-public final class UnixServerCommandProcessor implements Runnable {
+public final class SSHServerCommandProcessor implements Runnable {
 
-	private Server				server;
-	private Command[]			commands;
-	private Connection			connection;
-	private UnixServerHandle	serverHandle;
-	private List<Future<?>>		commandFutureList;
-	private boolean				isRunningInParallel;
-	private Logger				logger	= LogManager.getLogger (UnixServerCommandProcessor.class);
+	private Server						server;
+	private Command[]					commands;
+	private CustomizedSSHConnection		connection;
+	private SSHServerConnectionHandle	serverHandle;
+	private Future<?>					sequentialTaskFuture;
+	private List<Future<?>>				commandFutureList;
+	private boolean						isRunningInParallel;
+	private Logger						logger	= LogManager
+														.getLogger (SSHServerCommandProcessor.class);
 
 	/**
 	 * @param unixServer
@@ -46,7 +47,7 @@ public final class UnixServerCommandProcessor implements Runnable {
 	 * @throws IllegalArgumentException
 	 *         if unixServer parameter is null
 	 */
-	public UnixServerCommandProcessor (	final Server unixServer,
+	public SSHServerCommandProcessor (	final Server unixServer,
 										final Collection<Command> unixCommands) {
 		this (unixServer, unixCommands.toArray (new Command[] { }));
 	}
@@ -57,11 +58,11 @@ public final class UnixServerCommandProcessor implements Runnable {
 	 * @throws IllegalArgumentException
 	 *         if either of the parameters are having null values
 	 */
-	public UnixServerCommandProcessor (final Server unixServer, final Command... unixCommands) {
+	public SSHServerCommandProcessor (final Server unixServer, final Command... unixCommands) {
 		validateParams (unixServer, unixCommands);
 		this.server = unixServer;
 		this.commands = unixCommands;
-		this.serverHandle = new UnixServerHandle (unixServer);
+		this.serverHandle = new SSHServerConnectionHandle (unixServer);
 	}
 
 	private void validateParams(final Server unixServer, final Command[] unixCommands) {
@@ -75,8 +76,7 @@ public final class UnixServerCommandProcessor implements Runnable {
 	public void run() {
 		logger.entry ();
 		connectToServer ();
-		executeCommands ();
-		disconnetServer ();
+		executeCommandsAndDisconnectServer ();
 		logger.exit ();
 	}
 
@@ -88,19 +88,16 @@ public final class UnixServerCommandProcessor implements Runnable {
 		serverHandle.disconnect (this.connection);
 	}
 
-	private void executeCommands() {
-		boolean exceptionRaised = false;
+	private void executeCommandsAndDisconnectServer() {
 		try {
 			executeCommandsOnServer ();
 			waitForCommandsCompletion ();
 		} catch (Exception ex) {
-			exceptionRaised = true;
 			BotUtils.propogateInterruptIfExist (ex);
 			throw new CommandExecutionException ("Commands Execution Failed On Server: " + server,
 					ex);
 		} finally {
-			if (exceptionRaised)
-				disconnetServer ();
+			disconnetServer ();
 		}
 	}
 
@@ -123,33 +120,14 @@ public final class UnixServerCommandProcessor implements Runnable {
 	private void executeSequentially() {
 		logger.entry ();
 		this.isRunningInParallel = false;
-		executeCommandsSequentiallyAndWaitForCompletion ();
+		executeCommandsSequentially ();
 		logger.exit ();
 	}
 
-	private void executeCommandsSequentiallyAndWaitForCompletion() {
-		UnixSequentialCommandExecutorTask task;
-		task = new UnixSequentialCommandExecutorTask (connection, server, commands);
-		Future<?> taskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
-		waitForSequentialExecitionCompletion (taskFuture);
-	}
-
-	private void waitForSequentialExecitionCompletion(Future<?> taskFuture) {
-		try {
-			taskFuture.get (SysConfig.getInstance ().longTimeoutInMinutes (), TimeUnit.MINUTES);
-		} catch (InterruptedException e) {
-			logger.error ("Thread Interrupted", e);
-			BotUtils.propogateInterruptIfExist (e);
-		} catch (ExecutionException e) {
-			logger.error ("Sequential Command Execution on Server {} Failed: {}", server.id (), e,
-					e);
-			throw new CommandExecutionException ("Sequential Execution Failed on server : "
-					+ server.id (), e);
-		} catch (TimeoutException e) {
-			logger.error ("Sequential execution on server {} unfinished", server.id (), e);
-			throw new CommandExecutionException (
-					"Sequential Execution Failed Due to Timeout on server : " + server.id (), e);
-		}
+	private void executeCommandsSequentially() {
+		SequentialCommandExecutorTask task;
+		task = new SequentialCommandExecutorTask (connection, server, commands);
+		this.sequentialTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
 	}
 
 	private void executeParallely() {
@@ -173,20 +151,39 @@ public final class UnixServerCommandProcessor implements Runnable {
 
 	private Future<?> submitCommandForExecution(Command command) {
 		Future<?> taskFuture;
-		UnixParallelCommandExecutorTask task;
-		task = new UnixParallelCommandExecutorTask (connection, server, command);
+		ParallelCommandExecutorTask task;
+		task = new ParallelCommandExecutorTask (connection, server, command);
 		taskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
 		return taskFuture;
 	}
 
 	private void waitForCommandsCompletion() {
 		if (isRunningInParallel)
-			checkForCommandsCompletion ();
+			waitForParallelExecutionCompletion ();
 		else
-			return;
+			waitForSequentialExecitionCompletion ();
 	}
 
-	private void checkForCommandsCompletion() {
+	private void waitForSequentialExecitionCompletion() {
+		try {
+			this.sequentialTaskFuture.get (SysConfig.getInstance ().longTimeoutInMinutes (),
+					TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			logger.error ("Thread Interrupted", e);
+			BotUtils.propogateInterruptIfExist (e);
+		} catch (ExecutionException e) {
+			logger.error ("Sequential Command Execution on Server {} Failed: {}", server.id (), e,
+					e);
+			throw new CommandExecutionException ("Sequential Execution Failed on server : "
+					+ server.id (), e);
+		} catch (TimeoutException e) {
+			logger.error ("Sequential execution on server {} unfinished", server.id (), e);
+			throw new CommandExecutionException (
+					"Sequential Execution Failed Due to Timeout on server : " + server.id (), e);
+		}
+	}
+
+	private void waitForParallelExecutionCompletion() {
 		List<Throwable> failureReasons = new LinkedList<Throwable> ();
 		for (Future<?> future : commandFutureList) {
 			try {
@@ -196,15 +193,6 @@ public final class UnixServerCommandProcessor implements Runnable {
 			}
 		}
 		wrapFailuresAndThrowIfNeeded (failureReasons);
-	}
-
-	private void wrapFailuresAndThrowIfNeeded(List<Throwable> failureReasons) {
-		if (failureReasons.size () > 0) {
-			CommandExecutionException exception = new CommandExecutionException (
-					"Command Execution Uncussessful with multiple failures5");
-			exception.setMultipleReasons (failureReasons);
-			throw exception;
-		}
 	}
 
 	private void handleCommandExecutorTaskFuture(Future<?> future) {
@@ -218,6 +206,15 @@ public final class UnixServerCommandProcessor implements Runnable {
 		} catch (TimeoutException e) {
 			throw new CommandExecutionException ("Command Execution Unfinished on Server : "
 					+ server.id (), e);
+		}
+	}
+
+	private void wrapFailuresAndThrowIfNeeded(List<Throwable> failureReasons) {
+		if (failureReasons.size () > 0) {
+			CommandExecutionException exception = new CommandExecutionException (
+					"Command Execution Uncussessful with multiple failures5");
+			exception.setMultipleReasons (failureReasons);
+			throw exception;
 		}
 	}
 

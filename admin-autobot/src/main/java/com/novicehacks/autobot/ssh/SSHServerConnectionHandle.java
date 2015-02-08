@@ -1,25 +1,28 @@
-package com.novicehacks.autobot.unix;
+package com.novicehacks.autobot.ssh;
 
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ch.ethz.ssh2.Connection;
-import ch.ethz.ssh2.ServerHostKeyVerifier;
-
 import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.ssh.exception.ServerConnectionException;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ServerCredential;
-import com.novicehacks.autobot.unix.exception.ServerConnectionException;
 
-final class UnixServerHandle {
+/**
+ * This is used to create and revive connections to the SSH servers
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ *
+ */
+final class SSHServerConnectionHandle {
 
-	Server		server;
-	Connection	connection;
-	Logger		logger	= LogManager.getLogger (UnixServerHandle.class);
+	Server					server;
+	CustomizedSSHConnection	connection;
+	Logger					logger	= LogManager.getLogger (SSHServerConnectionHandle.class);
 
-	UnixServerHandle (Server unixServer) {
+	protected SSHServerConnectionHandle (Server unixServer) {
 		this.server = unixServer;
 	}
 
@@ -31,7 +34,7 @@ final class UnixServerHandle {
 	 * @throws ServerConnectionException
 	 *         if connection / authentication is failed on the server
 	 */
-	public Connection getAuthenticatedConnection() {
+	public CustomizedSSHConnection getAuthenticatedConnection() {
 		connectToServerAndAuthenticate ();
 		return this.connection;
 	}
@@ -52,10 +55,9 @@ final class UnixServerHandle {
 		int keyExchangeTimeout = 10 * 30 * 1000;
 		int connectionTimeout = SysConfig.getInstance ().serverConnectionTimeout ();
 		// HostKeyVerifier set to null to accept any server host key
-		ServerHostKeyVerifier hostKeyVerifier = null;
 		logger.debug ("Connecting to : {}", this.server.ipaddress ());
-		connection = new Connection (this.server.ipaddress ());
-		connection.connect (hostKeyVerifier, connectionTimeout, keyExchangeTimeout);
+		connection = new CustomizedSSHConnection (this.server.ipaddress ());
+		connection.connect (keyExchangeTimeout, connectionTimeout);
 	}
 
 	private void authenticateServerConnection() {
@@ -90,11 +92,12 @@ final class UnixServerHandle {
 		return authenticated;
 	}
 
-	private Boolean
-			authenticateWithUsernamePassword(String username, String password) throws IOException {
+	private Boolean authenticateWithUsernamePassword(String username, String password)
+			throws IOException {
 		boolean authenticated = false;
 		logger.debug ("Trying Authentication on server ({}) with : {}", this.server.id (), username);
-		authenticated = connection.authenticateWithPassword (username, password);
+		authenticated = connection.authenticateConnectionWithUsernameAndPassword (username,
+				password);
 		return authenticated;
 	}
 
@@ -106,7 +109,7 @@ final class UnixServerHandle {
 	 * @throws ServerConnectionException
 	 *         if unable to close the connection.
 	 */
-	public void disconnect(Connection connection) {
+	public void disconnect(CustomizedSSHConnection connection) {
 		logger.debug ("Closing the connection");
 		if (connection == null)
 			throw new ServerConnectionException ("Invalid connection passed to disconnect",
@@ -118,12 +121,12 @@ final class UnixServerHandle {
 	private void closeConnection() {
 		if (this.connection != null)
 			if (connection.equals (this.connection)) {
-				connection.close ();
+				connection.disconnect ();
 			} else {
-				connection.close ();
-				this.connection.close ();
+				connection.disconnect ();
+				this.connection.disconnect ();
 			}
 		else
-			connection.close ();
+			connection.disconnect ();
 	}
 }
