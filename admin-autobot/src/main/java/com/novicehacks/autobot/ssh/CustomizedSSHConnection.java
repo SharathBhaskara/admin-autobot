@@ -16,10 +16,28 @@ import com.novicehacks.autobot.BotUtils;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-final class CustomizedSSHConnection {
-	private Connection	connection;
-	private String		IPAddress;
-	private Logger		logger	= LogManager.getLogger (CustomizedSSHConnection.class);
+public final class CustomizedSSHConnection {
+	private Connection			connection;
+	private String				IPAddress;
+	private boolean				isAuthenticated				= false;
+	public static final String	IPAddressRegex				= "\\w{1,}(\\.\\w{1,}){1,2}|((\\d{1,3})\\.){3}\\d{1,3}";
+	public static final String	ConnectionUnavailableMsg	= "Connect method should be called before authentication";
+	public static final String	IPAddressNullMsg			= "IP Address cannot be null";
+	public static final String	IPAddressEmptyMsg			= "IP Address cannot be empty String";
+	public static final String	IPAddressInvalidMsg			= "Invalid IP Address Format";
+	private static final String	NotAuthenticatedMsg			= "Connection must be authenticated before creating Session";
+	private Logger				logger						= LogManager
+																	.getLogger (CustomizedSSHConnection.class);
+
+	/**
+	 * Alternate method for constructor call, returns a new instance everytime.
+	 * 
+	 * @param ipAddress
+	 * @return
+	 */
+	public static CustomizedSSHConnection getNewInstance(String ipAddress) {
+		return new CustomizedSSHConnection (ipAddress);
+	}
 
 	protected CustomizedSSHConnection (String ipAddress) {
 		validateParams (ipAddress);
@@ -28,13 +46,13 @@ final class CustomizedSSHConnection {
 
 	private void validateParams(String ipAddress) {
 		if (BotUtils.HasNullReferences (ipAddress)) {
-			throw new IllegalArgumentException ("IP Address cannot be null");
+			throw new IllegalArgumentException (IPAddressNullMsg);
 		}
 		if (ipAddress.equals ("") || ipAddress.length () == 0) {
-			throw new IllegalArgumentException ("IP Address cannot be empty String");
+			throw new IllegalArgumentException ();
 		}
-		if (!ipAddress.matches ("[a-zA-Z0-9]*.[a-zA-Z0-9]*|([0-9]{1,3}.){4}")) {
-			throw new IllegalArgumentException ("Invalid IP Address Format");
+		if (!ipAddress.matches (IPAddressRegex)) {
+			throw new IllegalArgumentException (IPAddressInvalidMsg);
 		}
 	}
 
@@ -54,6 +72,7 @@ final class CustomizedSSHConnection {
 		logger.entry ();
 		checkForValidConnection ();
 		this.connection.close ();
+		this.connection = null;
 		logger.exit ();
 	}
 
@@ -63,6 +82,7 @@ final class CustomizedSSHConnection {
 		logger.entry (username, password);
 		checkForValidConnection ();
 		status = authenticateConnection (username, password);
+		isAuthenticated = status;
 		logger.exit (status);
 		return status;
 	}
@@ -73,9 +93,18 @@ final class CustomizedSSHConnection {
 
 		logger.entry ();
 		checkForValidConnection ();
-		session = this.connection.openSession ();
+		session = openSessionIfAuthenticated ();
 		sessionWrapper = new CustomizedSSHSession (session);
 		return sessionWrapper;
+	}
+
+	private Session openSessionIfAuthenticated() throws IOException {
+		Session session;
+		if (isAuthenticated)
+			session = this.connection.openSession ();
+		else
+			throw new IllegalStateException (NotAuthenticatedMsg);
+		return session;
 	}
 
 	private boolean authenticateConnection(String username, String password) throws IOException {
@@ -84,8 +113,14 @@ final class CustomizedSSHConnection {
 
 	private void checkForValidConnection() {
 		if (connectionNotAvailable ())
-			throw new IllegalStateException (
-					"Connect method should be called before authentication");
+			throw new IllegalStateException (ConnectionUnavailableMsg);
+	}
+
+	public boolean isConnectionAvailable() {
+		if (connectionNotAvailable ())
+			return false;
+		else
+			return true;
 	}
 
 	private boolean connectionNotAvailable() {
@@ -93,6 +128,10 @@ final class CustomizedSSHConnection {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean isAuthenticated() {
+		return isAuthenticated;
 	}
 
 }

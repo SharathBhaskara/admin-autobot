@@ -22,7 +22,7 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-class ParallelCommandExecutorTask implements Runnable {
+public class ParallelCommandExecutorTask implements Runnable {
 
 	private CustomizedSSHConnection	connection;
 	private CustomizedSSHSession	session;

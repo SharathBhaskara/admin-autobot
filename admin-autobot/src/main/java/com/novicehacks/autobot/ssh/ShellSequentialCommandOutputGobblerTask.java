@@ -14,7 +14,7 @@ import com.novicehacks.autobot.BotUtils;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-class ShellSequentialCommandOutputGobblerTask implements Runnable {
+public class ShellSequentialCommandOutputGobblerTask implements Runnable {
 	private InputStream				remoteInputStream;
 	private ShellSessionController	sessionController;
 	private Logger					logger	= LogManager

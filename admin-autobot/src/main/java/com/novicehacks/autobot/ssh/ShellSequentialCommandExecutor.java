@@ -15,7 +15,7 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-class ShellSequentialCommandExecutor {
+public class ShellSequentialCommandExecutor {
 	private Server					server;
 	private Command[]				executableCommands;
 	private ShellSessionController	sessionController;

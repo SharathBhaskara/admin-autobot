@@ -19,7 +19,7 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-class ShellSessionController {
+public class ShellSessionController {
 	private Server				server;
 	private InputStream			remoteInputStream;
 	private OutputStream		remoteOutputStream;

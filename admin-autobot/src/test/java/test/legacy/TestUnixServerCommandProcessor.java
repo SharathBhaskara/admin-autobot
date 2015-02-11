@@ -1,4 +1,4 @@
-package test.com.novicehacks.autobot;
+package test.legacy;
 
 import static org.mockito.Mockito.when;
 
@@ -16,7 +16,7 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import test.com.novicehacks.autobot.categories.IntegrationTest;
+import test.com.novicehacks.autobot.categories.EnvironmentDependent;
 
 import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.config.AutobotConfigManager;
@@ -86,14 +86,14 @@ public class TestUnixServerCommandProcessor {
 	}
 
 	@Test
-	@Category (IntegrationTest.class)
+	@Category (EnvironmentDependent.class)
 	public void testSequentialExection() throws InterruptedException {
 		Thread task = new Thread (commandProcessor);
 		executeAndWait (task);
 	}
 
 	@Test
-	@Category (IntegrationTest.class)
+	@Category (EnvironmentDependent.class)
 	public void testParallelExecution() throws InterruptedException {
 		when (server.initCommands ()).thenReturn (new String[] { });
 		when (server.ipaddress ()).thenReturn ("192.168.40.133");

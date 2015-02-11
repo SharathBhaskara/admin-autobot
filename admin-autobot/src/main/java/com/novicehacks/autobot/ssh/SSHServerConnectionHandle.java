@@ -16,7 +16,7 @@ import com.novicehacks.autobot.types.ServerCredential;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-final class SSHServerConnectionHandle {
+public final class SSHServerConnectionHandle {
 
 	Server					server;
 	CustomizedSSHConnection	connection;

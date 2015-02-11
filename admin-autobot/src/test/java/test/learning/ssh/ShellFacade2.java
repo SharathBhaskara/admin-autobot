@@ -1,7 +1,7 @@
 /**
  * 
  */
-package test.com.novicehacks.autobot.learning.ssh;
+package test.learning.ssh;
 
 import java.io.IOException;
 import java.io.InputStream;

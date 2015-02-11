@@ -17,7 +17,7 @@ import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
-class SSHOutputLoggerTask implements Runnable {
+public class SSHOutputLoggerTask implements Runnable {
 
 	private Server				server;
 	private Command				command;

@@ -34,7 +34,7 @@ import com.novicehacks.autobot.types.Server;
  * 
  *
  */
-class SequentialCommandExecutorTask implements Runnable {
+public class SequentialCommandExecutorTask implements Runnable {
 
 	private Server					server;
 	private Command[]				executableCommands;

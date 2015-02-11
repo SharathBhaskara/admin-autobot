@@ -15,7 +15,7 @@ import ch.ethz.ssh2.Session;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-final class CustomizedSSHSession {
+public final class CustomizedSSHSession {
 
 	private Session			session;
 	private InputStream		remoteOutputStream;

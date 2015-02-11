@@ -1,4 +1,4 @@
-package test.com.novicehacks.autobot;
+package test.legacy;
 
 /**
  * @author Sharath Chand Bhaskara for NoviceHacks

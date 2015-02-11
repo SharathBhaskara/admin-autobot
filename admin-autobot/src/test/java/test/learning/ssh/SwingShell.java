@@ -1,4 +1,4 @@
-package test.com.novicehacks.autobot.learning.ssh;
+package test.learning.ssh;
 
 /*
  * Copyright (c) 2006-2011 Christian Plattner. All rights reserved.

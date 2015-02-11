@@ -1,4 +1,4 @@
-package test.com.novicehacks.autobot;
+package test.legacy;
 
 import org.junit.Test;
 
