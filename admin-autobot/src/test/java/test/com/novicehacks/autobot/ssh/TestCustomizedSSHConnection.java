@@ -27,22 +27,24 @@ import ch.ethz.ssh2.Session;
 
 import com.novicehacks.autobot.ssh.CustomizedSSHConnection;
 import com.novicehacks.autobot.ssh.CustomizedSSHSession;
+import com.novicehacks.autobot.ssh.SSHConnection;
+import com.novicehacks.autobot.ssh.SSHSession;
 
 @PrepareForTest ({ CustomizedSSHConnection.class, CustomizedSSHSession.class })
 @PowerMockIgnore ({ "*" })
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class TestCustomizedSSHConnection {
 
-	private Session					session;
-	private Connection				connection;
-	private ConnectionInfo			connectionInfo;
-	private CustomizedSSHConnection	sshConnection;
+	private Session			session;
+	private Connection		connection;
+	private ConnectionInfo	connectionInfo;
+	private SSHConnection	sshConnection;
 
-	private final String			username		= "abc";
-	private final String			password		= "def";
+	private final String	username		= "abc";
+	private final String	password		= "def";
 
 	@Rule
-	public PowerMockRule			powermockRule	= new PowerMockRule ();
+	public PowerMockRule	powermockRule	= new PowerMockRule ();
 
 	@Before
 	public void setup() {}
@@ -53,7 +55,7 @@ public class TestCustomizedSSHConnection {
 		// given
 		String ipAddress = "sf";
 		// when Connection requested throws exception
-		sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
+		this.sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -62,7 +64,7 @@ public class TestCustomizedSSHConnection {
 		// given
 		String ipAddress = "1924.123.1.1";
 		// when Connection requested throws exception
-		sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
+		this.sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -71,7 +73,7 @@ public class TestCustomizedSSHConnection {
 		// given
 		String ipAddress = "192.123.1.1234";
 		// when Connection requested throws exception
-		sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
+		this.sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
 	}
 
 	@Test
@@ -80,9 +82,9 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when
-		sshConnection.connect ();
+		this.sshConnection.connect ();
 		// then
-		verify (connection).connect (null, 0, 0);
+		verify (this.connection).connect (null, 0, 0);
 	}
 
 	@Test
@@ -91,9 +93,9 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when
-		sshConnection.connect (500, 500);
+		this.sshConnection.connect (500, 500);
 		// then
-		verify (connection).connect (null, 500, 500);
+		verify (this.connection).connect (null, 500, 500);
 	}
 
 	@Test (expected = IOException.class)
@@ -102,10 +104,10 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when
-		when (connection.connect (null, 0, 0)).thenThrow (new IOException ());
+		when (this.connection.connect (null, 0, 0)).thenThrow (new IOException ());
 		// then
-		sshConnection.connect ();
-		verify (connection).connect (null, 0, 0);
+		this.sshConnection.connect ();
+		verify (this.connection).connect (null, 0, 0);
 	}
 
 	@Test
@@ -114,11 +116,12 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when
-		sshConnection.connect ();
-		sshConnection.authenticateConnectionWithUsernameAndPassword (username, password);
+		this.sshConnection.connect ();
+		this.sshConnection.authenticateConnectionWithUsernameAndPassword (this.username,
+				this.password);
 		// then
-		verify (connection).connect (null, 0, 0);
-		verify (connection).authenticateWithPassword (username, password);
+		verify (this.connection).connect (null, 0, 0);
+		verify (this.connection).authenticateWithPassword (this.username, this.password);
 	}
 
 	@Test (expected = IOException.class)
@@ -127,12 +130,13 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when
-		sshConnection.connect ();
-		when (connection.authenticateWithPassword (username, password)).thenThrow (
+		this.sshConnection.connect ();
+		when (this.connection.authenticateWithPassword (this.username, this.password)).thenThrow (
 				new IOException ());
 		// then
-		sshConnection.authenticateConnectionWithUsernameAndPassword (username, password);
-		verify (connection).authenticateWithPassword (username, password);
+		this.sshConnection.authenticateConnectionWithUsernameAndPassword (this.username,
+				this.password);
+		verify (this.connection).authenticateWithPassword (this.username, this.password);
 	}
 
 	@Test (expected = IllegalStateException.class)
@@ -141,10 +145,11 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when not connected,
-		verify (connection, never ()).connect (null, 0, 0);
-		assertFalse ("Connection Should Not Exist", sshConnection.isConnectionAvailable ());
+		verify (this.connection, never ()).connect (null, 0, 0);
+		assertFalse ("Connection Should Not Exist", this.sshConnection.isConnectionAvailable ());
 		// then authentication throws exception
-		sshConnection.authenticateConnectionWithUsernameAndPassword (username, password);
+		this.sshConnection.authenticateConnectionWithUsernameAndPassword (this.username,
+				this.password);
 	}
 
 	@Test (expected = IllegalStateException.class)
@@ -153,74 +158,77 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when
-		sshConnection.connect ();
-		sshConnection.disconnect ();
-		verify (connection).connect (null, 0, 0);
-		verify (connection).close ();
+		this.sshConnection.connect ();
+		this.sshConnection.disconnect ();
+		verify (this.connection).connect (null, 0, 0);
+		verify (this.connection).close ();
 		// then
-		sshConnection.authenticateConnectionWithUsernameAndPassword (username, password);
-		verify (connection, never ()).authenticateWithPassword (username, password);
+		this.sshConnection.authenticateConnectionWithUsernameAndPassword (this.username,
+				this.password);
+		verify (this.connection, never ()).authenticateWithPassword (this.username, this.password);
 	}
 
 	@Test
 	@Category (UnitTest.class)
 	public void openSessionTest() throws Exception {
-		CustomizedSSHSession session;
+		SSHSession session;
 		// given
 		initializeBasicConnectionMock ();
 		// when
-		sshConnection.connect ();
-		sshConnection.authenticateConnectionWithUsernameAndPassword (username, password);
-		session = sshConnection.openSession ();
+		this.sshConnection.connect ();
+		this.sshConnection.authenticateConnectionWithUsernameAndPassword (this.username,
+				this.password);
+		session = this.sshConnection.openSession ();
 		// then
-		verify (connection).openSession ();
+		verify (this.connection).openSession ();
 		assertNotNull (session);
 	}
 
 	@Test (expected = IllegalStateException.class)
 	@Category (UnitTest.class)
 	public void openSessionBeforeConnectTest() throws Exception {
-		CustomizedSSHSession session;
+		SSHSession session;
 		// given
 		initializeBasicConnectionMock ();
 		// when not connected
-		verify (connection, never ()).connect (null, 0, 0);
+		verify (this.connection, never ()).connect (null, 0, 0);
 		// then
-		session = sshConnection.openSession ();
-		verify (connection).openSession ();
+		session = this.sshConnection.openSession ();
+		verify (this.connection).openSession ();
 		assertNotNull (session);
 	}
 
 	@Test (expected = IllegalStateException.class)
 	@Category (UnitTest.class)
 	public void openSessionBeforeAuthenticateTest() throws Exception {
-		CustomizedSSHSession session;
+		SSHSession session;
 		// given
 		initializeBasicConnectionMock ();
 		// when not connected
-		verify (connection, never ()).authenticateWithPassword (username, password);
+		verify (this.connection, never ()).authenticateWithPassword (this.username, this.password);
 		// then
-		session = sshConnection.openSession ();
-		verify (connection).openSession ();
+		session = this.sshConnection.openSession ();
+		verify (this.connection).openSession ();
 		assertNotNull (session);
 	}
 
 	@Test (expected = IOException.class)
 	@Category (UnitTest.class)
 	public void openSessionWhenRemoteExceptionTest() throws Exception {
-		CustomizedSSHSession session;
+		SSHSession session;
 		// given
 		initializeBasicConnectionMock ();
-		when (connection.openSession ()).thenThrow (new IOException ());
+		when (this.connection.openSession ()).thenThrow (new IOException ());
 
 		// when not connected
-		sshConnection.connect ();
-		sshConnection.authenticateConnectionWithUsernameAndPassword (username, password);
-		verify (connection).connect (null, 0, 0);
-		verify (connection).authenticateWithPassword (username, password);
+		this.sshConnection.connect ();
+		this.sshConnection.authenticateConnectionWithUsernameAndPassword (this.username,
+				this.password);
+		verify (this.connection).connect (null, 0, 0);
+		verify (this.connection).authenticateWithPassword (this.username, this.password);
 		// then
-		session = sshConnection.openSession ();
-		verify (connection).openSession ();
+		session = this.sshConnection.openSession ();
+		verify (this.connection).openSession ();
 		assertNotNull (session);
 	}
 
@@ -230,11 +238,11 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when
-		sshConnection.connect ();
-		sshConnection.disconnect ();
+		this.sshConnection.connect ();
+		this.sshConnection.disconnect ();
 		// then
-		verify (connection).connect (null, 0, 0);
-		verify (connection).close ();
+		verify (this.connection).connect (null, 0, 0);
+		verify (this.connection).close ();
 	}
 
 	@Test (expected = IllegalStateException.class)
@@ -243,23 +251,24 @@ public class TestCustomizedSSHConnection {
 		// given
 		initializeBasicConnectionMock ();
 		// when not connected,
-		verify (connection, never ()).connect (null, 0, 0);
-		assertFalse ("Connection Should Not Exist", sshConnection.isConnectionAvailable ());
+		verify (this.connection, never ()).connect (null, 0, 0);
+		assertFalse ("Connection Should Not Exist", this.sshConnection.isConnectionAvailable ());
 		// then disconnect throws exception
-		sshConnection.disconnect ();
-		verify (connection, never ()).close ();
+		this.sshConnection.disconnect ();
+		verify (this.connection, never ()).close ();
 	}
 
-	public void initializeBasicConnectionMock() throws Exception {
-		sshConnection = CustomizedSSHConnection.getNewInstance ("127.0.0.1");
-		connection = mock (Connection.class);
-		session = mock (Session.class);
-		connectionInfo = mock (ConnectionInfo.class);
-		when (connection.connect ()).thenReturn (connectionInfo);
-		when (connection.connect (null, 0, 0)).thenReturn (connectionInfo);
-		when (connection.openSession ()).thenReturn (session);
-		when (connection.authenticateWithPassword (username, password)).thenReturn (true);
-		whenNew (Connection.class).withAnyArguments ().thenReturn (connection);
+	private void initializeBasicConnectionMock() throws Exception {
+		this.sshConnection = CustomizedSSHConnection.getNewInstance ("127.0.0.1");
+		this.connection = mock (Connection.class);
+		this.session = mock (Session.class);
+		this.connectionInfo = mock (ConnectionInfo.class);
+		when (this.connection.connect ()).thenReturn (this.connectionInfo);
+		when (this.connection.connect (null, 0, 0)).thenReturn (this.connectionInfo);
+		when (this.connection.openSession ()).thenReturn (this.session);
+		when (this.connection.authenticateWithPassword (this.username, this.password)).thenReturn (
+				true);
+		whenNew (Connection.class).withAnyArguments ().thenReturn (this.connection);
 	}
 
 }

@@ -16,7 +16,7 @@ import com.novicehacks.autobot.BotUtils;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public final class CustomizedSSHConnection {
+public final class CustomizedSSHConnection implements SSHConnection {
 	private Connection			connection;
 	private String				IPAddress;
 	private boolean				isAuthenticated				= false;
@@ -56,42 +56,47 @@ public final class CustomizedSSHConnection {
 		}
 	}
 
+	@Override
 	public void connect() throws IOException {
 		connect (0, 0);
 	}
 
+	@Override
 	public void connect(int keyExchangeTimeoutInMillis, int connectionTimeoutInMillis)
 			throws IOException {
-		logger.entry ();
-		connection = new Connection (this.IPAddress);
-		connection.connect (null, connectionTimeoutInMillis, keyExchangeTimeoutInMillis);
-		logger.exit ();
+		this.logger.entry ();
+		this.connection = new Connection (this.IPAddress);
+		this.connection.connect (null, connectionTimeoutInMillis, keyExchangeTimeoutInMillis);
+		this.logger.exit ();
 	}
 
+	@Override
 	public void disconnect() {
-		logger.entry ();
+		this.logger.entry ();
 		checkForValidConnection ();
 		this.connection.close ();
 		this.connection = null;
-		logger.exit ();
+		this.logger.exit ();
 	}
 
+	@Override
 	public boolean authenticateConnectionWithUsernameAndPassword(String username, String password)
 			throws IOException {
 		boolean status;
-		logger.entry (username, password);
+		this.logger.entry (username, password);
 		checkForValidConnection ();
 		status = authenticateConnection (username, password);
-		isAuthenticated = status;
-		logger.exit (status);
+		this.isAuthenticated = status;
+		this.logger.exit (status);
 		return status;
 	}
 
-	public CustomizedSSHSession openSession() throws IOException {
+	@Override
+	public SSHSession openSession() throws IOException {
 		Session session;
 		CustomizedSSHSession sessionWrapper;
 
-		logger.entry ();
+		this.logger.entry ();
 		checkForValidConnection ();
 		session = openSessionIfAuthenticated ();
 		sessionWrapper = new CustomizedSSHSession (session);
@@ -100,7 +105,7 @@ public final class CustomizedSSHConnection {
 
 	private Session openSessionIfAuthenticated() throws IOException {
 		Session session;
-		if (isAuthenticated)
+		if (this.isAuthenticated)
 			session = this.connection.openSession ();
 		else
 			throw new IllegalStateException (NotAuthenticatedMsg);
@@ -116,6 +121,7 @@ public final class CustomizedSSHConnection {
 			throw new IllegalStateException (ConnectionUnavailableMsg);
 	}
 
+	@Override
 	public boolean isConnectionAvailable() {
 		if (connectionNotAvailable ())
 			return false;
@@ -124,14 +130,15 @@ public final class CustomizedSSHConnection {
 	}
 
 	private boolean connectionNotAvailable() {
-		if (connection == null) {
+		if (this.connection == null) {
 			return true;
 		}
 		return false;
 	}
 
+	@Override
 	public boolean isAuthenticated() {
-		return isAuthenticated;
+		return this.isAuthenticated;
 	}
 
 }

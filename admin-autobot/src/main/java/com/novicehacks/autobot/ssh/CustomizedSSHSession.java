@@ -16,7 +16,7 @@ import ch.ethz.ssh2.Session;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public final class CustomizedSSHSession {
+public final class CustomizedSSHSession implements SSHSession {
 
 	private Session			session;
 	private AtomicBoolean	sessionClosed	= new AtomicBoolean (false);
@@ -34,59 +34,66 @@ public final class CustomizedSSHSession {
 		this.remoteErrorStream = session.getStderr ();
 	}
 
+	@Override
 	public OutputStream getStdIn() {
 		throwExceptionIfSessionClosed ();
 		return this.remoteInputStream;
 	}
 
+	@Override
 	public InputStream getStdOut() {
 		throwExceptionIfSessionClosed ();
 		return this.remoteOutputStream;
 	}
 
+	@Override
 	public InputStream getStdErr() {
 		throwExceptionIfSessionClosed ();
 		return this.remoteErrorStream;
 	}
 
+	@Override
 	public void startShell() throws IOException {
-		logger.entry ();
+		this.logger.entry ();
 		throwExceptionIfSessionClosed ();
 		this.session.startShell ();
-		logger.exit ();
+		this.logger.exit ();
 	}
 
+	@Override
 	public void requestDumbPTY() throws IOException {
-		logger.entry ();
+		this.logger.entry ();
 		throwExceptionIfSessionClosed ();
 		this.session.requestDumbPTY ();
-		logger.exit ();
+		this.logger.exit ();
 	}
 
+	@Override
 	public void execCommand(String command) throws IOException {
-		logger.entry ();
+		this.logger.entry ();
 		throwIfCommandExecutedBefore ();
 		this.session.execCommand (command);
-		commandExecuted.set (true);
-		logger.exit ();
+		this.commandExecuted.set (true);
+		this.logger.exit ();
 	}
 
 	private void throwIfCommandExecutedBefore() {
-		if (commandExecuted.get ())
+		if (this.commandExecuted.get ())
 			throw new IllegalStateException ("Onle one command can be executed on a session");
 	}
 
+	@Override
 	public void closeSession() {
-		logger.entry ();
+		this.logger.entry ();
 		throwExceptionIfSessionClosed ();
 		closeIOStreams ();
 		this.session.close ();
-		sessionClosed.set (true);
-		logger.exit ();
+		this.sessionClosed.set (true);
+		this.logger.exit ();
 	}
 
 	private void throwExceptionIfSessionClosed() {
-		if (sessionClosed.get ())
+		if (this.sessionClosed.get ())
 			throw new IllegalStateException ("Session closed already");
 	}
 
@@ -96,7 +103,7 @@ public final class CustomizedSSHSession {
 			this.remoteInputStream.close ();
 			this.remoteOutputStream.close ();
 		} catch (IOException ex) {
-			logger.warn ("Exception while closing IOStreams on session : ", ex);
+			this.logger.warn ("Exception while closing IOStreams on session : ", ex);
 		}
 	}
 

@@ -1,8 +1,8 @@
 package com.novicehacks.autobot;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import com.novicehacks.autobot.types.Mappable;
 
@@ -27,32 +27,17 @@ public class BotUtils {
 	 *         </p>
 	 */
 	public static boolean HasNullReferences(Object... params) {
-		for (Object object : params) {
-			if (object == null) {
-				return true;
-			}
-		}
-		return false;
+		if (params == null)
+			return true;
+		return HasNullReferencesInArray (params);
 	}
 
-	/**
-	 * Will create a Map from the Collection of Mappable Objects. The key of the
-	 * map will be the <em>mapKey</em> of the object.
-	 * 
-	 * @param collection
-	 * @return
-	 */
-	public static Map<String, Mappable>
-			CreateMap(Collection<? extends Mappable> collection) {
-		Map<String, Mappable> finalMap;
-		finalMap = new TreeMap<String, Mappable> ();
-		if (collection == null || collection.size () == 0) {
-			return finalMap;
+	private static boolean HasNullReferencesInArray(Object[] params) {
+		for (Object object : params) {
+			if (object == null)
+				return true;
 		}
-		for (Mappable mappable : collection) {
-			finalMap.put (mappable.mapKey (), mappable);
-		}
-		return finalMap;
+		return false;
 	}
 
 	/**
@@ -69,17 +54,14 @@ public class BotUtils {
 	 * @throws ClassCastException
 	 *         if the object cannot be casted to the Type specified in T.
 	 */
-	public static <T> Map<String, T>
-			CreateMap(Collection<? extends Mappable> collection, T type) {
+	public static <T extends Mappable> Map<String, T> CreateMap(Collection<T> collection) {
 		Map<String, T> finalMap;
-		finalMap = new TreeMap<String, T> ();
+		finalMap = new HashMap<String, T> ();
 		if (collection == null || collection.size () == 0) {
 			return finalMap;
 		}
-		for (Mappable mappable : collection) {
-			@SuppressWarnings ("unchecked")
-			T object = (T) mappable;
-			finalMap.put (mappable.mapKey (), object);
+		for (T mappable : collection) {
+			finalMap.put (mappable.mapKey (), mappable);
 		}
 		return finalMap;
 	}
@@ -92,7 +74,7 @@ public class BotUtils {
 	 */
 	public static void PropogateInterruptIfExist(Exception exception) {
 		if (exception instanceof InterruptedException || Thread.interrupted ()) {
-			Thread.currentThread ().interrupt ();
+			Thread.currentThread ().getThreadGroup ().interrupt ();
 		}
 	}
 }

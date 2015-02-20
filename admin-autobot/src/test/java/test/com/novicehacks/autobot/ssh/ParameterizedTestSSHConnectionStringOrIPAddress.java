@@ -16,7 +16,7 @@ import test.com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.ssh.CustomizedSSHConnection;
 
 @RunWith (Parameterized.class)
-public class TestSSHConnectionStringOrIPAddress {
+public class ParameterizedTestSSHConnectionStringOrIPAddress {
 	private final String	IPAddressRegex	= CustomizedSSHConnection.IPAddressRegex;
 
 	@Parameters (name = "test({index}) : IPAddressRegex({0}) = {1}")

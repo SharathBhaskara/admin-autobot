@@ -38,8 +38,8 @@ public class SequentialCommandExecutorTask implements Runnable {
 
 	private Server					server;
 	private Command[]				executableCommands;
-	private CustomizedSSHSession	session;
-	private CustomizedSSHConnection	connection;
+	private SSHSession				session;
+	private SSHConnection			connection;
 	private InputStream				remoteInputStream;
 	private OutputStream			remoteOutputStream;
 	private Thread					remoteConsumerThread;
@@ -70,24 +70,24 @@ public class SequentialCommandExecutorTask implements Runnable {
 	@Override
 	public void run() {
 		this.logger.entry ();
-		this.createSessionAndInitiate ();
-		this.configureSessionController ();
-		this.startRemoteOutputConsumer ();
-		this.executeCommands ();
-		this.stopRemoteOutputConsumer ();
-		this.closeSessionAndShell ();
-		this.logShellOutputAsynchronously ();
+		createSessionAndInitiate ();
+		configureSessionController ();
+		startRemoteOutputConsumer ();
+		executeCommands ();
+		stopRemoteOutputConsumer ();
+		closeSessionAndShell ();
+		logShellOutputAsynchronously ();
 		this.logger.exit ();
 	}
 
 	private void createSessionAndInitiate() {
 		this.logger.entry ();
 		try {
-			this.initiateSession ();
+			initiateSession ();
 
 		} catch (IOException ex) {
 			throw new CommandExecutionException ("Unable to create a session on server: "
-					+ server.id (), ex);
+					+ this.server.id (), ex);
 		}
 		this.logger.exit ();
 	}
@@ -96,8 +96,8 @@ public class SequentialCommandExecutorTask implements Runnable {
 		this.session = this.connection.openSession ();
 		this.session.requestDumbPTY ();
 		this.session.startShell ();
-		this.remoteInputStream = session.getStdOut ();
-		this.remoteOutputStream = session.getStdIn ();
+		this.remoteInputStream = this.session.getStdOut ();
+		this.remoteOutputStream = this.session.getStdIn ();
 
 	}
 
@@ -112,10 +112,10 @@ public class SequentialCommandExecutorTask implements Runnable {
 	private void startRemoteOutputConsumer() {
 		this.logger.entry ();
 		Runnable remoteConsumerTask;
-		remoteConsumerTask = this.getRemoteConsumerTask ();
-		remoteConsumerThread = new Thread (remoteConsumerTask);
-		remoteConsumerThread.setName ("RemoteConsumerThread-" + System.currentTimeMillis ());
-		remoteConsumerThread.start ();
+		remoteConsumerTask = getRemoteConsumerTask ();
+		this.remoteConsumerThread = new Thread (remoteConsumerTask);
+		this.remoteConsumerThread.setName ("RemoteConsumerThread-" + System.currentTimeMillis ());
+		this.remoteConsumerThread.start ();
 		this.logger.exit ();
 	}
 
@@ -128,7 +128,7 @@ public class SequentialCommandExecutorTask implements Runnable {
 	private void executeCommands() {
 		this.logger.entry ();
 		try {
-			this.startExecutingCommandsSequentially ();
+			startExecutingCommandsSequentially ();
 		} catch (InterruptedException e) {
 			this.logger.error ("Thread Interrupted", e);
 			BotUtils.PropogateInterruptIfExist (e);
@@ -138,8 +138,8 @@ public class SequentialCommandExecutorTask implements Runnable {
 
 	private void startExecutingCommandsSequentially() throws InterruptedException {
 		ShellSequentialCommandExecutor executor;
-		executor = new ShellSequentialCommandExecutor (server, executableCommands,
-				sessionController);
+		executor = new ShellSequentialCommandExecutor (this.server, this.executableCommands,
+				this.sessionController);
 		executor.startExecution ();
 	}
 
@@ -155,7 +155,7 @@ public class SequentialCommandExecutorTask implements Runnable {
 	 * memory leaks
 	 */
 	private void closeSessionAndShell() {
-		this.closeInputAndOutputStreams ();
+		closeInputAndOutputStreams ();
 		this.session.closeSession ();
 	}
 

@@ -17,24 +17,25 @@ import org.junit.runners.MethodSorters;
 import test.com.novicehacks.autobot.categories.EnvironmentDependent;
 
 import com.novicehacks.autobot.ssh.CustomizedSSHConnection;
-import com.novicehacks.autobot.ssh.CustomizedSSHSession;
+import com.novicehacks.autobot.ssh.SSHConnection;
+import com.novicehacks.autobot.ssh.SSHSession;
 
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class TestCustomizedSSHConnectionWithoutMocking {
-	private CustomizedSSHConnection	sshConnection;
-	private final String			connectionStr	= "sdf.org";
-	private final String			password		= "novicehacks";
-	private final String			username		= "novicehacks";
+	private SSHConnection	sshConnection;
+	private final String	connectionStr	= "sdf.org";
+	private final String	password		= "novicehacks";
+	private final String	username		= "novicehacks";
 
 	@Before
 	public void initializeConnectionMock() throws Exception {
-		sshConnection = CustomizedSSHConnection.getNewInstance (connectionStr);
+		this.sshConnection = CustomizedSSHConnection.getNewInstance (this.connectionStr);
 	}
 
 	@After
 	public void closeConnection() {
-		if (sshConnection != null && sshConnection.isConnectionAvailable ())
-			sshConnection.disconnect ();
+		if (this.sshConnection != null && this.sshConnection.isConnectionAvailable ())
+			this.sshConnection.disconnect ();
 	}
 
 	@Test
@@ -42,12 +43,12 @@ public class TestCustomizedSSHConnectionWithoutMocking {
 	public void connectTest() throws Exception {
 		// given
 		// when
-		assertFalse ("Connection should not exist", sshConnection.isConnectionAvailable ());
-		sshConnection.connect ();
+		assertFalse ("Connection should not exist", this.sshConnection.isConnectionAvailable ());
+		this.sshConnection.connect ();
 		// then
-		assertTrue ("Connection made", sshConnection.isConnectionAvailable ());
+		assertTrue ("Connection made", this.sshConnection.isConnectionAvailable ());
 		// finally
-		sshConnection.disconnect ();
+		this.sshConnection.disconnect ();
 	}
 
 	@Test (expected = IOException.class)
@@ -55,11 +56,11 @@ public class TestCustomizedSSHConnectionWithoutMocking {
 	public void connectWhenRemoteExceptionTest() throws Exception {
 		// given
 		String ipAddress = "192.168.0.1";
-		sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
+		this.sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
 		// when
-		sshConnection.connect (10, 10);
+		this.sshConnection.connect (10, 10);
 		// then
-		sshConnection.connect ();
+		this.sshConnection.connect ();
 	}
 
 	@Test
@@ -68,9 +69,9 @@ public class TestCustomizedSSHConnectionWithoutMocking {
 		// given
 		boolean authStatus;
 		// when
-		sshConnection.connect ();
-		authStatus = sshConnection.authenticateConnectionWithUsernameAndPassword (username,
-				password);
+		this.sshConnection.connect ();
+		authStatus = this.sshConnection.authenticateConnectionWithUsernameAndPassword (
+				this.username, this.password);
 		// then
 		assertTrue ("Authentication Failed", authStatus);
 	}
@@ -84,23 +85,24 @@ public class TestCustomizedSSHConnectionWithoutMocking {
 		String invalidPassword = "invalid";
 		String invalidUsername = "invalid";
 		// when
-		sshConnection.connect ();
+		this.sshConnection.connect ();
 		// then
-		authStatus = sshConnection.authenticateConnectionWithUsernameAndPassword (invalidUsername,
-				invalidPassword);
+		authStatus = this.sshConnection.authenticateConnectionWithUsernameAndPassword (
+				invalidUsername, invalidPassword);
 		assertFalse ("Authentication Should Fail", authStatus);
 	}
 
 	@Test
 	@Category (EnvironmentDependent.class)
 	public void openSessionTest() throws Exception {
-		CustomizedSSHSession session;
+		SSHSession session;
 		// given
 		initializeConnectionMock ();
 		// when
-		sshConnection.connect ();
-		sshConnection.authenticateConnectionWithUsernameAndPassword (username, password);
-		session = sshConnection.openSession ();
+		this.sshConnection.connect ();
+		this.sshConnection.authenticateConnectionWithUsernameAndPassword (this.username,
+				this.password);
+		session = this.sshConnection.openSession ();
 		// then
 		assertNotNull (session);
 	}
@@ -108,13 +110,14 @@ public class TestCustomizedSSHConnectionWithoutMocking {
 	@Test (expected = IllegalStateException.class)
 	@Category (EnvironmentDependent.class)
 	public void openSessionBeforeAuthenticateTest() throws Exception {
-		CustomizedSSHSession session;
+		SSHSession session;
 		// when not authenticated
-		sshConnection.connect ();
-		assertTrue ("Connection is not available", sshConnection.isConnectionAvailable ());
-		assertFalse ("Connection should not be authenticated", sshConnection.isAuthenticated ());
+		this.sshConnection.connect ();
+		assertTrue ("Connection is not available", this.sshConnection.isConnectionAvailable ());
+		assertFalse ("Connection should not be authenticated",
+				this.sshConnection.isAuthenticated ());
 		// then
-		session = sshConnection.openSession ();
+		session = this.sshConnection.openSession ();
 		assertNull (session);
 	}
 
@@ -124,25 +127,10 @@ public class TestCustomizedSSHConnectionWithoutMocking {
 		// given
 		initializeConnectionMock ();
 		// when
-		sshConnection.connect ();
-		sshConnection.disconnect ();
+		this.sshConnection.connect ();
+		this.sshConnection.disconnect ();
 		// then
-		boolean status = sshConnection.isConnectionAvailable ();
+		boolean status = this.sshConnection.isConnectionAvailable ();
 		assertFalse (status);
 	}
-
-	/*
-	 * public void initializeBasicConnectionMock() throws Exception {
-	 * sshConnection = CustomizedSSHConnection.getNewInstance ("127.0.0.1");
-	 * connection = mock (Connection.class);
-	 * session = mock (Session.class);
-	 * connectionInfo = mock (ConnectionInfo.class);
-	 * when (connection.connect ()).thenReturn (connectionInfo);
-	 * when (connection.connect (null, 0, 0)).thenReturn (connectionInfo);
-	 * when (connection.openSession ()).thenReturn (session);
-	 * when (connection.authenticateWithPassword (username,
-	 * password)).thenReturn (true);
-	 * whenNew (Connection.class).withAnyArguments ().thenReturn (connection);
-	 * }
-	 */
 }

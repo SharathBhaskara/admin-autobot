@@ -12,8 +12,6 @@ import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Executable;
 import com.novicehacks.autobot.types.Monitor;
 import com.novicehacks.autobot.types.Server;
-import com.novicehacks.autobot.types.ShellCommand;
-import com.novicehacks.autobot.types.UnixServer;
 
 /**
  * <p>
@@ -38,21 +36,20 @@ import com.novicehacks.autobot.types.UnixServer;
  */
 public final class ResourceConfig {
 
-	private static AtomicBoolean ConfigLoaded = new AtomicBoolean(false);
-	private Set<Server> servers;
-	private Map<String, Server> serverMap;
-	private Map<String, Command> commandMap;
-	private Set<Command> commands;
-	private Set<Executable> executables;
-	private Set<Monitor> monitors;
+	private static AtomicBoolean	ConfigLoaded	= new AtomicBoolean (false);
+	private Set<Server>				servers;
+	private Map<String, Server>		serverMap;
+	private Map<String, Command>	commandMap;
+	private Set<Command>			commands;
+	private Set<Executable>			executables;
+	private Set<Monitor>			monitors;
 
-	private Logger logger = LogManager.getLogger(ResourceConfig.class);
+	private Logger					logger			= LogManager.getLogger (ResourceConfig.class);
 
 	/**
 	 * Private Constructor, will make no instance created outside this class.
 	 */
-	private ResourceConfig() {
-	}
+	private ResourceConfig () {}
 
 	/**
 	 * Loads the configurations for this application. Tyring to invoke this
@@ -62,54 +59,33 @@ public final class ResourceConfig {
 	 * </p>
 	 * 
 	 * @param serverSet
-	 *            Set of servers where the commands to be executed
+	 *        Set of servers where the commands to be executed
 	 * @param command
-	 *            Set of command to execute on the servers
+	 *        Set of command to execute on the servers
 	 * @param executables
-	 *            Set of commands that has to be executed in a scheduled
-	 *            interval
+	 *        Set of commands that has to be executed in a scheduled
+	 *        interval
 	 * @param monitors
-	 *            Set of commands to be monitored and reported if crossing the
-	 *            threshold
+	 *        Set of commands to be monitored and reported if crossing the
+	 *        threshold
 	 */
-	protected void loadConfig(Set<Server> serverSet, Set<Command> command,
-			Set<Executable> executables, Set<Monitor> monitors) {
-		logger.entry();
-		if (!ConfigLoaded.get()) {
-			ConfigLoaded.set(true);
-			this.servers = serverSet;
-			this.commands = command;
+	protected void loadConfig(	Set<Server> servers,
+								Set<Command> commands,
+								Set<Executable> executables,
+								Set<Monitor> monitors) {
+		this.logger.entry ();
+		if (!ConfigLoaded.get ()) {
+			ConfigLoaded.set (true);
+			this.servers = servers;
+			this.commands = commands;
 			this.monitors = monitors;
 			this.executables = executables;
-			this.commandMap = BotUtils.CreateMap(command, commandType());
-			this.serverMap = BotUtils.CreateMap(serverSet, serverType());
+			this.commandMap = BotUtils.CreateMap (commands);
+			this.serverMap = BotUtils.CreateMap (servers);
 		} else {
-			throw new IllegalStateException(
-					"Load Config cannot be called multiple times");
+			throw new IllegalStateException ("Load Config cannot be called multiple times");
 		}
-		logger.exit();
-	}
-
-	/**
-	 * Creates a sample type for passing to BotUtils.createMap method.
-	 * 
-	 * @return
-	 */
-	private Server serverType() {
-		Server server;
-		server = new UnixServer("Temp Server");
-		return server;
-	}
-
-	/**
-	 * Create a sample type for passing to BotUtils.createMap method.
-	 * 
-	 * @return
-	 */
-	private Command commandType() {
-		Command command;
-		command = new ShellCommand("Temp Command");
-		return command;
+		this.logger.exit ();
 	}
 
 	/**
@@ -118,7 +94,7 @@ public final class ResourceConfig {
 	 * @return Configuration Object will the system and resource configurations.
 	 */
 	public static ResourceConfig getInstance() {
-		return ResourceConfigSingleton.getInstance();
+		return ResourceConfigSingleton.getInstance ();
 	}
 
 	/**
@@ -127,7 +103,7 @@ public final class ResourceConfig {
 	 * @return
 	 */
 	public Set<Server> servers() {
-		return servers;
+		return this.servers;
 	}
 
 	/**
@@ -136,7 +112,7 @@ public final class ResourceConfig {
 	 * @return
 	 */
 	public Set<Command> commands() {
-		return commands;
+		return this.commands;
 	}
 
 	/**
@@ -145,7 +121,7 @@ public final class ResourceConfig {
 	 * @return
 	 */
 	public Set<Executable> executables() {
-		return executables;
+		return this.executables;
 	}
 
 	/**
@@ -154,7 +130,7 @@ public final class ResourceConfig {
 	 * @return
 	 */
 	public Set<Monitor> monitors() {
-		return monitors;
+		return this.monitors;
 	}
 
 	/**
@@ -164,7 +140,7 @@ public final class ResourceConfig {
 	 *
 	 */
 	private static class ResourceConfigSingleton {
-		private static ResourceConfig instance = new ResourceConfig();
+		private static ResourceConfig	instance	= new ResourceConfig ();
 
 		public static ResourceConfig getInstance() {
 			return instance;
@@ -177,7 +153,7 @@ public final class ResourceConfig {
 	 * @return
 	 */
 	public Map<String, Server> serverMap() {
-		return serverMap;
+		return this.serverMap;
 	}
 
 	/**
@@ -186,7 +162,7 @@ public final class ResourceConfig {
 	 * @return
 	 */
 	public Map<String, Command> commandMap() {
-		return commandMap;
+		return this.commandMap;
 	}
 
 }

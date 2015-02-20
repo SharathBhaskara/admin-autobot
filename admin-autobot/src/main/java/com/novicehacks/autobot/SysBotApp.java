@@ -51,7 +51,7 @@ public class SysBotApp {
 			TimeoutException {
 		/* Start the ExecutableManager with a delay */
 		SysBotApp app = new SysBotApp ();
-		ThreadManager.getInstance ().InitiateThreadPool (true);
+		ThreadManager.getInstance ().createThreadPool (true);
 		logger.info ("Loading the Configurations");
 		AutobotConfigManager.loadResourceConfig ();
 		logger.info ("Starting the ExecutableManager with a scheduled delay");

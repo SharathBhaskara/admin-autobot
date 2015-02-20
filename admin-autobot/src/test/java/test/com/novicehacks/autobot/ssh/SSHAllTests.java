@@ -5,8 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith (Suite.class)
-@SuiteClasses ({ SSHIntegrationTestSuite.class, SSHUnitTestSuite.class,
-		SSHParameterizedTestSuite.class })
+@SuiteClasses ({ SSHUnitTestCategorySuite.class, SSHParameterizedTestSuite.class })
 public class SSHAllTests {
 
 }

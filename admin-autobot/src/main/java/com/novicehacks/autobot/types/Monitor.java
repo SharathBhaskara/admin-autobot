@@ -1,6 +1,6 @@
 package com.novicehacks.autobot.types;
 
-import com.novicehacks.autobot.MonitorManager;
+import com.novicehacks.autobot.monitor.MonitorManager;
 
 /**
  * Monitor is a command that has to be monitored.

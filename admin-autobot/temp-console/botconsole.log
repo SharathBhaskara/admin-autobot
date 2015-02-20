@@ -616,3 +616,38 @@ drwx------     2 novicehacks  users   1024 Feb 20 01:16 .
 sdf:/udd/n/novicehacks> sdf:/udd/n/novicehacks>
 **************************************************
 **************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb18 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb18 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb18 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 09:35 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 09:35 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 09:36 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 09:36 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     19276  1001  1 14:48 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 19343 19276  0 14:48 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 19344 19343  0 14:48 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 19347 19344  0 14:48 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************

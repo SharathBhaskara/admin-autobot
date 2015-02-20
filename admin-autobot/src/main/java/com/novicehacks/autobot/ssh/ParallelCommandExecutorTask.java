@@ -24,14 +24,13 @@ import com.novicehacks.autobot.types.Server;
  */
 public class ParallelCommandExecutorTask implements Runnable {
 
-	private CustomizedSSHConnection	connection;
-	private CustomizedSSHSession	session;
-	private Server					server;
-	private Command					command;
-	private StringBuilder			commandOutputBuffer;
-	private Future<?>				commandOutputLoggerTaskFuture;
-	private Logger					logger	= LogManager
-													.getLogger (ParallelCommandExecutorTask.class);
+	private SSHConnection	connection;
+	private SSHSession		session;
+	private Server			server;
+	private Command			command;
+	private StringBuilder	commandOutputBuffer;
+	private Future<?>		commandOutputLoggerTaskFuture;
+	private Logger			logger	= LogManager.getLogger (ParallelCommandExecutorTask.class);
 
 	/**
 	 * 
@@ -102,7 +101,7 @@ public class ParallelCommandExecutorTask implements Runnable {
 		try {
 			executeCommandInSessionAndCollectOutput (unixCommand);
 		} catch (IOException ex) {
-			logger.error ("Failed to execute command on the session : {}", this.command, ex);
+			this.logger.error ("Failed to execute command on the session : {}", this.command, ex);
 			throw new CommandExecutionException ("Command Execution Failed : " + unixCommand, ex);
 		}
 	}
@@ -117,8 +116,8 @@ public class ParallelCommandExecutorTask implements Runnable {
 	}
 
 	private void collectOutputFromSession() throws IOException {
-		commandOutputBuffer = new StringBuilder ();
-		InputStream inputStream = session.getStdOut ();
+		this.commandOutputBuffer = new StringBuilder ();
+		InputStream inputStream = this.session.getStdOut ();
 		parseAndPopulateOutput (inputStream);
 	}
 
@@ -131,8 +130,8 @@ public class ParallelCommandExecutorTask implements Runnable {
 				_outputLine = _buffer.readLine ();
 				if (_outputLine == null || _outputLine.equals (""))
 					break;
-				commandOutputBuffer.append (_outputLine);
-				commandOutputBuffer.append (System.lineSeparator ());
+				this.commandOutputBuffer.append (_outputLine);
+				this.commandOutputBuffer.append (System.lineSeparator ());
 			}
 		}
 
@@ -141,10 +140,10 @@ public class ParallelCommandExecutorTask implements Runnable {
 	private void logCommandOutputAsynchronously() {
 		SSHOutputLoggerTask loggerTask;
 		String commandOutput = this.commandOutputBuffer.toString ();
-		Server unixServer = server;
-		Command unixCommand = command;
+		Server unixServer = this.server;
+		Command unixCommand = this.command;
 		loggerTask = new SSHOutputLoggerTask (unixServer, unixCommand, commandOutput);
-		commandOutputLoggerTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
+		this.commandOutputLoggerTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				loggerTask);
 	}
 

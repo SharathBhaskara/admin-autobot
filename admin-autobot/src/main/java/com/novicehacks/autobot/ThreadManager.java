@@ -1,5 +1,6 @@
 package com.novicehacks.autobot;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -16,7 +17,7 @@ public class ThreadManager {
 	private Logger				logger				= LogManager.getLogger (ThreadManager.class);
 
 	private ThreadManager () {
-		Thread.setDefaultUncaughtExceptionHandler (new GenericUncaughExceptionHandler ());
+		Thread.setDefaultUncaughtExceptionHandler (new GenericUncaughtExceptionHandler ());
 	}
 
 	private static class ThreadManagerSingleton {
@@ -48,20 +49,44 @@ public class ThreadManager {
 	}
 
 	/**
+	 * Submits the asynchronous task to the managed ThreadPool.
+	 * 
+	 * @param <T>
+	 * 
+	 * @param task
+	 * @return
+	 * @throws NullPointerException
+	 *         if the thread pool is not active.
+	 */
+	public <T> Future<T> submitTaskToThreadPool(Callable<T> task) {
+		Future<T> future;
+		this.executorServiceLock.lock ();
+		future = this.executorService.submit (task);
+		this.executorServiceLock.unlock ();
+		return future;
+	}
+
+	/**
 	 * Will Wait until the timeout expires or all the tasks submitted to the
 	 * current executor service is completed.
 	 * 
 	 * @param timeout
 	 * @param timeUnit
 	 * @throws InterruptedException
+	 * @return <strong>true</strong> if tasks completed successfully,
+	 *         <strong>false</strong> if timed out.
+	 * @see ExecutorService#awaitTermination
 	 */
-	public void waitForTaskCompletion(int timeout, TimeUnit timeUnit) throws InterruptedException {
-		this.logger.entry ();
+	public boolean terminateAndWaitForTaskCompletion(int timeout, TimeUnit timeUnit)
+			throws InterruptedException {
+		boolean status;
+		this.logger.entry (timeout, timeUnit);
 		ExecutorService service;
 		service = this.executorService;
-		DismissThreadPool ();
-		service.awaitTermination (timeout, timeUnit);
-		this.logger.exit ();
+		shutdownThreadPool ();
+		status = service.awaitTermination (timeout, timeUnit);
+		this.logger.exit (status);
+		return status;
 	}
 
 	/**
@@ -75,13 +100,13 @@ public class ThreadManager {
 	 * @return true if new thread pool is created otherwise false
 	 * @throws InterruptedException
 	 */
-	public boolean InitiateThreadPool(boolean forced) throws InterruptedException {
+	public boolean createThreadPool(boolean forced) throws InterruptedException {
 		if (forced) {
 			this.executorServiceLock.lock ();
-			destroyExecutorService ();
+			shutdownExecutorService ();
 			this.executorServiceLock.unlock ();
 		}
-		return initiateExecutorService ();
+		return createThreadPool ();
 	}
 
 	/**
@@ -90,15 +115,33 @@ public class ThreadManager {
 	 * @return true if new thread pool created false otherwise
 	 * @throws InterruptedException
 	 */
-	public boolean InitiateThreadPool() throws InterruptedException {
-		if (isExecutorServiceAvailable ()) {
+	public boolean createThreadPool() throws InterruptedException {
+		if (isThreadPoolAvailable ()) {
 			return false;
 		} else {
-			return initiateExecutorService ();
+			return assignNewCachedThreadPool ();
 		}
 	}
 
-	private boolean initiateExecutorService() throws InterruptedException {
+	/**
+	 * 
+	 * @return true if threadpool is available for task submission, otherwise
+	 *         false.
+	 * @throws InterruptedException
+	 * @see {@link ExecutorService#shutdown()}
+	 */
+	public boolean isThreadPoolAvailable() throws InterruptedException {
+		boolean status = false;
+		if (tryLock (this.executorServiceLock)) {
+			if (this.executorService != null && !this.executorService.isShutdown ()) {
+				status = true;
+			}
+			this.executorServiceLock.unlock ();
+		}
+		return status;
+	}
+
+	private boolean assignNewCachedThreadPool() throws InterruptedException {
 		boolean status = false;
 		if (tryLock (this.executorServiceLock)) {
 			this.executorService = Executors.newCachedThreadPool ();
@@ -111,6 +154,13 @@ public class ThreadManager {
 		return status;
 	}
 
+	private boolean tryLock(ReentrantLock reentrantLock) throws InterruptedException {
+		if (reentrantLock.tryLock () || reentrantLock.tryLock (60, TimeUnit.SECONDS))
+			return true;
+		else
+			return false;
+	}
+
 	/**
 	 * No matter what the status of the ThreadPool is the executor will be given
 	 * a shutdown and assigned to null after this call. (Avoids any further
@@ -119,18 +169,18 @@ public class ThreadManager {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean DismissThreadPool() throws InterruptedException {
-		return destroyExecutorService ();
+	public boolean shutdownThreadPool() throws InterruptedException {
+		return shutdownExecutorService ();
 	}
 
-	private boolean destroyExecutorService() throws InterruptedException {
+	private boolean shutdownExecutorService() throws InterruptedException {
 		boolean status = false;
-		if (isExecutorServiceAvailable ())
-			status = destroyThreadPool ();
+		if (isThreadPoolAvailable ())
+			status = shutdown ();
 		return status;
 	}
 
-	private boolean destroyThreadPool() throws InterruptedException {
+	private boolean shutdown() throws InterruptedException {
 		boolean status = false;
 		if (tryLock (this.executorServiceLock)) {
 			this.executorService.shutdown ();
@@ -142,24 +192,6 @@ public class ThreadManager {
 			status = false;
 		}
 		return status;
-	}
-
-	private boolean isExecutorServiceAvailable() throws InterruptedException {
-		boolean status = false;
-		if (tryLock (this.executorServiceLock)) {
-			if (this.executorService != null && !this.executorService.isShutdown ()) {
-				status = true;
-			}
-			this.executorServiceLock.unlock ();
-		}
-		return status;
-	}
-
-	private boolean tryLock(ReentrantLock reentrantLock) throws InterruptedException {
-		if (reentrantLock.tryLock () || reentrantLock.tryLock (60, TimeUnit.SECONDS))
-			return true;
-		else
-			return false;
 	}
 
 }

@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith (Suite.class)
-@SuiteClasses (TestSSHConnectionStringOrIPAddress.class)
+@SuiteClasses (ParameterizedTestSSHConnectionStringOrIPAddress.class)
 public class SSHParameterizedTestSuite {
 
 }

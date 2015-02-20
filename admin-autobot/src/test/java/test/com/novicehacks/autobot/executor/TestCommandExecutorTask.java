@@ -1,4 +1,4 @@
-package test.com.novicehacks.autobot;
+package test.com.novicehacks.autobot.executor;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +24,6 @@ public class TestCommandExecutorTask {
 		CommandExecutorTask task;
 		task = new CommandExecutorTask ();
 		task.run ();
-		ThreadManager.getInstance ().waitForTaskCompletion (5, TimeUnit.MINUTES);
+		ThreadManager.getInstance ().terminateAndWaitForTaskCompletion (5, TimeUnit.MINUTES);
 	}
 }

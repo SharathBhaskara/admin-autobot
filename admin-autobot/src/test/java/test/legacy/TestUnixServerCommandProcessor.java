@@ -49,7 +49,7 @@ public class TestUnixServerCommandProcessor {
 		setupStubOfCommands ();
 		this.commandProcessor = new SSHServerCommandProcessor (this.server, this.unixCommand1,
 				this.unixCommand2);
-		ThreadManager.getInstance ().InitiateThreadPool (true);
+		ThreadManager.getInstance ().createThreadPool (true);
 	}
 
 	private void setupStubOfServer() {
@@ -80,7 +80,7 @@ public class TestUnixServerCommandProcessor {
 	private void executeAndWait(Thread task) throws InterruptedException {
 		task.start ();
 		task.join ();
-		ThreadManager.getInstance ().waitForTaskCompletion (5, TimeUnit.MINUTES);
+		ThreadManager.getInstance ().terminateAndWaitForTaskCompletion (5, TimeUnit.MINUTES);
 	}
 
 	@Test
