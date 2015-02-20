@@ -3,7 +3,6 @@ package test.legacy;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -48,26 +47,27 @@ public class TestUnixServerCommandProcessor {
 		MockitoAnnotations.initMocks (this);
 		setupStubOfServer ();
 		setupStubOfCommands ();
-		commandProcessor = new SSHServerCommandProcessor (server, unixCommand1, unixCommand2);
+		this.commandProcessor = new SSHServerCommandProcessor (this.server, this.unixCommand1,
+				this.unixCommand2);
 		ThreadManager.getInstance ().InitiateThreadPool (true);
 	}
 
 	private void setupStubOfServer() {
-		when (server.initCommands ())
-				.thenReturn (new String[] { "\b", "\r", "\r", "\r", "whoami" });
-		when (server.id ()).thenReturn ("S001");
-		when (server.ipaddress ()).thenReturn ("sdf.org");
-		when (server.name ()).thenReturn ("test server");
-		when (server.credentials ()).thenReturn (getCredentials ());
+		when (this.server.initCommands ()).thenReturn (
+				new String[] { "\b", "\r", "\r", "\r", "whoami" });
+		when (this.server.id ()).thenReturn ("S001");
+		when (this.server.ipaddress ()).thenReturn ("sdf.org");
+		when (this.server.name ()).thenReturn ("test server");
+		when (this.server.credentials ()).thenReturn (getCredentials ());
 	}
 
 	private void setupStubOfCommands() {
-		when (unixCommand1.command ()).thenReturn ("df -k");
-		when (unixCommand1.id ()).thenReturn ("0001");
-		when (unixCommand1.description ()).thenReturn ("Disk Utilization");
-		when (unixCommand2.command ()).thenReturn ("ls -lrt");
-		when (unixCommand2.id ()).thenReturn ("0002");
-		when (unixCommand2.description ()).thenReturn ("Show Files");
+		when (this.unixCommand1.command ()).thenReturn ("df -k");
+		when (this.unixCommand1.id ()).thenReturn ("0001");
+		when (this.unixCommand1.description ()).thenReturn ("Disk Utilization");
+		when (this.unixCommand2.command ()).thenReturn ("ls -lrt");
+		when (this.unixCommand2.id ()).thenReturn ("0002");
+		when (this.unixCommand2.description ()).thenReturn ("Show Files");
 	}
 
 	private ServerCredential[] getCredentials() {
@@ -78,27 +78,25 @@ public class TestUnixServerCommandProcessor {
 	}
 
 	private void executeAndWait(Thread task) throws InterruptedException {
-		task.setUncaughtExceptionHandler (ThreadManager.genericExceptionHandler ());
 		task.start ();
 		task.join ();
-		ExecutorService service = ThreadManager.getInstance ().shutDownThreadPool ();
-		service.awaitTermination (5, TimeUnit.MINUTES);
+		ThreadManager.getInstance ().waitForTaskCompletion (5, TimeUnit.MINUTES);
 	}
 
 	@Test
 	@Category (EnvironmentDependent.class)
 	public void testSequentialExection() throws InterruptedException {
-		Thread task = new Thread (commandProcessor);
+		Thread task = new Thread (this.commandProcessor);
 		executeAndWait (task);
 	}
 
 	@Test
 	@Category (EnvironmentDependent.class)
 	public void testParallelExecution() throws InterruptedException {
-		when (server.initCommands ()).thenReturn (new String[] { });
-		when (server.ipaddress ()).thenReturn ("192.168.40.133");
-		when (server.id ()).thenReturn ("S002");
-		Thread task = new Thread (commandProcessor);
+		when (this.server.initCommands ()).thenReturn (new String[] { });
+		when (this.server.ipaddress ()).thenReturn ("192.168.40.133");
+		when (this.server.id ()).thenReturn ("S002");
+		Thread task = new Thread (this.commandProcessor);
 		executeAndWait (task);
 	}
 }

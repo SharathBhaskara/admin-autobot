@@ -108,7 +108,7 @@ public class ParallelCommandExecutorTask implements Runnable {
 	}
 
 	private void endSession() {
-		this.session.disconnect ();
+		this.session.closeSession ();
 	}
 
 	private void executeCommandInSessionAndCollectOutput(String unixCommand) throws IOException {

@@ -90,7 +90,7 @@ public class BotUtils {
 	 * 
 	 * @param ex
 	 */
-	public static void propogateInterruptIfExist(Exception exception) {
+	public static void PropogateInterruptIfExist(Exception exception) {
 		if (exception instanceof InterruptedException || Thread.interrupted ()) {
 			Thread.currentThread ().interrupt ();
 		}

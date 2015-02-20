@@ -1,6 +1,5 @@
 package com.novicehacks.autobot.types;
 
-import com.novicehacks.autobot.ExecutableManager;
 
 /**
  * 
@@ -13,16 +12,16 @@ import com.novicehacks.autobot.ExecutableManager;
  */
 public class Executable implements Comparable<Executable> {
 
-	private String line;
-	private String serverId;
-	private String commandId;
+	private String	line;
+	private String	serverId;
+	private String	commandId;
 
-	public Executable(String line) {
+	public Executable (String line) {
 		this.line = line;
 	}
 
 	public String getServerId() {
-		return serverId;
+		return this.serverId;
 	}
 
 	public void setServerId(String serverId) {
@@ -30,7 +29,7 @@ public class Executable implements Comparable<Executable> {
 	}
 
 	public String getCommandId() {
-		return commandId;
+		return this.commandId;
 	}
 
 	public void setCommandId(String commandId) {
@@ -38,16 +37,16 @@ public class Executable implements Comparable<Executable> {
 	}
 
 	public String getLine() {
-		return line;
+		return this.line;
 	}
 
 	@Override
 	public String toString() {
-		return line;
+		return this.line;
 	}
 
 	@Override
 	public int compareTo(Executable o) {
-		return o.getLine().compareTo(this.getLine());
+		return o.getLine ().compareTo (getLine ());
 	}
 }

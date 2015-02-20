@@ -131,7 +131,7 @@ public class SequentialCommandExecutorTask implements Runnable {
 			this.startExecutingCommandsSequentially ();
 		} catch (InterruptedException e) {
 			this.logger.error ("Thread Interrupted", e);
-			BotUtils.propogateInterruptIfExist (e);
+			BotUtils.PropogateInterruptIfExist (e);
 		}
 		this.logger.exit ();
 	}
@@ -156,7 +156,7 @@ public class SequentialCommandExecutorTask implements Runnable {
 	 */
 	private void closeSessionAndShell() {
 		this.closeInputAndOutputStreams ();
-		this.session.disconnect ();
+		this.session.closeSession ();
 	}
 
 	private void closeInputAndOutputStreams() {

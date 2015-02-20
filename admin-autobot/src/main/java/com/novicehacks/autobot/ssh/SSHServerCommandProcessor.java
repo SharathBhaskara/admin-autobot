@@ -93,7 +93,7 @@ public final class SSHServerCommandProcessor implements Runnable {
 			executeCommandsOnServer ();
 			waitForCommandsCompletion ();
 		} catch (Exception ex) {
-			BotUtils.propogateInterruptIfExist (ex);
+			BotUtils.PropogateInterruptIfExist (ex);
 			throw new CommandExecutionException ("Commands Execution Failed On Server: " + server,
 					ex);
 		} finally {
@@ -170,7 +170,7 @@ public final class SSHServerCommandProcessor implements Runnable {
 					TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			logger.error ("Thread Interrupted", e);
-			BotUtils.propogateInterruptIfExist (e);
+			BotUtils.PropogateInterruptIfExist (e);
 		} catch (ExecutionException e) {
 			logger.error ("Sequential Command Execution on Server {} Failed: {}", server.id (), e,
 					e);
@@ -199,7 +199,7 @@ public final class SSHServerCommandProcessor implements Runnable {
 		try {
 			future.get (SysConfig.getInstance ().longTimeoutInMinutes (), TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
-			BotUtils.propogateInterruptIfExist (e);
+			BotUtils.PropogateInterruptIfExist (e);
 		} catch (ExecutionException e) {
 			throw new CommandExecutionException (
 					"Command Execution Failed With Errors on Server : " + server.id (), e);

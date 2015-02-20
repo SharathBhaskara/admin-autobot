@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.executor.CommandExecutorTask;
 import com.novicehacks.autobot.types.Incomplete;
 
 /**
@@ -46,9 +47,8 @@ import com.novicehacks.autobot.types.Incomplete;
 public class SysBotApp {
 	private static Logger	logger	= LogManager.getLogger (SysBotApp.class);
 
-	public static void main(String[] args)	throws InterruptedException,
-											ExecutionException,
-											TimeoutException {
+	public static void main(String[] args) throws InterruptedException, ExecutionException,
+			TimeoutException {
 		/* Start the ExecutableManager with a delay */
 		SysBotApp app = new SysBotApp ();
 		ThreadManager.getInstance ().InitiateThreadPool (true);
@@ -79,9 +79,8 @@ public class SysBotApp {
 	private void StartExecutableManager() {
 		logger.entry ();
 		ScheduledExecutorService service = Executors.newScheduledThreadPool (1);
-		ScheduledFuture<?> future = service.scheduleWithFixedDelay (
-				ExecutableManager.getInstance (), 0, SysConfig.getInstance ().ExecutableDelay (),
-				TimeUnit.MINUTES);
+		ScheduledFuture<?> future = service.scheduleWithFixedDelay (new CommandExecutorTask (), 0,
+				SysConfig.getInstance ().ExecutableDelay (), TimeUnit.MINUTES);
 		try {
 			System.out.println (future.getDelay (TimeUnit.MINUTES));
 			future.get (SysConfig.getInstance ().longTimeoutInMinutes (), TimeUnit.MINUTES);

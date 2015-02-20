@@ -61,7 +61,7 @@ public class ShellSequentialCommandOutputGobblerTask implements Runnable {
 			}
 		} catch (InterruptedException e) {
 			this.logger.debug ("Remote Output Consumer Interrupted");
-			BotUtils.propogateInterruptIfExist (e);
+			BotUtils.PropogateInterruptIfExist (e);
 		} catch (Exception e) {
 			this.logger.error ("Exception when reading remote server output", e);
 		}
