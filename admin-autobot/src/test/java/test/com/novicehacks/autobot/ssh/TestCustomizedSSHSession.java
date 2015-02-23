@@ -2,6 +2,7 @@ package test.com.novicehacks.autobot.ssh;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -48,7 +49,7 @@ public class TestCustomizedSSHSession {
 
 	@Test
 	@Category (UnitTest.class)
-	public void testStandardInputStream() {
+	public void getStdInputStream() {
 		// given
 		// when
 		this.sshSession.stdInputStream ();
@@ -56,9 +57,21 @@ public class TestCustomizedSSHSession {
 		verify (this.remoteSession).getStdin ();
 	}
 
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void getStdInputStreamAfterSessionClosed() {
+		// given
+		this.sshSession.closeSession ();
+		// when
+		this.sshSession.stdInputStream ();
+		// then
+		verify (this.remoteSession, times (0)).getStdin ();
+		fail ("Exception should have raised before, or failed in verify");
+	}
+
 	@Test
 	@Category (UnitTest.class)
-	public void testStandardOutputStream() {
+	public void getStdOutputStream() {
 		// given
 		// when
 		this.sshSession.stdOutputStream ();
@@ -68,7 +81,19 @@ public class TestCustomizedSSHSession {
 
 	@Test
 	@Category (UnitTest.class)
-	public void testStandardErrorStream() {
+	public void getStdOutputStreamAfterSessionClosed() {
+		// given
+		this.sshSession.closeSession ();
+		// when
+		this.sshSession.stdOutputStream ();
+		// then
+		verify (this.remoteSession, times (0)).getStdout ();
+		fail ("Exception should have raised before, or failed in verify");
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void getStdErrorStream() {
 		// given
 		// when
 		this.sshSession.stdErrorStream ();
@@ -76,9 +101,21 @@ public class TestCustomizedSSHSession {
 		verify (this.remoteSession).getStderr ();
 	}
 
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void getStdErrorStreamAfterSessionClosed() {
+		// given
+		this.sshSession.closeSession ();
+		// when
+		this.sshSession.stdErrorStream ();
+		// then
+		verify (this.remoteSession, times (0)).getStderr ();
+		fail ("Exception should have raised before, or failed in verify");
+	}
+
 	@Test
 	@Category (UnitTest.class)
-	public void testStartShell() throws IOException {
+	public void startShell() throws IOException {
 		// given
 		// when
 		this.sshSession.startShell ();
@@ -86,9 +123,33 @@ public class TestCustomizedSSHSession {
 		verify (this.remoteSession).startShell ();
 	}
 
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void startShellMultipleTimes() {
+
+	}
+
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void startShellAfterExecutingCommand() {
+
+	}
+
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void startShellAfterSessionClosed() throws IOException {
+		// given
+		this.sshSession.closeSession ();
+		// when
+		this.sshSession.startShell ();
+		// then
+		verify (this.remoteSession, times (0)).startShell ();
+		fail ("Exception should have raised before, or failed in verify");
+	}
+
 	@Test
 	@Category (UnitTest.class)
-	public void testRequestTerminal() throws IOException {
+	public void requestTerminalBeforeShellStart() throws IOException {
 		// given
 		// when
 		this.sshSession.getTerminal ();
@@ -96,9 +157,51 @@ public class TestCustomizedSSHSession {
 		verify (this.remoteSession).requestDumbPTY ();
 	}
 
+	@Test (expected = IllegalAccessException.class)
+	@Category (UnitTest.class)
+	public void requestTerminalAfterShellStart() throws IOException {
+
+	}
+
 	@Test
 	@Category (UnitTest.class)
-	public void testExecuteCommand() throws IOException {
+	public void requestTerminalBeforeExecuteCommand() throws IOException {
+		fail ("Unimplemented");
+	}
+
+	@Test (expected = IllegalAccessException.class)
+	@Category (UnitTest.class)
+	public void requestTerminalAfterExecuteCommand() throws IOException {
+
+	}
+
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void requestMultipleTerminalBeforeShellStart() throws IOException {
+
+	}
+
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void requestMultipleTerminalBeforeExecuteCommand() throws IOException {
+
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void requestTerminalAfterSessionClosed() throws IOException {
+		// given
+		this.sshSession.closeSession ();
+		// when
+		this.sshSession.getTerminal ();
+		// then
+		verify (this.remoteSession, times (0)).requestDumbPTY ();
+		fail ("Exception should have raised before, or failed in verify");
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void executeCommand() throws IOException {
 		// given
 		String command = "abc";
 		// when
@@ -109,7 +212,18 @@ public class TestCustomizedSSHSession {
 
 	@Test (expected = IllegalStateException.class)
 	@Category (UnitTest.class)
-	public void testExecuteCommandMultipleTimes() throws IOException {
+	public void executeCommandAfterShellStart() throws IOException {
+		// given
+		String command = "abc";
+		// when
+		this.sshSession.execCommand (command);
+		// then
+		verify (this.remoteSession).execCommand (command);
+	}
+
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void executeCommandMultipleTimes() throws IOException {
 		// given
 		String command = "abc";
 		// when
@@ -121,7 +235,7 @@ public class TestCustomizedSSHSession {
 
 	@Test (expected = IllegalStateException.class)
 	@Category (UnitTest.class)
-	public void testExecuteCommandAfterSessionClosed() throws IOException {
+	public void executeCommandAfterSessionClosed() throws IOException {
 		// given
 		String command = "abc";
 		this.sshSession.closeSession ();
@@ -133,7 +247,7 @@ public class TestCustomizedSSHSession {
 
 	@Test
 	@Category (UnitTest.class)
-	public void testSessionClose() throws IOException {
+	public void sessionClose() throws IOException {
 		// given
 		// when
 		this.sshSession.closeSession ();
@@ -143,7 +257,7 @@ public class TestCustomizedSSHSession {
 
 	@Test (expected = IllegalStateException.class)
 	@Category (UnitTest.class)
-	public void testSessionCloseMultipleTimes() throws IOException {
+	public void sessionCloseMultipleTimes() throws IOException {
 		// given
 		this.sshSession.closeSession ();
 		// when
