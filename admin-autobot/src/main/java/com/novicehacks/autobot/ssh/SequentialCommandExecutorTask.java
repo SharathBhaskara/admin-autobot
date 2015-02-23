@@ -94,10 +94,10 @@ public class SequentialCommandExecutorTask implements Runnable {
 
 	private void initiateSession() throws IOException {
 		this.session = this.connection.openSession ();
-		this.session.requestDumbPTY ();
+		this.session.getTerminal ();
 		this.session.startShell ();
-		this.remoteInputStream = this.session.getStdOut ();
-		this.remoteOutputStream = this.session.getStdIn ();
+		this.remoteInputStream = this.session.stdOutputStream ();
+		this.remoteOutputStream = this.session.stdInputStream ();
 
 	}
 

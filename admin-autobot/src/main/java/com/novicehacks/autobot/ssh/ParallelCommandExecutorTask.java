@@ -117,7 +117,7 @@ public class ParallelCommandExecutorTask implements Runnable {
 
 	private void collectOutputFromSession() throws IOException {
 		this.commandOutputBuffer = new StringBuilder ();
-		InputStream inputStream = this.session.getStdOut ();
+		InputStream inputStream = this.session.stdOutputStream ();
 		parseAndPopulateOutput (inputStream);
 	}
 

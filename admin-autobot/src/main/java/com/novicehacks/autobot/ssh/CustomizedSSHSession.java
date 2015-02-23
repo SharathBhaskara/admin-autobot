@@ -16,16 +16,16 @@ import ch.ethz.ssh2.Session;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public final class CustomizedSSHSession implements SSHSession {
+public class CustomizedSSHSession implements SSHSession {
 
-	private Session			session;
-	private AtomicBoolean	sessionClosed	= new AtomicBoolean (false);
-	private AtomicBoolean	commandExecuted	= new AtomicBoolean (false);
-	private InputStream		remoteOutputStream;
-	private InputStream		remoteErrorStream;
-	private OutputStream	remoteInputStream;
+	private Session session;
+	private AtomicBoolean sessionClosed = new AtomicBoolean (false);
+	private AtomicBoolean commandExecuted = new AtomicBoolean (false);
+	private InputStream remoteOutputStream;
+	private InputStream remoteErrorStream;
+	private OutputStream remoteInputStream;
 
-	private Logger			logger			= LogManager.getLogger (CustomizedSSHSession.class);
+	private Logger logger = LogManager.getLogger (CustomizedSSHSession.class);
 
 	protected CustomizedSSHSession (Session session) {
 		this.session = session;
@@ -35,19 +35,19 @@ public final class CustomizedSSHSession implements SSHSession {
 	}
 
 	@Override
-	public OutputStream getStdIn() {
+	public OutputStream stdInputStream() {
 		throwExceptionIfSessionClosed ();
 		return this.remoteInputStream;
 	}
 
 	@Override
-	public InputStream getStdOut() {
+	public InputStream stdOutputStream() {
 		throwExceptionIfSessionClosed ();
 		return this.remoteOutputStream;
 	}
 
 	@Override
-	public InputStream getStdErr() {
+	public InputStream stdErrorStream() {
 		throwExceptionIfSessionClosed ();
 		return this.remoteErrorStream;
 	}
@@ -61,7 +61,7 @@ public final class CustomizedSSHSession implements SSHSession {
 	}
 
 	@Override
-	public void requestDumbPTY() throws IOException {
+	public void getTerminal() throws IOException {
 		this.logger.entry ();
 		throwExceptionIfSessionClosed ();
 		this.session.requestDumbPTY ();
@@ -71,10 +71,15 @@ public final class CustomizedSSHSession implements SSHSession {
 	@Override
 	public void execCommand(String command) throws IOException {
 		this.logger.entry ();
-		throwIfCommandExecutedBefore ();
+		checkAndThrowExceptionIfNeeded ();
 		this.session.execCommand (command);
 		this.commandExecuted.set (true);
 		this.logger.exit ();
+	}
+
+	private void checkAndThrowExceptionIfNeeded() {
+		throwExceptionIfSessionClosed ();
+		throwIfCommandExecutedBefore ();
 	}
 
 	private void throwIfCommandExecutedBefore() {
