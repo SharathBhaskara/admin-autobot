@@ -21,6 +21,8 @@ public class CustomizedSSHSession implements SSHSession {
 	private Session session;
 	private AtomicBoolean sessionClosed = new AtomicBoolean (false);
 	private AtomicBoolean commandExecuted = new AtomicBoolean (false);
+	private AtomicBoolean terminalRequested = new AtomicBoolean (false);
+	private AtomicBoolean shellStarted = new AtomicBoolean (false);
 	private InputStream remoteOutputStream;
 	private InputStream remoteErrorStream;
 	private OutputStream remoteInputStream;
@@ -55,36 +57,56 @@ public class CustomizedSSHSession implements SSHSession {
 	@Override
 	public void startShell() throws IOException {
 		this.logger.entry ();
-		throwExceptionIfSessionClosed ();
-		this.session.startShell ();
+		synchronized (this.shellStarted) {
+			checkAndThrowExceptionIfNeeded ();
+			this.session.startShell ();
+			this.shellStarted.set (true);
+		}
 		this.logger.exit ();
 	}
 
 	@Override
 	public void getTerminal() throws IOException {
 		this.logger.entry ();
-		throwExceptionIfSessionClosed ();
-		this.session.requestDumbPTY ();
+		synchronized (this.terminalRequested) {
+			checkAndThrowExceptionIfNeeded ();
+			throwIfTerminalRequestedBefore ();
+			this.session.requestDumbPTY ();
+			this.terminalRequested.set (true);
+		}
 		this.logger.exit ();
+	}
+
+	private void throwIfTerminalRequestedBefore() {
+		if (this.terminalRequested.get ())
+			throw new IllegalStateException ("Onle one terminal can be requested on a session");
 	}
 
 	@Override
 	public void execCommand(String command) throws IOException {
 		this.logger.entry ();
-		checkAndThrowExceptionIfNeeded ();
-		this.session.execCommand (command);
-		this.commandExecuted.set (true);
+		synchronized (this.commandExecuted) {
+			checkAndThrowExceptionIfNeeded ();
+			this.session.execCommand (command);
+			this.commandExecuted.set (true);
+		}
 		this.logger.exit ();
 	}
 
 	private void checkAndThrowExceptionIfNeeded() {
 		throwExceptionIfSessionClosed ();
 		throwIfCommandExecutedBefore ();
+		throwIfShellStartedBefore ();
 	}
 
 	private void throwIfCommandExecutedBefore() {
 		if (this.commandExecuted.get ())
 			throw new IllegalStateException ("Onle one command can be executed on a session");
+	}
+
+	private void throwIfShellStartedBefore() {
+		if (this.shellStarted.get ())
+			throw new IllegalStateException ("Onle one shell can be started on a session");
 	}
 
 	@Override

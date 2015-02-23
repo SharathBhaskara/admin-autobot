@@ -172,7 +172,7 @@ public class TestCustomizedSSHSession {
 		verify (this.remoteSession).startShell ();
 	}
 
-	@Test (expected = IllegalAccessException.class)
+	@Test (expected = IllegalStateException.class)
 	@Category (UnitTest.class)
 	public void requestTerminalAfterShellStart() throws IOException {
 		// when
@@ -196,7 +196,7 @@ public class TestCustomizedSSHSession {
 		verify (this.remoteSession).execCommand ("df -k");
 	}
 
-	@Test (expected = IllegalAccessException.class)
+	@Test (expected = IllegalStateException.class)
 	@Category (UnitTest.class)
 	public void requestTerminalAfterExecuteCommand() throws IOException {
 		// when
