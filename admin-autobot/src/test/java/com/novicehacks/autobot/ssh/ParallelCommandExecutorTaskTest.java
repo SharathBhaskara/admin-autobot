@@ -1,28 +1,20 @@
 package com.novicehacks.autobot.ssh;
 
 import static org.junit.Assert.fail;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.rule.PowerMockRule;
 
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ShellCommand;
 import com.novicehacks.autobot.types.UnixServer;
 
-@PowerMockIgnore ("*")
-@PrepareForTest ({ ParallelCommandExecutorTask.class, ParallelCommandExecutorTask.class,
-		SSHConnection.class, SSHSession.class, Server.class, UnixServer.class, ShellCommand.class,
-		Command.class, OutputLoggerTask.class })
 public class ParallelCommandExecutorTaskTest {
 	private ParallelCommandExecutorTask commandExecutor;
 	private Server server;
@@ -30,9 +22,6 @@ public class ParallelCommandExecutorTaskTest {
 	private SSHConnection connection;
 	private SSHSession session;
 	private OutputLoggerTask outputLoggerTask;
-
-	@Rule
-	public PowerMockRule rule = new PowerMockRule ();
 
 	@Before
 	public void setUp() throws IOException {

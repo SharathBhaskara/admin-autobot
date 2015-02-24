@@ -2,35 +2,27 @@ package com.novicehacks.autobot.ssh;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.Mockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.rule.PowerMockRule;
 
 import ch.ethz.ssh2.Session;
 
 import com.novicehacks.autobot.categories.UnitTest;
 
-@PowerMockIgnore ("*")
-@PrepareForTest ({ SSHSession.class, DefaultSSHSession.class, Session.class })
 public class DefaultSSHSessionTest {
 	private static final String SecondExecuteCommand = "SecondExecuteCommand";
 	private SSHSession sshSession;
 	private Session remoteSession;
-
-	@Rule
-	public PowerMockRule rule = new PowerMockRule ();
 
 	@Before
 	public void setUp() throws Exception {
@@ -161,6 +153,61 @@ public class DefaultSSHSessionTest {
 
 	@Test
 	@Category (UnitTest.class)
+	@Ignore
+	public void startShellAndExecuteCommandParallely() throws IOException {
+		fail ("UnImplemented");
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void executeCommand() throws IOException {
+		// given
+		String command = "abc";
+		// when
+		this.sshSession.execCommand (command);
+		// then
+		verify (this.remoteSession).execCommand (command);
+	}
+
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void executeCommandAfterShellStart() throws IOException {
+		// given
+		this.sshSession.startShell ();
+		verify (this.remoteSession).startShell ();
+		// when
+		this.sshSession.execCommand ("df -k");
+		// then
+		fail ("Command should not be executed, as Shell is already started on the session");
+	}
+
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void executeCommandMultipleTimes() throws IOException {
+		// given
+		String command = "abc";
+		// when
+		this.sshSession.execCommand (command);
+		verify (this.remoteSession).execCommand (command);
+		this.sshSession.execCommand (command);
+		// then
+		fail ("Multiple commands cannot be executed on same session");
+	}
+
+	@Test (expected = IllegalStateException.class)
+	@Category (UnitTest.class)
+	public void executeCommandAfterSessionClosed() throws IOException {
+		// given
+		String command = "abc";
+		this.sshSession.closeSession ();
+		// when
+		this.sshSession.execCommand (command);
+		// then
+		fail ("Exception should be thrown prior");
+	}
+
+	@Test
+	@Category (UnitTest.class)
 	public void requestTerminalBeforeShellStart() throws IOException {
 		// when
 		verify (this.remoteSession, times (0)).startShell ();
@@ -230,54 +277,6 @@ public class DefaultSSHSessionTest {
 		// then
 		verify (this.remoteSession, times (0)).requestDumbPTY ();
 		fail ("Exception should have raised before, or failed in verify");
-	}
-
-	@Test
-	@Category (UnitTest.class)
-	public void executeCommand() throws IOException {
-		// given
-		String command = "abc";
-		// when
-		this.sshSession.execCommand (command);
-		// then
-		verify (this.remoteSession).execCommand (command);
-	}
-
-	@Test (expected = IllegalStateException.class)
-	@Category (UnitTest.class)
-	public void executeCommandAfterShellStart() throws IOException {
-		// given
-		this.sshSession.startShell ();
-		verify (this.remoteSession).startShell ();
-		// when
-		this.sshSession.execCommand ("df -k");
-		// then
-		fail ("Command should not be executed, as Shell is already started on the session");
-	}
-
-	@Test (expected = IllegalStateException.class)
-	@Category (UnitTest.class)
-	public void executeCommandMultipleTimes() throws IOException {
-		// given
-		String command = "abc";
-		// when
-		this.sshSession.execCommand (command);
-		verify (this.remoteSession).execCommand (command);
-		this.sshSession.execCommand (command);
-		// then
-		fail ("Multiple commands cannot be executed on same session");
-	}
-
-	@Test (expected = IllegalStateException.class)
-	@Category (UnitTest.class)
-	public void executeCommandAfterSessionClosed() throws IOException {
-		// given
-		String command = "abc";
-		this.sshSession.closeSession ();
-		// when
-		this.sshSession.execCommand (command);
-		// then
-		fail ("Exception should be thrown prior");
 	}
 
 	@Test

@@ -19,6 +19,7 @@ import com.novicehacks.autobot.core.BotUtils;
 public final class DefaultSSHConnection implements SSHConnection {
 	private Connection connection;
 	private String IPAddress;
+	private ConnectionFactory factory;
 	private boolean isAuthenticated = false;
 	public static final String IPAddressRegex = "\\w{1,}(\\.\\w{1,}){1,2}|((\\d{1,3})\\.){3}\\d{1,3}";
 	public static final String ConnectionUnavailableMsg = "Connect method should be called before authentication";
@@ -27,6 +28,12 @@ public final class DefaultSSHConnection implements SSHConnection {
 	public static final String IPAddressInvalidMsg = "Invalid IP Address Format";
 	private static final String NotAuthenticatedMsg = "Connection must be authenticated before creating Session";
 	private Logger logger = LogManager.getLogger (DefaultSSHConnection.class);
+
+	static class ConnectionFactory {
+		Connection createConnection(String ipAddress) {
+			return new Connection (ipAddress);
+		}
+	}
 
 	/**
 	 * Alternate method for constructor call, returns a new instance everytime.
@@ -38,9 +45,15 @@ public final class DefaultSSHConnection implements SSHConnection {
 		return new DefaultSSHConnection (ipAddress);
 	}
 
-	protected DefaultSSHConnection (String ipAddress) {
+	private DefaultSSHConnection (String ipAddress) {
 		validateParams (ipAddress);
 		this.IPAddress = ipAddress;
+		this.factory = new ConnectionFactory ();
+	}
+
+	DefaultSSHConnection (String ipAddress, ConnectionFactory factory) {
+		this (ipAddress);
+		this.factory = factory;
 	}
 
 	private void validateParams(String ipAddress) {
@@ -64,7 +77,7 @@ public final class DefaultSSHConnection implements SSHConnection {
 	public void connect(int keyExchangeTimeoutInMillis, int connectionTimeoutInMillis)
 			throws IOException {
 		this.logger.entry ();
-		this.connection = new Connection (this.IPAddress);
+		this.connection = this.factory.createConnection (this.IPAddress);
 		this.connection.connect (null, connectionTimeoutInMillis, keyExchangeTimeoutInMillis);
 		this.logger.exit ();
 	}

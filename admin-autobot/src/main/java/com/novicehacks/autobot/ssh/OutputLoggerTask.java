@@ -19,19 +19,19 @@ import com.novicehacks.autobot.types.Server;
 
 public class OutputLoggerTask implements Runnable {
 
-	private Server				server;
-	private Command				command;
-	private String				commandOutput;
-	private boolean				appendRawContent;
-	private String				content			= "";
-	private final int			seperatorLength	= 50;
-	private String				headerSeparatorContent;
-	private String				footerSeparatorContent;
-	private static Path			OutputFilePath;
-	private static final String	OutputFile		= "botconsole.log";
-	private Logger				logger			= LogManager.getLogger (OutputLoggerTask.class);
+	private Server server;
+	private Command command;
+	private String commandOutput;
+	private boolean appendRawContent;
+	private String content = "";
+	private final int seperatorLength = 50;
+	private String headerSeparatorContent;
+	private String footerSeparatorContent;
+	private static Path OutputFilePath;
+	private static final String OutputFile = "botconsole.log";
+	private Logger logger = LogManager.getLogger (OutputLoggerTask.class);
 
-	protected OutputLoggerTask (Server unixServer, Command unixCommand, String commandOutput) {
+	OutputLoggerTask (Server unixServer, Command unixCommand, String commandOutput) {
 		this ();
 		validateParams (unixServer, unixCommand, commandOutput);
 		this.server = unixServer;
@@ -39,7 +39,7 @@ public class OutputLoggerTask implements Runnable {
 		this.commandOutput = commandOutput;
 	}
 
-	protected OutputLoggerTask (String commandOutput, boolean appendRawContent) {
+	OutputLoggerTask (String commandOutput, boolean appendRawContent) {
 		this ();
 		this.commandOutput = commandOutput;
 		this.appendRawContent = appendRawContent;
@@ -81,11 +81,11 @@ public class OutputLoggerTask implements Runnable {
 
 	@Override
 	public void run() {
-		logger.entry ();
+		this.logger.entry ();
 		prepareContent ();
-		logger.trace (content);
+		this.logger.trace (this.content);
 		writeContent ();
-		logger.exit ();
+		this.logger.exit ();
 	}
 
 	protected static String newLine() {
@@ -112,19 +112,19 @@ public class OutputLoggerTask implements Runnable {
 			writeToFile (_byteChannel);
 		} catch (IOException e) {
 			throw new UnixOutputLoggingException ("Unable to write output for command"
-					+ command.id () + " on server" + server.id (), e);
+					+ this.command.id () + " on server" + this.server.id (), e);
 		}
 	}
 
 	private void writeToFile(ByteChannel byteChannel) throws IOException {
 		ByteBuffer contentBuffer;
-		contentBuffer = ByteBuffer.wrap (content.toString ().getBytes ());
+		contentBuffer = ByteBuffer.wrap (this.content.toString ().getBytes ());
 		byteChannel.write (contentBuffer);
 	}
 
 	private void prepareContent() {
-		if (appendRawContent)
-			content = commandOutput;
+		if (this.appendRawContent)
+			this.content = this.commandOutput;
 		else
 			createFormattedContent ();
 	}
@@ -136,27 +136,27 @@ public class OutputLoggerTask implements Runnable {
 	}
 
 	private void appendHeaderToContent() {
-		logger.entry ();
+		this.logger.entry ();
 		String header;
 		header = getHeaderContent ();
-		content += header;
-		logger.exit ();
+		this.content += header;
+		this.logger.exit ();
 	}
 
 	private void appendOutputToContent() {
-		logger.entry ();
+		this.logger.entry ();
 		String contentBody;
 		contentBody = getBodyContent ();
-		content += contentBody;
-		logger.exit ();
+		this.content += contentBody;
+		this.logger.exit ();
 	}
 
 	private void appendFooterToContent() {
-		logger.entry ();
+		this.logger.entry ();
 		String footer;
 		footer = getFooterContent ();
-		content += footer;
-		logger.exit ();
+		this.content += footer;
+		this.logger.exit ();
 	}
 
 	private String getHeaderContent() {
@@ -186,9 +186,9 @@ public class OutputLoggerTask implements Runnable {
 		StringBuilder buffer;
 		buffer = new StringBuilder ();
 		buffer.append ("Server : ");
-		buffer.append (server.id ());
+		buffer.append (this.server.id ());
 		buffer.append (" (");
-		buffer.append (server.name ());
+		buffer.append (this.server.name ());
 		buffer.append (")");
 		return buffer.toString ();
 	}
@@ -197,28 +197,28 @@ public class OutputLoggerTask implements Runnable {
 		StringBuilder buffer;
 		buffer = new StringBuilder ();
 		buffer.append ("Command : ");
-		buffer.append (command.id ());
+		buffer.append (this.command.id ());
 		buffer.append (" (");
-		buffer.append (command.command ());
+		buffer.append (this.command.command ());
 		buffer.append (")");
 		return buffer.toString ();
 	}
 
 	private String getHeaderSeperator() {
 		StringBuilder buffer = new StringBuilder ();
-		if (headerSeparatorContent != null)
-			return headerSeparatorContent;
-		for (int count = 0; count < seperatorLength; count++) {
+		if (this.headerSeparatorContent != null)
+			return this.headerSeparatorContent;
+		for (int count = 0; count < this.seperatorLength; count++) {
 			buffer.append ("+");
 		}
-		headerSeparatorContent = buffer.toString ();
+		this.headerSeparatorContent = buffer.toString ();
 		return buffer.toString ();
 	}
 
 	private String getBodyContent() {
 		StringBuilder buffer;
 		buffer = new StringBuilder ();
-		buffer.append (commandOutput);
+		buffer.append (this.commandOutput);
 		buffer.append (newLine ());
 		return buffer.toString ();
 	}
@@ -234,12 +234,12 @@ public class OutputLoggerTask implements Runnable {
 
 	private String getFooterSeperator() {
 		StringBuilder buffer = new StringBuilder ();
-		if (footerSeparatorContent != null)
-			return footerSeparatorContent;
-		for (int count = 0; count < seperatorLength; count++) {
+		if (this.footerSeparatorContent != null)
+			return this.footerSeparatorContent;
+		for (int count = 0; count < this.seperatorLength; count++) {
 			buffer.append ("*");
 		}
-		footerSeparatorContent = buffer.toString ();
+		this.footerSeparatorContent = buffer.toString ();
 		return buffer.toString ();
 	}
 

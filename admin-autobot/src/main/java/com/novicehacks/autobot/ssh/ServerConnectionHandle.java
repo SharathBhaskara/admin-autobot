@@ -18,9 +18,9 @@ import com.novicehacks.autobot.types.ServerCredential;
  */
 public final class ServerConnectionHandle {
 
-	Server					server;
-	DefaultSSHConnection	connection;
-	Logger					logger	= LogManager.getLogger (ServerConnectionHandle.class);
+	Server server;
+	DefaultSSHConnection connection;
+	Logger logger = LogManager.getLogger (ServerConnectionHandle.class);
 
 	protected ServerConnectionHandle (Server unixServer) {
 		this.server = unixServer;
@@ -40,24 +40,24 @@ public final class ServerConnectionHandle {
 	}
 
 	private void connectToServerAndAuthenticate() {
-		logger.entry ();
+		this.logger.entry ();
 		try {
 			initiateConnectionToServer ();
 			authenticateServerConnection ();
 		} catch (IOException ex) {
 			throw new ServerConnectionException ("Unable to connect / authenticate server: "
-					+ server.id (), ex);
+					+ this.server.id (), ex);
 		}
-		logger.exit ();
+		this.logger.exit ();
 	}
 
 	private void initiateConnectionToServer() throws IOException {
 		int keyExchangeTimeout = 10 * 30 * 1000;
 		int connectionTimeout = SysConfig.getInstance ().serverConnectionTimeout ();
 		// HostKeyVerifier set to null to accept any server host key
-		logger.debug ("Connecting to : {}", this.server.ipaddress ());
-		connection = new DefaultSSHConnection (this.server.ipaddress ());
-		connection.connect (keyExchangeTimeout, connectionTimeout);
+		this.logger.debug ("Connecting to : {}", this.server.ipaddress ());
+		this.connection = DefaultSSHConnection.getNewInstance (this.server.ipaddress ());
+		this.connection.connect (keyExchangeTimeout, connectionTimeout);
 	}
 
 	private void authenticateServerConnection() {
@@ -65,7 +65,7 @@ public final class ServerConnectionHandle {
 		authenticated = authenticateWithServerCredentials ();
 		if (!authenticated) {
 			throw new ServerConnectionException ("Authentication failed for Server : "
-					+ server.id (), new RuntimeException ());
+					+ this.server.id (), new RuntimeException ());
 		}
 	}
 
@@ -86,8 +86,8 @@ public final class ServerConnectionHandle {
 		try {
 			authenticated = authenticateWithUsernamePassword (username, password);
 		} catch (IOException ex) {
-			logger.error ("Authentication with {} on server {} Failed", credential.getLoginid (),
-					this.server.id (), ex);
+			this.logger.error ("Authentication with {} on server {} Failed",
+					credential.getLoginid (), this.server.id (), ex);
 		}
 		return authenticated;
 	}
@@ -95,8 +95,9 @@ public final class ServerConnectionHandle {
 	private Boolean authenticateWithUsernamePassword(String username, String password)
 			throws IOException {
 		boolean authenticated = false;
-		logger.debug ("Trying Authentication on server ({}) with : {}", this.server.id (), username);
-		authenticated = connection.authenticateConnectionWithUsernameAndPassword (username,
+		this.logger.debug ("Trying Authentication on server ({}) with : {}", this.server.id (),
+				username);
+		authenticated = this.connection.authenticateConnectionWithUsernameAndPassword (username,
 				password);
 		return authenticated;
 	}
@@ -110,7 +111,7 @@ public final class ServerConnectionHandle {
 	 *         if unable to close the connection.
 	 */
 	public void disconnect(DefaultSSHConnection connection) {
-		logger.debug ("Closing the connection");
+		this.logger.debug ("Closing the connection");
 		if (connection == null)
 			throw new ServerConnectionException ("Invalid connection passed to disconnect",
 					new NullPointerException ());
@@ -120,13 +121,13 @@ public final class ServerConnectionHandle {
 
 	private void closeConnection() {
 		if (this.connection != null)
-			if (connection.equals (this.connection)) {
-				connection.disconnect ();
+			if (this.connection.equals (this.connection)) {
+				this.connection.disconnect ();
 			} else {
-				connection.disconnect ();
+				this.connection.disconnect ();
 				this.connection.disconnect ();
 			}
 		else
-			connection.disconnect ();
+			this.connection.disconnect ();
 	}
 }
