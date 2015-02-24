@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 
-import com.novicehacks.autobot.BotUtils;
+import com.novicehacks.autobot.core.BotUtils;
 
 /**
  * Single point of entry to the 3rd SSH library for creating SSH connections.
@@ -16,7 +16,7 @@ import com.novicehacks.autobot.BotUtils;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public final class CustomizedSSHConnection implements SSHConnection {
+public final class DefaultSSHConnection implements SSHConnection {
 	private Connection connection;
 	private String IPAddress;
 	private boolean isAuthenticated = false;
@@ -26,7 +26,7 @@ public final class CustomizedSSHConnection implements SSHConnection {
 	public static final String IPAddressEmptyMsg = "IP Address cannot be empty String";
 	public static final String IPAddressInvalidMsg = "Invalid IP Address Format";
 	private static final String NotAuthenticatedMsg = "Connection must be authenticated before creating Session";
-	private Logger logger = LogManager.getLogger (CustomizedSSHConnection.class);
+	private Logger logger = LogManager.getLogger (DefaultSSHConnection.class);
 
 	/**
 	 * Alternate method for constructor call, returns a new instance everytime.
@@ -34,11 +34,11 @@ public final class CustomizedSSHConnection implements SSHConnection {
 	 * @param ipAddress
 	 * @return
 	 */
-	public static CustomizedSSHConnection getNewInstance(String ipAddress) {
-		return new CustomizedSSHConnection (ipAddress);
+	public static DefaultSSHConnection getNewInstance(String ipAddress) {
+		return new DefaultSSHConnection (ipAddress);
 	}
 
-	protected CustomizedSSHConnection (String ipAddress) {
+	protected DefaultSSHConnection (String ipAddress) {
 		validateParams (ipAddress);
 		this.IPAddress = ipAddress;
 	}
@@ -93,12 +93,12 @@ public final class CustomizedSSHConnection implements SSHConnection {
 	@Override
 	public SSHSession openSession() throws IOException {
 		Session session;
-		CustomizedSSHSession sessionWrapper;
+		DefaultSSHSession sessionWrapper;
 
 		this.logger.entry ();
 		checkForValidConnection ();
 		session = openSessionIfAuthenticated ();
-		sessionWrapper = new CustomizedSSHSession (session);
+		sessionWrapper = new DefaultSSHSession (session);
 		this.logger.exit ();
 		return sessionWrapper;
 	}

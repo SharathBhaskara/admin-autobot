@@ -9,8 +9,8 @@ import java.util.concurrent.Future;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.BotUtils;
-import com.novicehacks.autobot.ThreadManager;
+import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
@@ -136,11 +136,11 @@ public class ParallelCommandExecutorTask implements Runnable {
 	}
 
 	private void logCommandOutputAsynchronously() {
-		SSHOutputLoggerTask loggerTask;
+		OutputLoggerTask loggerTask;
 		String commandOutput = this.commandOutputBuffer.toString ();
 		Server unixServer = this.server;
 		Command unixCommand = this.command;
-		loggerTask = new SSHOutputLoggerTask (unixServer, unixCommand, commandOutput);
+		loggerTask = new OutputLoggerTask (unixServer, unixCommand, commandOutput);
 		this.commandOutputLoggerTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				loggerTask);
 	}

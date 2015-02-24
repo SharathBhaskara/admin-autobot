@@ -21,13 +21,10 @@ import org.powermock.modules.junit4.rule.PowerMockRule;
 import ch.ethz.ssh2.Session;
 
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.ssh.CustomizedSSHSession;
-import com.novicehacks.autobot.ssh.SSHSession;
 
 @PowerMockIgnore ("*")
-@PrepareForTest ({ StubOfCustomizedSSHSession.class, SSHSession.class, CustomizedSSHSession.class,
-		Session.class })
-public class TestCustomizedSSHSession {
+@PrepareForTest ({ SSHSession.class, DefaultSSHSession.class, Session.class })
+public class DefaultSSHSessionTest {
 	private static final String SecondExecuteCommand = "SecondExecuteCommand";
 	private SSHSession sshSession;
 	private Session remoteSession;
@@ -38,14 +35,14 @@ public class TestCustomizedSSHSession {
 	@Before
 	public void setUp() throws Exception {
 		mockRemoteSession ();
-		this.sshSession = new StubOfCustomizedSSHSession (this.remoteSession);
+		this.sshSession = new DefaultSSHSession (this.remoteSession);
 	}
 
 	private void mockRemoteSession() throws Exception {
 		this.remoteSession = mock (Session.class);
-		when (this.remoteSession.getStderr ()).thenReturn (SSHUtilities.tempInputStream ());
-		when (this.remoteSession.getStdin ()).thenReturn (SSHUtilities.tempOutputStream ());
-		when (this.remoteSession.getStdout ()).thenReturn (SSHUtilities.tempInputStream ());
+		when (this.remoteSession.getStderr ()).thenReturn (SSHTestUtilities.tempInputStream ());
+		when (this.remoteSession.getStdin ()).thenReturn (SSHTestUtilities.tempOutputStream ());
+		when (this.remoteSession.getStdout ()).thenReturn (SSHTestUtilities.tempInputStream ());
 		doThrow (new IOException ("Remote Execution already Started")).when (this.remoteSession)
 				.execCommand (SecondExecuteCommand);
 	}

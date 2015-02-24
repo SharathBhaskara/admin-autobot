@@ -14,11 +14,11 @@ import org.powermock.modules.junit4.rule.PowerMockRule;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.ConnectionInfo;
 
-import com.novicehacks.autobot.ssh.CustomizedSSHConnection;
+import com.novicehacks.autobot.ssh.DefaultSSHConnection;
 
 // @RunWith (PowerMockRunner.class)
 @PowerMockIgnore ("*")
-@PrepareForTest (CustomizedSSHConnection.class)
+@PrepareForTest (DefaultSSHConnection.class)
 public class TestExpectedExceptionRule {
 
 	private Connection			connection;
@@ -32,7 +32,7 @@ public class TestExpectedExceptionRule {
 	public void testExcepitonWithPowerMockRule() throws Exception {
 		Connection connection = mock (Connection.class);
 		whenNew (Connection.class).withAnyArguments ().thenReturn (connection);
-		CustomizedSSHConnection sshConnection = CustomizedSSHConnection.getNewInstance ("sdf.org");
+		DefaultSSHConnection sshConnection = DefaultSSHConnection.getNewInstance ("sdf.org");
 		sshConnection.authenticateConnectionWithUsernameAndPassword ("novicehacks", "novicehacks");
 		exception.expect (NullPointerException.class);
 		exception.expectMessage ("Image is null");

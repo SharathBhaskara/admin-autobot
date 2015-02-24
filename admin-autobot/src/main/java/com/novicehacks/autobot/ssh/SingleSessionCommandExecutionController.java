@@ -19,7 +19,7 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class ShellSessionController {
+public class SingleSessionCommandExecutionController {
 	private Server				server;
 	private InputStream			remoteInputStream;
 	private OutputStream		remoteOutputStream;
@@ -31,9 +31,9 @@ public class ShellSessionController {
 	private StringBuilder		commandOutput				= new StringBuilder ();
 
 	private Logger				logger						= LogManager
-																	.getLogger (ShellSessionController.class);
+																	.getLogger (SingleSessionCommandExecutionController.class);
 
-	protected ShellSessionController (Server server) {
+	protected SingleSessionCommandExecutionController (Server server) {
 		this.server = server;
 	}
 
@@ -66,14 +66,14 @@ public class ShellSessionController {
 
 	void appendHeaderToOutput(Command command) {
 		String data;
-		data = SSHOutputLoggerTask.getHeader (server, command);
+		data = OutputLoggerTask.getHeader (server, command);
 		this.commandOutput.append (data);
 	}
 
 	void appendFooterToOutput() {
 		String data;
-		data = SSHOutputLoggerTask.getFooter ();
-		this.commandOutput.append (SSHOutputLoggerTask.newLine ());
+		data = OutputLoggerTask.getFooter ();
+		this.commandOutput.append (OutputLoggerTask.newLine ());
 		this.commandOutput.append (data);
 	}
 

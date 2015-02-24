@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.BotUtils;
+import com.novicehacks.autobot.core.BotUtils;
 
 /**
  * Asynchronous Task to consume all the remote output.
@@ -14,13 +14,13 @@ import com.novicehacks.autobot.BotUtils;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class ShellSequentialCommandOutputGobblerTask implements Runnable {
+public class SingleSessionCommandOutputGobblerTask implements Runnable {
 	private InputStream				remoteInputStream;
-	private ShellSessionController	sessionController;
+	private SingleSessionCommandExecutionController	sessionController;
 	private Logger					logger	= LogManager
-													.getLogger (ShellSequentialCommandOutputGobblerTask.class);
+													.getLogger (SingleSessionCommandOutputGobblerTask.class);
 
-	protected ShellSequentialCommandOutputGobblerTask (ShellSessionController sessionController) {
+	protected SingleSessionCommandOutputGobblerTask (SingleSessionCommandExecutionController sessionController) {
 		this.sessionController = sessionController;
 		this.remoteInputStream = sessionController.getRemoteInputStream ();
 	}

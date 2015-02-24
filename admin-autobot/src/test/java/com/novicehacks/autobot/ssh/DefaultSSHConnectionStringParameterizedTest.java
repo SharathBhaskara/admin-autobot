@@ -12,11 +12,11 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.ssh.CustomizedSSHConnection;
+import com.novicehacks.autobot.ssh.DefaultSSHConnection;
 
 @RunWith (Parameterized.class)
-public class ParameterizedTestSSHConnectionStringOrIPAddress {
-	private final String	IPAddressRegex	= CustomizedSSHConnection.IPAddressRegex;
+public class DefaultSSHConnectionStringParameterizedTest {
+	private final String	IPAddressRegex	= DefaultSSHConnection.IPAddressRegex;
 
 	@Parameters (name = "test({index}) : IPAddressRegex({0}) = {1}")
 	public static Collection<Object[]> paramValues() {

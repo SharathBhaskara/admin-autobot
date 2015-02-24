@@ -11,9 +11,9 @@ import java.util.concurrent.TimeoutException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.BotUtils;
-import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
@@ -27,17 +27,17 @@ import com.novicehacks.autobot.types.Server;
  * @see SequentialCommandExecutorTask
  * 
  */
-public final class SSHServerCommandProcessor implements Runnable {
+public final class ServerCommandProcessor implements Runnable {
 
 	private Server						server;
 	private Command[]					commands;
-	private CustomizedSSHConnection		connection;
-	private SSHServerConnectionHandle	serverHandle;
+	private DefaultSSHConnection		connection;
+	private ServerConnectionHandle	serverHandle;
 	private Future<?>					sequentialTaskFuture;
 	private List<Future<?>>				commandFutureList;
 	private boolean						isRunningInParallel;
 	private Logger						logger	= LogManager
-														.getLogger (SSHServerCommandProcessor.class);
+														.getLogger (ServerCommandProcessor.class);
 
 	/**
 	 * @param unixServer
@@ -47,7 +47,7 @@ public final class SSHServerCommandProcessor implements Runnable {
 	 * @throws IllegalArgumentException
 	 *         if unixServer parameter is null
 	 */
-	public SSHServerCommandProcessor (	final Server unixServer,
+	public ServerCommandProcessor (	final Server unixServer,
 										final Collection<Command> unixCommands) {
 		this (unixServer, unixCommands.toArray (new Command[] { }));
 	}
@@ -58,11 +58,11 @@ public final class SSHServerCommandProcessor implements Runnable {
 	 * @throws IllegalArgumentException
 	 *         if either of the parameters are having null values
 	 */
-	public SSHServerCommandProcessor (final Server unixServer, final Command... unixCommands) {
+	public ServerCommandProcessor (final Server unixServer, final Command... unixCommands) {
 		validateParams (unixServer, unixCommands);
 		this.server = unixServer;
 		this.commands = unixCommands;
-		this.serverHandle = new SSHServerConnectionHandle (unixServer);
+		this.serverHandle = new ServerConnectionHandle (unixServer);
 	}
 
 	private void validateParams(final Server unixServer, final Command[] unixCommands) {

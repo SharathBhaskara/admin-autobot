@@ -25,15 +25,15 @@ import ch.ethz.ssh2.ConnectionInfo;
 import ch.ethz.ssh2.Session;
 
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.ssh.CustomizedSSHConnection;
-import com.novicehacks.autobot.ssh.CustomizedSSHSession;
+import com.novicehacks.autobot.ssh.DefaultSSHConnection;
+import com.novicehacks.autobot.ssh.DefaultSSHSession;
 import com.novicehacks.autobot.ssh.SSHConnection;
 import com.novicehacks.autobot.ssh.SSHSession;
 
-@PrepareForTest ({ CustomizedSSHConnection.class, CustomizedSSHSession.class })
+@PrepareForTest ({ DefaultSSHConnection.class, DefaultSSHSession.class })
 @PowerMockIgnore ({ "*" })
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
-public class TestCustomizedSSHConnection {
+public class DefaultSSHConnectionTest {
 
 	private Session session;
 	private Connection connection;
@@ -55,7 +55,7 @@ public class TestCustomizedSSHConnection {
 		// given
 		String ipAddress = "sf";
 		// when Connection requested throws exception
-		this.sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
+		this.sshConnection = DefaultSSHConnection.getNewInstance (ipAddress);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -64,7 +64,7 @@ public class TestCustomizedSSHConnection {
 		// given
 		String ipAddress = "1924.123.1.1";
 		// when Connection requested throws exception
-		this.sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
+		this.sshConnection = DefaultSSHConnection.getNewInstance (ipAddress);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
@@ -73,7 +73,7 @@ public class TestCustomizedSSHConnection {
 		// given
 		String ipAddress = "192.123.1.1234";
 		// when Connection requested throws exception
-		this.sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
+		this.sshConnection = DefaultSSHConnection.getNewInstance (ipAddress);
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class TestCustomizedSSHConnection {
 	}
 
 	private void initializeBasicConnectionMock() throws Exception {
-		this.sshConnection = CustomizedSSHConnection.getNewInstance ("127.0.0.1");
+		this.sshConnection = DefaultSSHConnection.getNewInstance ("127.0.0.1");
 		this.connection = mock (Connection.class);
 		this.session = mock (Session.class);
 		this.connectionInfo = mock (ConnectionInfo.class);

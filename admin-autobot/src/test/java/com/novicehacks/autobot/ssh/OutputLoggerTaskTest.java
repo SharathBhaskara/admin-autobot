@@ -1,5 +1,5 @@
 package com.novicehacks.autobot.ssh;
 
-public class TestSSHOutputLoggerTask {
+public class OutputLoggerTaskTest {
 
 }

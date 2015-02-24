@@ -11,9 +11,9 @@ import java.util.concurrent.TimeoutException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.BotUtils;
-import com.novicehacks.autobot.ThreadManager;
-import com.novicehacks.autobot.ssh.SSHServerCommandProcessor;
+import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.ThreadManager;
+import com.novicehacks.autobot.ssh.ServerCommandProcessor;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
@@ -68,8 +68,8 @@ public class CommandExecutorTask implements Runnable {
 
 	private Future<?> createAndSubmitCommandProcessor(Server server, Collection<Command> commands) {
 		Future<?> executableFuture;
-		SSHServerCommandProcessor serverCommandProcessor;
-		serverCommandProcessor = new SSHServerCommandProcessor (server, commands);
+		ServerCommandProcessor serverCommandProcessor;
+		serverCommandProcessor = new ServerCommandProcessor (server, commands);
 		executableFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				serverCommandProcessor);
 		return executableFuture;

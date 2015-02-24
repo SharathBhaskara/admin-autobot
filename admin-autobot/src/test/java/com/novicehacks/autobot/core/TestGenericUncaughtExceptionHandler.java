@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.novicehacks.autobot.GenericUncaughtExceptionHandler;
 import com.novicehacks.autobot.categories.UnitTest;
 
 public class TestGenericUncaughtExceptionHandler {

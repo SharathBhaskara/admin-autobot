@@ -15,12 +15,12 @@ import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 import com.novicehacks.autobot.categories.EnvironmentDependent;
-import com.novicehacks.autobot.ssh.CustomizedSSHConnection;
+import com.novicehacks.autobot.ssh.DefaultSSHConnection;
 import com.novicehacks.autobot.ssh.SSHConnection;
 import com.novicehacks.autobot.ssh.SSHSession;
 
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
-public class TestCustomizedSSHConnectionWithoutMocking {
+public class DefaultSSHConnectionTestWithoutMocking {
 	private SSHConnection	sshConnection;
 	private final String	connectionStr	= "sdf.org";
 	private final String	password		= "novicehacks";
@@ -28,7 +28,7 @@ public class TestCustomizedSSHConnectionWithoutMocking {
 
 	@Before
 	public void initializeConnectionMock() throws Exception {
-		this.sshConnection = CustomizedSSHConnection.getNewInstance (this.connectionStr);
+		this.sshConnection = DefaultSSHConnection.getNewInstance (this.connectionStr);
 	}
 
 	@After
@@ -55,7 +55,7 @@ public class TestCustomizedSSHConnectionWithoutMocking {
 	public void connectWhenRemoteExceptionTest() throws Exception {
 		// given
 		String ipAddress = "192.168.0.1";
-		this.sshConnection = CustomizedSSHConnection.getNewInstance (ipAddress);
+		this.sshConnection = DefaultSSHConnection.getNewInstance (ipAddress);
 		// when
 		this.sshConnection.connect (10, 10);
 		// then

@@ -15,18 +15,18 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class ShellSequentialCommandExecutor {
+public class SingleSessionCommandExecutor {
 	private Server					server;
 	private Command[]				executableCommands;
-	private ShellSessionController	sessionController;
+	private SingleSessionCommandExecutionController	sessionController;
 	private PrintStream				remoteCommandWriter;
 
 	private Logger					logger	= LogManager
-													.getLogger (ShellSequentialCommandExecutor.class);
+													.getLogger (SingleSessionCommandExecutor.class);
 
-	protected ShellSequentialCommandExecutor (	Server server,
+	protected SingleSessionCommandExecutor (	Server server,
 												Command[] executableCommands,
-												ShellSessionController controller) {
+												SingleSessionCommandExecutionController controller) {
 		this.server = server;
 		this.executableCommands = executableCommands;
 		this.sessionController = controller;

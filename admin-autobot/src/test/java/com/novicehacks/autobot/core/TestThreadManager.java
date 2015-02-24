@@ -19,7 +19,6 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.mockito.Matchers;
 
-import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.categories.UnitTest;
 
 public class TestThreadManager {

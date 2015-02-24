@@ -15,10 +15,10 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.categories.EnvironmentDependent;
 import com.novicehacks.autobot.config.AutobotConfigManager;
-import com.novicehacks.autobot.ssh.SSHServerCommandProcessor;
+import com.novicehacks.autobot.core.ThreadManager;
+import com.novicehacks.autobot.ssh.ServerCommandProcessor;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ServerCredential;
@@ -31,7 +31,7 @@ public class TestUnixServerCommandProcessor {
 	@Mock
 	Command								unixCommand2;
 
-	private SSHServerCommandProcessor	commandProcessor;
+	private ServerCommandProcessor	commandProcessor;
 	Logger								logger	= LogManager
 														.getLogger (TestUnixServerCommandProcessor.class);
 
@@ -46,7 +46,7 @@ public class TestUnixServerCommandProcessor {
 		MockitoAnnotations.initMocks (this);
 		setupStubOfServer ();
 		setupStubOfCommands ();
-		this.commandProcessor = new SSHServerCommandProcessor (this.server, this.unixCommand1,
+		this.commandProcessor = new ServerCommandProcessor (this.server, this.unixCommand1,
 				this.unixCommand2);
 		ThreadManager.getInstance ().createThreadPool (true);
 	}

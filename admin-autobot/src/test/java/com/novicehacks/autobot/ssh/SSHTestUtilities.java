@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class SSHUtilities {
+public class SSHTestUtilities {
 	public static OutputStream tempOutputStream() {
 		OutputStream stream = new OutputStream () {
 			@Override

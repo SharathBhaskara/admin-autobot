@@ -16,13 +16,13 @@ import com.novicehacks.autobot.types.ServerCredential;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public final class SSHServerConnectionHandle {
+public final class ServerConnectionHandle {
 
 	Server					server;
-	CustomizedSSHConnection	connection;
-	Logger					logger	= LogManager.getLogger (SSHServerConnectionHandle.class);
+	DefaultSSHConnection	connection;
+	Logger					logger	= LogManager.getLogger (ServerConnectionHandle.class);
 
-	protected SSHServerConnectionHandle (Server unixServer) {
+	protected ServerConnectionHandle (Server unixServer) {
 		this.server = unixServer;
 	}
 
@@ -34,7 +34,7 @@ public final class SSHServerConnectionHandle {
 	 * @throws ServerConnectionException
 	 *         if connection / authentication is failed on the server
 	 */
-	public CustomizedSSHConnection getAuthenticatedConnection() {
+	public DefaultSSHConnection getAuthenticatedConnection() {
 		connectToServerAndAuthenticate ();
 		return this.connection;
 	}
@@ -56,7 +56,7 @@ public final class SSHServerConnectionHandle {
 		int connectionTimeout = SysConfig.getInstance ().serverConnectionTimeout ();
 		// HostKeyVerifier set to null to accept any server host key
 		logger.debug ("Connecting to : {}", this.server.ipaddress ());
-		connection = new CustomizedSSHConnection (this.server.ipaddress ());
+		connection = new DefaultSSHConnection (this.server.ipaddress ());
 		connection.connect (keyExchangeTimeout, connectionTimeout);
 	}
 
@@ -109,7 +109,7 @@ public final class SSHServerConnectionHandle {
 	 * @throws ServerConnectionException
 	 *         if unable to close the connection.
 	 */
-	public void disconnect(CustomizedSSHConnection connection) {
+	public void disconnect(DefaultSSHConnection connection) {
 		logger.debug ("Closing the connection");
 		if (connection == null)
 			throw new ServerConnectionException ("Invalid connection passed to disconnect",

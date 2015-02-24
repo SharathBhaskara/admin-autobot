@@ -11,13 +11,13 @@ import java.nio.file.StandardOpenOption;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.BotUtils;
 import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
-public class SSHOutputLoggerTask implements Runnable {
+public class OutputLoggerTask implements Runnable {
 
 	private Server				server;
 	private Command				command;
@@ -29,9 +29,9 @@ public class SSHOutputLoggerTask implements Runnable {
 	private String				footerSeparatorContent;
 	private static Path			OutputFilePath;
 	private static final String	OutputFile		= "botconsole.log";
-	private Logger				logger			= LogManager.getLogger (SSHOutputLoggerTask.class);
+	private Logger				logger			= LogManager.getLogger (OutputLoggerTask.class);
 
-	protected SSHOutputLoggerTask (Server unixServer, Command unixCommand, String commandOutput) {
+	protected OutputLoggerTask (Server unixServer, Command unixCommand, String commandOutput) {
 		this ();
 		validateParams (unixServer, unixCommand, commandOutput);
 		this.server = unixServer;
@@ -39,19 +39,19 @@ public class SSHOutputLoggerTask implements Runnable {
 		this.commandOutput = commandOutput;
 	}
 
-	protected SSHOutputLoggerTask (String commandOutput, boolean appendRawContent) {
+	protected OutputLoggerTask (String commandOutput, boolean appendRawContent) {
 		this ();
 		this.commandOutput = commandOutput;
 		this.appendRawContent = appendRawContent;
 	}
 
-	private SSHOutputLoggerTask (Server unixServer, Command unixCommand) {
+	private OutputLoggerTask (Server unixServer, Command unixCommand) {
 		this ();
 		this.server = unixServer;
 		this.command = unixCommand;
 	}
 
-	private SSHOutputLoggerTask () {
+	private OutputLoggerTask () {
 		initializeOutputFileForWriting ();
 	}
 
@@ -93,13 +93,13 @@ public class SSHOutputLoggerTask implements Runnable {
 	}
 
 	protected static String getHeader(Server server, Command command) {
-		SSHOutputLoggerTask task = new SSHOutputLoggerTask (server, command);
+		OutputLoggerTask task = new OutputLoggerTask (server, command);
 		String content = task.getHeaderContent ();
 		return content;
 	}
 
 	protected static String getFooter() {
-		SSHOutputLoggerTask task = new SSHOutputLoggerTask ();
+		OutputLoggerTask task = new OutputLoggerTask ();
 		String content = task.getFooterContent ();
 		return content;
 	}

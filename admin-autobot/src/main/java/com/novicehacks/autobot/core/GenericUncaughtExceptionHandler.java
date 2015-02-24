@@ -1,4 +1,4 @@
-package com.novicehacks.autobot;
+package com.novicehacks.autobot.core;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 

@@ -16,7 +16,7 @@ import ch.ethz.ssh2.Session;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class CustomizedSSHSession implements SSHSession {
+public class DefaultSSHSession implements SSHSession {
 
 	private Session session;
 	private AtomicBoolean sessionClosed = new AtomicBoolean (false);
@@ -27,9 +27,9 @@ public class CustomizedSSHSession implements SSHSession {
 	private InputStream remoteErrorStream;
 	private OutputStream remoteInputStream;
 
-	private Logger logger = LogManager.getLogger (CustomizedSSHSession.class);
+	private Logger logger = LogManager.getLogger (DefaultSSHSession.class);
 
-	protected CustomizedSSHSession (Session session) {
+	protected DefaultSSHSession (Session session) {
 		this.session = session;
 		this.remoteOutputStream = session.getStdout ();
 		this.remoteInputStream = session.getStdin ();

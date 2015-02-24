@@ -22,8 +22,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
-import com.novicehacks.autobot.BotUtils;
-import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.core.stubs.MappableStub;
 

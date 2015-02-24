@@ -7,8 +7,8 @@ import java.util.concurrent.TimeoutException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.novicehacks.autobot.ThreadManager;
 import com.novicehacks.autobot.config.AutobotConfigManager;
+import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.executor.CommandExecutorTask;
 
 public class TestCommandExecutorTask {

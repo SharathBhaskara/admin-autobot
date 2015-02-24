@@ -11,11 +11,11 @@ import org.junit.experimental.categories.Category;
 
 import com.novicehacks.autobot.categories.EnvironmentDependent;
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.ssh.CustomizedSSHConnection;
+import com.novicehacks.autobot.ssh.DefaultSSHConnection;
 import com.novicehacks.autobot.ssh.SSHConnection;
 import com.novicehacks.autobot.ssh.SSHSession;
 
-public class TestCustomizedSSHSessionWithoutMocking {
+public class DefaultSSHSessionTestWithoutMocking {
 
 	private SSHConnection connection;
 	private SSHSession session;
@@ -25,7 +25,7 @@ public class TestCustomizedSSHSessionWithoutMocking {
 
 	@Before
 	public void setUp() throws IOException {
-		this.connection = CustomizedSSHConnection.getNewInstance (this.connectionString);
+		this.connection = DefaultSSHConnection.getNewInstance (this.connectionString);
 		this.connection.connect ();
 		this.connection
 				.authenticateConnectionWithUsernameAndPassword (this.username, this.password);
