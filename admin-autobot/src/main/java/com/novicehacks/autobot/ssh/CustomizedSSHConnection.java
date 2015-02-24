@@ -17,17 +17,16 @@ import com.novicehacks.autobot.BotUtils;
  *
  */
 public final class CustomizedSSHConnection implements SSHConnection {
-	private Connection			connection;
-	private String				IPAddress;
-	private boolean				isAuthenticated				= false;
-	public static final String	IPAddressRegex				= "\\w{1,}(\\.\\w{1,}){1,2}|((\\d{1,3})\\.){3}\\d{1,3}";
-	public static final String	ConnectionUnavailableMsg	= "Connect method should be called before authentication";
-	public static final String	IPAddressNullMsg			= "IP Address cannot be null";
-	public static final String	IPAddressEmptyMsg			= "IP Address cannot be empty String";
-	public static final String	IPAddressInvalidMsg			= "Invalid IP Address Format";
-	private static final String	NotAuthenticatedMsg			= "Connection must be authenticated before creating Session";
-	private Logger				logger						= LogManager
-																	.getLogger (CustomizedSSHConnection.class);
+	private Connection connection;
+	private String IPAddress;
+	private boolean isAuthenticated = false;
+	public static final String IPAddressRegex = "\\w{1,}(\\.\\w{1,}){1,2}|((\\d{1,3})\\.){3}\\d{1,3}";
+	public static final String ConnectionUnavailableMsg = "Connect method should be called before authentication";
+	public static final String IPAddressNullMsg = "IP Address cannot be null";
+	public static final String IPAddressEmptyMsg = "IP Address cannot be empty String";
+	public static final String IPAddressInvalidMsg = "Invalid IP Address Format";
+	private static final String NotAuthenticatedMsg = "Connection must be authenticated before creating Session";
+	private Logger logger = LogManager.getLogger (CustomizedSSHConnection.class);
 
 	/**
 	 * Alternate method for constructor call, returns a new instance everytime.
@@ -100,6 +99,7 @@ public final class CustomizedSSHConnection implements SSHConnection {
 		checkForValidConnection ();
 		session = openSessionIfAuthenticated ();
 		sessionWrapper = new CustomizedSSHSession (session);
+		this.logger.exit ();
 		return sessionWrapper;
 	}
 

@@ -22,24 +22,26 @@ import test.com.novicehacks.autobot.categories.UnitTest;
 import ch.ethz.ssh2.Session;
 
 import com.novicehacks.autobot.ssh.CustomizedSSHSession;
+import com.novicehacks.autobot.ssh.SSHSession;
 
 @PowerMockIgnore ("*")
-@PrepareForTest ({ StubOfCustomizedSSHSession.class, CustomizedSSHSession.class, Session.class })
+@PrepareForTest ({ StubOfCustomizedSSHSession.class, SSHSession.class, CustomizedSSHSession.class,
+		Session.class })
 public class TestCustomizedSSHSession {
 	private static final String SecondExecuteCommand = "SecondExecuteCommand";
-	private StubOfCustomizedSSHSession sshSession;
+	private SSHSession sshSession;
 	private Session remoteSession;
 
 	@Rule
 	public PowerMockRule rule = new PowerMockRule ();
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() throws Exception {
 		mockRemoteSession ();
 		this.sshSession = new StubOfCustomizedSSHSession (this.remoteSession);
 	}
 
-	private void mockRemoteSession() throws IOException {
+	private void mockRemoteSession() throws Exception {
 		this.remoteSession = mock (Session.class);
 		when (this.remoteSession.getStderr ()).thenReturn (SSHUtilities.tempInputStream ());
 		when (this.remoteSession.getStdin ()).thenReturn (SSHUtilities.tempOutputStream ());

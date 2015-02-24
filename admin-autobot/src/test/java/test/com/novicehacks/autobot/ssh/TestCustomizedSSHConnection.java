@@ -35,16 +35,16 @@ import com.novicehacks.autobot.ssh.SSHSession;
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class TestCustomizedSSHConnection {
 
-	private Session			session;
-	private Connection		connection;
-	private ConnectionInfo	connectionInfo;
-	private SSHConnection	sshConnection;
+	private Session session;
+	private Connection connection;
+	private ConnectionInfo connectionInfo;
+	private SSHConnection sshConnection;
 
-	private final String	username		= "abc";
-	private final String	password		= "def";
+	private final String username = "abc";
+	private final String password = "def";
 
 	@Rule
-	public PowerMockRule	powermockRule	= new PowerMockRule ();
+	public PowerMockRule powermockRule = new PowerMockRule ();
 
 	@Before
 	public void setup() {}
@@ -85,6 +85,19 @@ public class TestCustomizedSSHConnection {
 		this.sshConnection.connect ();
 		// then
 		verify (this.connection).connect (null, 0, 0);
+	}
+
+	private void initializeBasicConnectionMock() throws Exception {
+		this.sshConnection = CustomizedSSHConnection.getNewInstance ("127.0.0.1");
+		this.connection = mock (Connection.class);
+		this.session = mock (Session.class);
+		this.connectionInfo = mock (ConnectionInfo.class);
+		when (this.connection.connect ()).thenReturn (this.connectionInfo);
+		when (this.connection.connect (null, 0, 0)).thenReturn (this.connectionInfo);
+		when (this.connection.openSession ()).thenReturn (this.session);
+		when (this.connection.authenticateWithPassword (this.username, this.password)).thenReturn (
+				true);
+		whenNew (Connection.class).withAnyArguments ().thenReturn (this.connection);
 	}
 
 	@Test
@@ -256,19 +269,6 @@ public class TestCustomizedSSHConnection {
 		// then disconnect throws exception
 		this.sshConnection.disconnect ();
 		verify (this.connection, never ()).close ();
-	}
-
-	private void initializeBasicConnectionMock() throws Exception {
-		this.sshConnection = CustomizedSSHConnection.getNewInstance ("127.0.0.1");
-		this.connection = mock (Connection.class);
-		this.session = mock (Session.class);
-		this.connectionInfo = mock (ConnectionInfo.class);
-		when (this.connection.connect ()).thenReturn (this.connectionInfo);
-		when (this.connection.connect (null, 0, 0)).thenReturn (this.connectionInfo);
-		when (this.connection.openSession ()).thenReturn (this.session);
-		when (this.connection.authenticateWithPassword (this.username, this.password)).thenReturn (
-				true);
-		whenNew (Connection.class).withAnyArguments ().thenReturn (this.connection);
 	}
 
 }
