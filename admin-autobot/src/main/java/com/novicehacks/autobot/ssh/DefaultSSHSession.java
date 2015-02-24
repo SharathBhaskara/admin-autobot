@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,9 +25,14 @@ public final class DefaultSSHSession implements SSHSession {
 	private AtomicBoolean commandExecuted = new AtomicBoolean (false);
 	private AtomicBoolean terminalRequested = new AtomicBoolean (false);
 	private AtomicBoolean shellStarted = new AtomicBoolean (false);
+	private Lock ExecutionLock = new ReentrantLock ();
 	private InputStream remoteOutputStream;
 	private InputStream remoteErrorStream;
 	private OutputStream remoteInputStream;
+	private static final String SingleTerminalMsg = "Onle one terminal can be requested on a session";
+	private static final String OneCommandPerSessionMsg = "Onle one command can be executed on a session";
+	private static final String OneShellPerSessionMsg = "Onle one shell can be started on a session";
+	private static final String SessionClosedMsg = "Session closed already";
 
 	private Logger logger = LogManager.getLogger (DefaultSSHSession.class);
 
@@ -57,10 +64,13 @@ public final class DefaultSSHSession implements SSHSession {
 	@Override
 	public void startShell() throws IOException {
 		this.logger.entry ();
-		synchronized (this.shellStarted) {
+		try {
+			this.ExecutionLock.lock ();
 			checkAndThrowExceptionIfNeeded ();
 			this.session.startShell ();
 			this.shellStarted.set (true);
+		} finally {
+			this.ExecutionLock.unlock ();
 		}
 		this.logger.exit ();
 	}
@@ -79,16 +89,19 @@ public final class DefaultSSHSession implements SSHSession {
 
 	private void throwIfTerminalRequestedBefore() {
 		if (this.terminalRequested.get ())
-			throw new IllegalStateException ("Onle one terminal can be requested on a session");
+			throw new IllegalStateException (SingleTerminalMsg);
 	}
 
 	@Override
 	public void execCommand(String command) throws IOException {
 		this.logger.entry ();
-		synchronized (this.commandExecuted) {
+		try {
+			this.ExecutionLock.lock ();
 			checkAndThrowExceptionIfNeeded ();
 			this.session.execCommand (command);
 			this.commandExecuted.set (true);
+		} finally {
+			this.ExecutionLock.unlock ();
 		}
 		this.logger.exit ();
 	}
@@ -101,12 +114,12 @@ public final class DefaultSSHSession implements SSHSession {
 
 	private void throwIfCommandExecutedBefore() {
 		if (this.commandExecuted.get ())
-			throw new IllegalStateException ("Onle one command can be executed on a session");
+			throw new IllegalStateException (OneCommandPerSessionMsg);
 	}
 
 	private void throwIfShellStartedBefore() {
 		if (this.shellStarted.get ())
-			throw new IllegalStateException ("Onle one shell can be started on a session");
+			throw new IllegalStateException (OneShellPerSessionMsg);
 	}
 
 	@Override
@@ -121,7 +134,7 @@ public final class DefaultSSHSession implements SSHSession {
 
 	private void throwExceptionIfSessionClosed() {
 		if (this.sessionClosed.get ())
-			throw new IllegalStateException ("Session closed already");
+			throw new IllegalStateException (SessionClosedMsg);
 	}
 
 	private void closeIOStreams() {
