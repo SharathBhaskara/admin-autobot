@@ -8,7 +8,7 @@ Autobot will connect to the machines defined, and executes the commands in regul
 More about it can be found in our [website](http://www.novicehacks.com/products). 
 
 Autobot is an application released under NoviceHacks.com domain. And is free to use in any environment.
-As a courtesy note, if you like it please add your feedback in [here](http://www.google.com).
+As a courtesy note, if you like it please add your feedback in [here](http://www.novicehacks.com/feedback.html).
 
 
 
