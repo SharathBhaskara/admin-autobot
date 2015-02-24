@@ -15,9 +15,8 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import test.com.novicehacks.autobot.categories.EnvironmentDependent;
-
 import com.novicehacks.autobot.ThreadManager;
+import com.novicehacks.autobot.categories.EnvironmentDependent;
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.ssh.SSHServerCommandProcessor;
 import com.novicehacks.autobot.types.Command;

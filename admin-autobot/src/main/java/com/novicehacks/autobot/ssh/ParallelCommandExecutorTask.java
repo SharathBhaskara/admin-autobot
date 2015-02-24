@@ -24,13 +24,13 @@ import com.novicehacks.autobot.types.Server;
  */
 public class ParallelCommandExecutorTask implements Runnable {
 
-	private SSHConnection	connection;
-	private SSHSession		session;
-	private Server			server;
-	private Command			command;
-	private StringBuilder	commandOutputBuffer;
-	private Future<?>		commandOutputLoggerTaskFuture;
-	private Logger			logger	= LogManager.getLogger (ParallelCommandExecutorTask.class);
+	private SSHConnection connection;
+	private SSHSession session;
+	private Server server;
+	private Command command;
+	private StringBuilder commandOutputBuffer;
+	private Future<?> commandOutputLoggerTaskFuture;
+	private Logger logger = LogManager.getLogger (ParallelCommandExecutorTask.class);
 
 	/**
 	 * 
@@ -38,7 +38,7 @@ public class ParallelCommandExecutorTask implements Runnable {
 	 * @param unixCommand
 	 * @throws CommandExecutionException
 	 */
-	protected ParallelCommandExecutorTask (	CustomizedSSHConnection shellConnection,
+	protected ParallelCommandExecutorTask (	SSHConnection shellConnection,
 											Server server,
 											Command unixCommand) {
 		validateParams (shellConnection, server, unixCommand);
@@ -47,9 +47,7 @@ public class ParallelCommandExecutorTask implements Runnable {
 		this.command = unixCommand;
 	}
 
-	private void validateParams(CustomizedSSHConnection shellConnection,
-								Server server,
-								Command unixCommand) {
+	private void validateParams(SSHConnection shellConnection, Server server, Command unixCommand) {
 		if (BotUtils.HasNullReferences (shellConnection, server, unixCommand))
 			throw new CommandExecutionException ("Invalid Connection / Command Passed",
 					new IllegalArgumentException ());

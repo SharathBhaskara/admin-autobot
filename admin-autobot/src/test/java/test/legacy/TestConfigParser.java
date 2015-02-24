@@ -10,8 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import test.com.novicehacks.autobot.categories.EnvironmentDependent;
-
+import com.novicehacks.autobot.categories.EnvironmentDependent;
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.ResourceConfig;
 import com.novicehacks.autobot.config.parser.ConfigParser;
