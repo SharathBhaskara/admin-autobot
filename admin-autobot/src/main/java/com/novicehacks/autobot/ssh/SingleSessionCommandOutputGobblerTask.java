@@ -15,10 +15,9 @@ import com.novicehacks.autobot.core.BotUtils;
  *
  */
 public class SingleSessionCommandOutputGobblerTask implements Runnable {
-	private InputStream				remoteInputStream;
-	private SingleSessionCommandExecutionController	sessionController;
-	private Logger					logger	= LogManager
-													.getLogger (SingleSessionCommandOutputGobblerTask.class);
+	private InputStream remoteInputStream;
+	private SingleSessionCommandExecutionController sessionController;
+	private Logger logger = LogManager.getLogger (SingleSessionCommandOutputGobblerTask.class);
 
 	protected SingleSessionCommandOutputGobblerTask (SingleSessionCommandExecutionController sessionController) {
 		this.sessionController = sessionController;
@@ -28,15 +27,15 @@ public class SingleSessionCommandOutputGobblerTask implements Runnable {
 	@Override
 	public void run() {
 		this.logger.entry ();
-		this.startConsumingOutput ();
+		startConsumingOutput ();
 		this.logger.exit ();
 	}
 
 	private void startConsumingOutput() {
 		this.logger.entry ();
-		this.blockUntilCommandExecutionStarted ();
+		blockUntilCommandExecutionStarted ();
 		this.logger.trace ("Reading the remote output from the server");
-		this.readRemoteOutput ();
+		readRemoteOutput ();
 		this.logger.exit ();
 	}
 
@@ -51,17 +50,17 @@ public class SingleSessionCommandOutputGobblerTask implements Runnable {
 		this.logger.entry ();
 		try {
 			while (true) {
-				sessionController.acquireLockOnShell ();
+				this.sessionController.acquireLockOnShell ();
 				this.logger.trace ("Shell Lock Acquired By Remote Consumer");
-				this.sendInputSignalAndWaitWhenRemoteOutputNotAvailable ();
+				sendInputSignalAndWaitWhenRemoteOutputNotAvailable ();
 				if (outputAvailable ())
-					this.readAndLogCommandOutput ();
-				sessionController.releaseLockOnShell ();
+					readAndLogCommandOutput ();
+				this.sessionController.releaseLockOnShell ();
 				this.logger.trace ("Shell Lock Released By Remote Consumer");
 			}
 		} catch (InterruptedException e) {
-			this.logger.debug ("Remote Output Consumer Interrupted");
-			BotUtils.PropogateInterruptIfExist (e);
+			this.logger.trace ("Remote Output consumer thread interrupted");
+			BotUtils.DoNotPropogateInterrupt (e);
 		} catch (Exception e) {
 			this.logger.error ("Exception when reading remote server output", e);
 		}
@@ -69,7 +68,7 @@ public class SingleSessionCommandOutputGobblerTask implements Runnable {
 	}
 
 	private boolean outputAvailable() throws IOException {
-		if (remoteInputStream.available () > 0)
+		if (this.remoteInputStream.available () > 0)
 			return true;
 		return false;
 	}
@@ -80,7 +79,7 @@ public class SingleSessionCommandOutputGobblerTask implements Runnable {
 			int len = this.remoteInputStream.read (buff);
 			if (len == -1)
 				return;
-			this.logOutputWhenNeeded (buff);
+			logOutputWhenNeeded (buff);
 		} catch (IOException ex) {
 			this.logger.error ("Failed While reading from Remote Consumer", ex);
 		}
@@ -88,16 +87,16 @@ public class SingleSessionCommandOutputGobblerTask implements Runnable {
 	}
 
 	private void logOutputWhenNeeded(byte[] buff) {
-		this.logger.trace (sessionController.byteArrayToString (buff));
+		this.logger.trace (this.sessionController.byteArrayToString (buff));
 		if (this.sessionController.isCommandExecutionStarted ())
-			sessionController.appendCommandOutput (buff);
+			this.sessionController.appendCommandOutput (buff);
 	}
 
 	private void sendInputSignalAndWaitWhenRemoteOutputNotAvailable() throws IOException,
 			InterruptedException {
 		this.logger.entry ();
-		if (remoteInputStream.available () == 0) {
-			sessionController.signalSendInputAndWaitForInputComplete ();
+		if (this.remoteInputStream.available () == 0) {
+			this.sessionController.signalSendInputAndWaitForInputComplete ();
 		}
 		this.logger.exit ();
 	}

@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  */
 public final class SysConfig {
 
-	private Logger logger = LogManager.getLogger(SysConfig.class);
+	private Logger logger = LogManager.getLogger (SysConfig.class);
 
 	public static final String ConfigFile = "autobot.properties";
 	private static final String ResourceFolder = "ResourceFolder";
@@ -45,8 +45,7 @@ public final class SysConfig {
 	/**
 	 * Private Constructor for the singleton implementation.
 	 */
-	private SysConfig() {
-	}
+	private SysConfig () {}
 
 	/**
 	 * Private static inner class for Creating a Singleton object.
@@ -55,7 +54,7 @@ public final class SysConfig {
 	 *
 	 */
 	private static class SysConfigSingleton {
-		private static SysConfig instance = new SysConfig();
+		private static SysConfig instance = new SysConfig ();
 
 		public static SysConfig getInstance() {
 			return instance;
@@ -68,7 +67,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public static SysConfig getInstance() {
-		return SysConfigSingleton.getInstance();
+		return SysConfigSingleton.getInstance ();
 	}
 
 	/**
@@ -78,34 +77,27 @@ public final class SysConfig {
 	 * @param properties
 	 */
 	public void loadConfig(Properties properties) {
-		logger.entry();
+		this.logger.entry ();
 		if (!ConfigLoaded) {
-			logger.debug("Loading the SysConfig object");
+			this.logger.debug ("Loading the SysConfig object");
 			ConfigLoaded = true;
 			SysConfig config;
-			config = SysConfig.getInstance();
-			config.setResourceFolder(properties.getProperty(ResourceFolder));
-			config.setExecutableFileLocation(properties
-					.getProperty(ExecutableResource));
-			config.setMonitorFileLocation(properties
-					.getProperty(MonitorResource));
-			config.setServerFileLocation(properties.getProperty(ServerResource));
-			config.setCommandFileLocation(properties
-					.getProperty(CommandResource));
-			config.setTokenSeperator(properties.getProperty(TokenSeperator));
-			config.setExecutableDelay(properties.getProperty(ExecutableDelay));
-			config.setShellConsoleFolder(properties
-					.getProperty(ShellConsoleFolder));
-			config.setServerConnectionTimeout(properties
-					.getProperty(ConnectionTimout));
-			config.setExecutableTimeout(properties
-					.getProperty(MaxExecutableTimeout));
-			config.setMonitoringEnabled(properties
-					.getProperty(MonitoringEnabled));
+			config = SysConfig.getInstance ();
+			config.setResourceFolder (properties.getProperty (ResourceFolder));
+			config.setExecutableFileLocation (properties.getProperty (ExecutableResource));
+			config.setMonitorFileLocation (properties.getProperty (MonitorResource));
+			config.setServerFileLocation (properties.getProperty (ServerResource));
+			config.setCommandFileLocation (properties.getProperty (CommandResource));
+			config.setTokenSeperator (properties.getProperty (TokenSeperator));
+			config.setExecutableDelay (properties.getProperty (ExecutableDelay));
+			config.setShellConsoleFolder (properties.getProperty (ShellConsoleFolder));
+			config.setServerConnectionTimeout (properties.getProperty (ConnectionTimout));
+			config.setExecutableTimeout (properties.getProperty (MaxExecutableTimeout));
+			config.setMonitoringEnabled (properties.getProperty (MonitoringEnabled));
 		} else {
-			logger.warn("Overrding the SysConfig Object is disabled");
+			this.logger.warn ("Overrding the SysConfig Object is disabled");
 		}
-		logger.exit();
+		this.logger.exit ();
 	}
 
 	/**
@@ -114,7 +106,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getResourceFolder() {
-		return resourceFolder;
+		return this.resourceFolder;
 	}
 
 	/**
@@ -123,7 +115,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getCommandFileLocation() {
-		return commandFileLocation;
+		return this.commandFileLocation;
 	}
 
 	/**
@@ -132,7 +124,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getServerFileLocation() {
-		return serverFileLocation;
+		return this.serverFileLocation;
 	}
 
 	/**
@@ -141,7 +133,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getMonitorFileLocation() {
-		return monitorFileLocation;
+		return this.monitorFileLocation;
 	}
 
 	/**
@@ -151,7 +143,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getExecutableFileLocation() {
-		return executableFileLocation;
+		return this.executableFileLocation;
 	}
 
 	/**
@@ -207,7 +199,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getTokenSeperator() {
-		return tokenSeperator;
+		return this.tokenSeperator;
 	}
 
 	/**
@@ -227,7 +219,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getExecutableDelay() {
-		return executableDelay;
+		return this.executableDelay;
 	}
 
 	/**
@@ -247,7 +239,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getShellConsoleFolder() {
-		return shellConsoleFolder;
+		return this.shellConsoleFolder;
 	}
 
 	/**
@@ -267,7 +259,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getServerConnectionTimeout() {
-		return serverConnectionTimeout;
+		return this.serverConnectionTimeout;
 	}
 
 	/**
@@ -289,10 +281,10 @@ public final class SysConfig {
 	public int serverConnectionTimeout() {
 		Integer timeout;
 		try {
-			timeout = Integer.parseInt(this.serverConnectionTimeout);
+			timeout = Integer.parseInt (this.serverConnectionTimeout);
 		} catch (Exception ex) {
-			if (Thread.interrupted()) {
-				Thread.currentThread().interrupt();
+			if (Thread.interrupted ()) {
+				Thread.currentThread ().interrupt ();
 			}
 			timeout = 3 * 60;
 		}
@@ -309,10 +301,10 @@ public final class SysConfig {
 	public int MaxExecutionPeriod() {
 		Integer timeout;
 		try {
-			timeout = Integer.parseInt(this.executableTimeout);
+			timeout = Integer.parseInt (this.executableTimeout);
 		} catch (Exception ex) {
-			if (Thread.interrupted()) {
-				Thread.currentThread().interrupt();
+			if (Thread.interrupted ()) {
+				Thread.currentThread ().interrupt ();
 			}
 			timeout = 60;
 		}
@@ -326,7 +318,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getExecutableTimeout() {
-		return executableTimeout;
+		return this.executableTimeout;
 	}
 
 	/**
@@ -348,10 +340,10 @@ public final class SysConfig {
 	public long ExecutableDelay() {
 		Integer timeout;
 		try {
-			timeout = Integer.parseInt(this.executableTimeout);
+			timeout = Integer.parseInt (this.executableTimeout);
 		} catch (Exception ex) {
-			if (Thread.interrupted()) {
-				Thread.currentThread().interrupt();
+			if (Thread.interrupted ()) {
+				Thread.currentThread ().interrupt ();
 			}
 			timeout = 6;
 		}
@@ -365,14 +357,14 @@ public final class SysConfig {
 	 * @return
 	 */
 	public String getMonitoringEnabled() {
-		return monitoringEnabled;
+		return this.monitoringEnabled;
 	}
 
 	/**
 	 * Set the monitoring feature of the application to enabled
 	 * 
 	 * @param monitoringEnabled
-	 *            true if needed to enabled false otherwise
+	 *        true if needed to enabled false otherwise
 	 */
 	private void setMonitoringEnabled(String monitoringEnabled) {
 		this.monitoringEnabled = monitoringEnabled;
@@ -386,7 +378,7 @@ public final class SysConfig {
 	public boolean MonitoringEnabled() {
 		Boolean status;
 		try {
-			status = new Boolean(monitoringEnabled);
+			status = new Boolean (this.monitoringEnabled);
 		} catch (NullPointerException ex) {
 			status = false;
 		}
@@ -401,28 +393,32 @@ public final class SysConfig {
 	 *
 	 */
 	public enum DefaultTimeDelay {
-		LongTimeInMinutes(10), ShortTimeInMinutes(3), TinyTimeInMinutes(1), LongTimeInSeconds(
-				300), ShortTimeInSeconds(120), TinyTimeInSeconds(30);
+		LongTimeInMinutes (10),
+		ShortTimeInMinutes (3),
+		TinyTimeInMinutes (1),
+		LongTimeInSeconds (300),
+		ShortTimeInSeconds (120),
+		TinyTimeInSeconds (30);
 
 		private int delay;
 
-		DefaultTimeDelay(int time) {
-			delay = time;
+		DefaultTimeDelay (int time) {
+			this.delay = time;
 		}
 
 		public int delay() {
-			return delay;
+			return this.delay;
 		}
 
 	}
 
 	/**
-	 * Returns LongTimeInMinutes 
+	 * Returns LongTimeInMinutes
 	 * 
 	 * @return
 	 */
 	public long longTimeoutInMinutes() {
-		return DefaultTimeDelay.LongTimeInMinutes.delay();
+		return DefaultTimeDelay.LongTimeInMinutes.delay ();
 	}
 
 	/**
@@ -431,7 +427,7 @@ public final class SysConfig {
 	 * @return
 	 */
 	public long shortTimeoutInSeconds() {
-		return DefaultTimeDelay.ShortTimeInSeconds.delay();
+		return DefaultTimeDelay.ShortTimeInSeconds.delay ();
 	}
 
 }

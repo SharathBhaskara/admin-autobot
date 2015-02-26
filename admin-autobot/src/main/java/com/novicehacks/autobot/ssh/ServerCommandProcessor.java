@@ -29,15 +29,14 @@ import com.novicehacks.autobot.types.Server;
  */
 public final class ServerCommandProcessor implements Runnable {
 
-	private Server						server;
-	private Command[]					commands;
-	private DefaultSSHConnection		connection;
-	private ServerConnectionHandle	serverHandle;
-	private Future<?>					sequentialTaskFuture;
-	private List<Future<?>>				commandFutureList;
-	private boolean						isRunningInParallel;
-	private Logger						logger	= LogManager
-														.getLogger (ServerCommandProcessor.class);
+	private Server server;
+	private Command[] commands;
+	private DefaultSSHConnection connection;
+	private ServerConnectionHandle serverHandle;
+	private Future<?> sequentialTaskFuture;
+	private List<Future<?>> commandFutureList;
+	private boolean isRunningInParallel;
+	private Logger logger = LogManager.getLogger (ServerCommandProcessor.class);
 
 	/**
 	 * @param unixServer
@@ -47,8 +46,7 @@ public final class ServerCommandProcessor implements Runnable {
 	 * @throws IllegalArgumentException
 	 *         if unixServer parameter is null
 	 */
-	public ServerCommandProcessor (	final Server unixServer,
-										final Collection<Command> unixCommands) {
+	public ServerCommandProcessor (final Server unixServer, final Collection<Command> unixCommands) {
 		this (unixServer, unixCommands.toArray (new Command[] { }));
 	}
 
@@ -74,18 +72,18 @@ public final class ServerCommandProcessor implements Runnable {
 
 	@Override
 	public void run() {
-		logger.entry ();
+		this.logger.entry ();
 		connectToServer ();
 		executeCommandsAndDisconnectServer ();
-		logger.exit ();
+		this.logger.exit ();
 	}
 
 	private void connectToServer() {
-		this.connection = serverHandle.getAuthenticatedConnection ();
+		this.connection = this.serverHandle.getAuthenticatedConnection ();
 	}
 
 	private void disconnetServer() {
-		serverHandle.disconnect (this.connection);
+		this.serverHandle.disconnect (this.connection);
 	}
 
 	private void executeCommandsAndDisconnectServer() {
@@ -93,9 +91,10 @@ public final class ServerCommandProcessor implements Runnable {
 			executeCommandsOnServer ();
 			waitForCommandsCompletion ();
 		} catch (Exception ex) {
+			this.logger.error ("Thread Interrupted", ex);
 			BotUtils.PropogateInterruptIfExist (ex);
-			throw new CommandExecutionException ("Commands Execution Failed On Server: " + server,
-					ex);
+			throw new CommandExecutionException ("Commands Execution Failed On Server: "
+					+ this.server, ex);
 		} finally {
 			disconnetServer ();
 		}
@@ -118,30 +117,30 @@ public final class ServerCommandProcessor implements Runnable {
 	}
 
 	private void executeSequentially() {
-		logger.entry ();
+		this.logger.entry ();
 		this.isRunningInParallel = false;
 		executeCommandsSequentially ();
-		logger.exit ();
+		this.logger.exit ();
 	}
 
 	private void executeCommandsSequentially() {
 		SequentialCommandExecutorTask task;
-		task = new SequentialCommandExecutorTask (connection, server, commands);
+		task = new SequentialCommandExecutorTask (this.connection, this.server, this.commands);
 		this.sequentialTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
 	}
 
 	private void executeParallely() {
-		logger.entry ();
+		this.logger.entry ();
 		this.isRunningInParallel = true;
 		executeCommandsParallely ();
-		logger.exit ();
+		this.logger.exit ();
 	}
 
 	private void executeCommandsParallely() {
 		Future<?> taskFuture;
 		List<Future<?>> taskFutureList = new LinkedList<Future<?>> ();
 
-		for (Command command : commands) {
+		for (Command command : this.commands) {
 			taskFuture = submitCommandForExecution (command);
 			taskFutureList.add (taskFuture);
 		}
@@ -152,13 +151,14 @@ public final class ServerCommandProcessor implements Runnable {
 	private Future<?> submitCommandForExecution(Command command) {
 		Future<?> taskFuture;
 		ParallelCommandExecutorTask task;
-		task = new ParallelCommandExecutorTask (connection, server, command);
+		task = new ParallelCommandExecutorTask (this.connection, this.server, command);
+		// TODO get the output logger future and check for exceptions
 		taskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
 		return taskFuture;
 	}
 
 	private void waitForCommandsCompletion() {
-		if (isRunningInParallel)
+		if (this.isRunningInParallel)
 			waitForParallelExecutionCompletion ();
 		else
 			waitForSequentialExecitionCompletion ();
@@ -169,23 +169,25 @@ public final class ServerCommandProcessor implements Runnable {
 			this.sequentialTaskFuture.get (SysConfig.getInstance ().longTimeoutInMinutes (),
 					TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
-			logger.error ("Thread Interrupted", e);
+			this.logger.error ("Thread Interrupted", e);
 			BotUtils.PropogateInterruptIfExist (e);
 		} catch (ExecutionException e) {
-			logger.error ("Sequential Command Execution on Server {} Failed: {}", server.id (), e,
-					e);
+			this.logger.error ("Sequential Command Execution on Server {} Failed: {}",
+					this.server.id (), e, e);
 			throw new CommandExecutionException ("Sequential Execution Failed on server : "
-					+ server.id (), e);
+					+ this.server.id (), e);
 		} catch (TimeoutException e) {
-			logger.error ("Sequential execution on server {} unfinished", server.id (), e);
+			this.logger
+					.error ("Sequential execution on server {} unfinished", this.server.id (), e);
 			throw new CommandExecutionException (
-					"Sequential Execution Failed Due to Timeout on server : " + server.id (), e);
+					"Sequential Execution Failed Due to Timeout on server : " + this.server.id (),
+					e);
 		}
 	}
 
 	private void waitForParallelExecutionCompletion() {
 		List<Throwable> failureReasons = new LinkedList<Throwable> ();
-		for (Future<?> future : commandFutureList) {
+		for (Future<?> future : this.commandFutureList) {
 			try {
 				handleCommandExecutorTaskFuture (future);
 			} catch (CommandExecutionException e) {
@@ -199,13 +201,14 @@ public final class ServerCommandProcessor implements Runnable {
 		try {
 			future.get (SysConfig.getInstance ().longTimeoutInMinutes (), TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
+			this.logger.error ("Thread Interrupted", e);
 			BotUtils.PropogateInterruptIfExist (e);
 		} catch (ExecutionException e) {
 			throw new CommandExecutionException (
-					"Command Execution Failed With Errors on Server : " + server.id (), e);
+					"Command Execution Failed With Errors on Server : " + this.server.id (), e);
 		} catch (TimeoutException e) {
 			throw new CommandExecutionException ("Command Execution Unfinished on Server : "
-					+ server.id (), e);
+					+ this.server.id (), e);
 		}
 	}
 

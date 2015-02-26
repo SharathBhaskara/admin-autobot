@@ -9,11 +9,10 @@ import com.novicehacks.autobot.categories.EnvironmentDependent;
 
 @RunWith (Categories.class)
 @IncludeCategory (EnvironmentDependent.class)
-@SuiteClasses ({ DefaultSSHConnectionTest.class,
-		DefaultSSHConnectionTestWithoutMocking.class, DefaultSSHSessionTest.class,
-		DefaultSSHSessionTestWithoutMocking.class, ParallelCommandExecutorTaskTest.class,
-		SequentialCommandExecutorTaskTest.class, SingleSessionCommandOutputGobblerTaskTest.class,
-		SingleSessionCommandExecutorTest.class, OutputLoggerTaskTest.class,
+@SuiteClasses ({ DefaultSSHConnectionTest.class, DefaultSSHConnectionTestWithoutMocking.class,
+		DefaultSSHSessionTest.class, DefaultSSHSessionTestWithoutMocking.class,
+		ParallelCommandExecutorTaskTest.class, SequentialCommandExecutorTaskTest.class,
+		SingleSessionCommandOutputGobblerTaskTest.class, SingleSessionCommandExecutorTest.class,
 		ServerCommandProcessorTest.class, ServerConnectionHandleTest.class })
 public class SSHEnvironmentDependantTestSuite {
 

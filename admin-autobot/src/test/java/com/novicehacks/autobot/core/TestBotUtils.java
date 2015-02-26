@@ -26,9 +26,9 @@ import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.core.stubs.MappableStub;
 
 public class TestBotUtils {
-	private Logger				logger		= LogManager.getLogger (TestBotUtils.class);
+	private Logger logger = LogManager.getLogger (TestBotUtils.class);
 	@Rule
-	public ExpectedException	exception	= ExpectedException.none ();
+	public ExpectedException exception = ExpectedException.none ();
 
 	@Test
 	@Category (UnitTest.class)
@@ -185,7 +185,7 @@ public class TestBotUtils {
 							Thread.currentThread ().interrupt ();
 					}
 				} catch (InterruptedException e) {
-					TestBotUtils.this.logger.trace ("Caught in Task {}", e);
+					TestBotUtils.this.logger.trace ("Caught in Task", e);
 					BotUtils.PropogateInterruptIfExist (e);
 				}
 			}

@@ -77,4 +77,20 @@ public class BotUtils {
 			Thread.currentThread ().getThreadGroup ().interrupt ();
 		}
 	}
+
+	/**
+	 * Will not propagate interrupt but will set the interrupt status on the
+	 * same thread.
+	 * 
+	 * @param exception
+	 */
+	public static void DoNotPropogateInterrupt(InterruptedException exception) {
+		if (exception instanceof InterruptedException || Thread.interrupted ()) {
+			Thread.currentThread ().interrupt ();
+		}
+	}
+
+	public static String newLine() {
+		return System.lineSeparator ();
+	}
 }

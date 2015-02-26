@@ -25,15 +25,14 @@ import com.novicehacks.autobot.types.ServerCredential;
 
 public class TestUnixServerCommandProcessor {
 	@Mock
-	Server								server;
+	Server server;
 	@Mock
-	Command								unixCommand1;
+	Command unixCommand1;
 	@Mock
-	Command								unixCommand2;
+	Command unixCommand2;
 
-	private ServerCommandProcessor	commandProcessor;
-	Logger								logger	= LogManager
-														.getLogger (TestUnixServerCommandProcessor.class);
+	private ServerCommandProcessor commandProcessor;
+	Logger logger = LogManager.getLogger (TestUnixServerCommandProcessor.class);
 
 	@BeforeClass
 	public static void loadConfig() throws InterruptedException, ExecutionException,

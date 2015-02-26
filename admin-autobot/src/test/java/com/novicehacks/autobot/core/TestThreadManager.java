@@ -11,20 +11,20 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-import org.mockito.Matchers;
 
 import com.novicehacks.autobot.categories.UnitTest;
 
 public class TestThreadManager {
 
 	@Rule
-	public ExpectedException	exception	= ExpectedException.none ();
+	public ExpectedException exception = ExpectedException.none ();
 
 	@Before
 	public void setUp() throws InterruptedException {
@@ -60,9 +60,7 @@ public class TestThreadManager {
 		Future<?> f = tm.submitTaskToThreadPool (task);
 		// then
 		this.exception.expect (ExecutionException.class);
-		this.exception
-				.expectMessage (Matchers.contains (RuntimeException.class.toGenericString ()));
-		this.exception.expectMessage (Matchers.contains (message));
+		this.exception.expectMessage (CoreMatchers.containsString (message));
 		f.get ();
 	}
 
@@ -93,7 +91,7 @@ public class TestThreadManager {
 
 	private Callable<String> getCallableTask(final String initiated, final String completed) {
 		Callable<String> task = new Callable<String> () {
-			public String	value	= initiated;
+			public String value = initiated;
 
 			@Override
 			public String call() {

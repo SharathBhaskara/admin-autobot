@@ -10,6 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTaskHelper;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
@@ -20,18 +22,17 @@ import com.novicehacks.autobot.types.Server;
  *
  */
 public class SingleSessionCommandExecutionController {
-	private Server				server;
-	private InputStream			remoteInputStream;
-	private OutputStream		remoteOutputStream;
-	private volatile boolean	initCommandExecutionStarted	= false;
-	private volatile boolean	commandExecutionStarted		= false;
-	private Lock				shellLock					= new ReentrantLock (true);
-	private Condition			SendInput					= shellLock.newCondition ();
-	private Condition			InputComplete				= shellLock.newCondition ();
-	private StringBuilder		commandOutput				= new StringBuilder ();
+	private Server server;
+	private InputStream remoteInputStream;
+	private OutputStream remoteOutputStream;
+	private volatile boolean initCommandExecutionStarted = false;
+	private volatile boolean commandExecutionStarted = false;
+	private Lock shellLock = new ReentrantLock (true);
+	private Condition SendInput = this.shellLock.newCondition ();
+	private Condition InputComplete = this.shellLock.newCondition ();
+	private StringBuilder commandOutput = new StringBuilder ();
 
-	private Logger				logger						= LogManager
-																	.getLogger (SingleSessionCommandExecutionController.class);
+	private Logger logger = LogManager.getLogger (SingleSessionCommandExecutionController.class);
 
 	protected SingleSessionCommandExecutionController (Server server) {
 		this.server = server;
@@ -66,21 +67,21 @@ public class SingleSessionCommandExecutionController {
 
 	void appendHeaderToOutput(Command command) {
 		String data;
-		data = OutputLoggerTask.getHeader (server, command);
+		data = ShellOutputLoggerTaskHelper.headerService (this.server, command).header ();
 		this.commandOutput.append (data);
 	}
 
 	void appendFooterToOutput() {
 		String data;
-		data = OutputLoggerTask.getFooter ();
-		this.commandOutput.append (OutputLoggerTask.newLine ());
+		data = ShellOutputLoggerTaskHelper.footerService ().footer ();
+		this.commandOutput.append (BotUtils.newLine ());
 		this.commandOutput.append (data);
 	}
 
 	void appendCommandOutput(byte[] buff) {
 		String data;
 		data = byteArrayToString (buff);
-		commandOutput.append (data.trim ());
+		this.commandOutput.append (data.trim ());
 	}
 
 	String byteArrayToString(byte[] buff) {
@@ -90,7 +91,7 @@ public class SingleSessionCommandExecutionController {
 	}
 
 	public boolean isInitCommandExecutionStarted() {
-		return initCommandExecutionStarted;
+		return this.initCommandExecutionStarted;
 	}
 
 	public void setInitCommandExecutionStarted(boolean initCommandExecutionStarted) {
@@ -98,7 +99,7 @@ public class SingleSessionCommandExecutionController {
 	}
 
 	public boolean isCommandExecutionStarted() {
-		return commandExecutionStarted;
+		return this.commandExecutionStarted;
 	}
 
 	public void setCommandExecutionStarted(boolean commandExecutionStarted) {
@@ -109,7 +110,7 @@ public class SingleSessionCommandExecutionController {
 	 * @return the remoteInputStream
 	 */
 	public InputStream getRemoteInputStream() {
-		return remoteInputStream;
+		return this.remoteInputStream;
 	}
 
 	/**
@@ -124,7 +125,7 @@ public class SingleSessionCommandExecutionController {
 	 * @return the remoteOutputStream
 	 */
 	public OutputStream getRemoteOutputStream() {
-		return remoteOutputStream;
+		return this.remoteOutputStream;
 	}
 
 	/**
@@ -136,7 +137,7 @@ public class SingleSessionCommandExecutionController {
 	}
 
 	protected StringBuilder getCommandOutput() {
-		return commandOutput;
+		return this.commandOutput;
 	}
 
 }

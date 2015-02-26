@@ -10,6 +10,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ShellCommand;
@@ -21,7 +22,7 @@ public class ParallelCommandExecutorTaskTest {
 	private Command command;
 	private SSHConnection connection;
 	private SSHSession session;
-	private OutputLoggerTask outputLoggerTask;
+	private ShellOutputLoggerTask outputLoggerTask;
 
 	@Before
 	public void setUp() throws IOException {
@@ -29,7 +30,7 @@ public class ParallelCommandExecutorTaskTest {
 		this.session = mock (SSHSession.class);
 		this.server = mock (UnixServer.class);
 		this.command = mock (ShellCommand.class);
-		this.outputLoggerTask = mock (OutputLoggerTask.class);
+		this.outputLoggerTask = mock (ShellOutputLoggerTask.class);
 
 		when (this.connection.openSession ()).thenReturn (this.session);
 		when (this.session.stdInputStream ()).thenReturn (SSHTestUtilities.tempOutputStream ());

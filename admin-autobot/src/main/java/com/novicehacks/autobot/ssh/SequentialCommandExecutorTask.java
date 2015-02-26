@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
+import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
@@ -36,17 +37,16 @@ import com.novicehacks.autobot.types.Server;
  */
 public class SequentialCommandExecutorTask implements Runnable {
 
-	private Server					server;
-	private Command[]				executableCommands;
-	private SSHSession				session;
-	private SSHConnection			connection;
-	private InputStream				remoteInputStream;
-	private OutputStream			remoteOutputStream;
-	private Thread					remoteConsumerThread;
-	private Future<?>				commandOutputLoggerTaskFuture;
-	private SingleSessionCommandExecutionController	sessionController;
-	private Logger					logger	= LogManager
-													.getLogger (SequentialCommandExecutorTask.class);
+	private Server server;
+	private Command[] executableCommands;
+	private SSHSession session;
+	private SSHConnection connection;
+	private InputStream remoteInputStream;
+	private OutputStream remoteOutputStream;
+	private Thread remoteConsumerThread;
+	private Future<?> commandOutputLoggerTaskFuture;
+	private SingleSessionCommandExecutionController sessionController;
+	private Logger logger = LogManager.getLogger (SequentialCommandExecutorTask.class);
 
 	protected SequentialCommandExecutorTask (	DefaultSSHConnection connection,
 												Server unixServer,
@@ -173,10 +173,9 @@ public class SequentialCommandExecutorTask implements Runnable {
 	 * thread pool.
 	 */
 	private void logShellOutputAsynchronously() {
-		OutputLoggerTask loggerTask;
+		ShellOutputLoggerTask loggerTask;
 		String commandOutput = this.sessionController.getCommandOutput ().toString ();
-		boolean appendRawContent = true;
-		loggerTask = new OutputLoggerTask (commandOutput, appendRawContent);
+		loggerTask = new ShellOutputLoggerTask (commandOutput);
 		this.commandOutputLoggerTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				loggerTask);
 	}

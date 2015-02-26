@@ -18,16 +18,15 @@ import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
 public class CommandExecutorTask implements Runnable {
-	private static final long			ServerExecutionTimeoutInMinutes	= 10;
-	private Collection<Future<?>>		executableFutures;
-	private ServerExecutableCommandMap	executableMap;
-	private RuntimeException			errorCollector;
-	private Logger						logger							= LogManager
-																				.getLogger (CommandExecutorTask.class);
+	private static final long ServerExecutionTimeoutInMinutes = 10;
+	private Collection<Future<?>> executableFutures;
+	private ServerExecutableCommandMap executableMap;
+	private RuntimeException errorCollector;
+	private Logger logger = LogManager.getLogger (CommandExecutorTask.class);
 
 	public CommandExecutorTask () {
-		executableFutures = new LinkedList<Future<?>> ();
-		errorCollector = new RuntimeException ();
+		this.executableFutures = new LinkedList<Future<?>> ();
+		this.errorCollector = new RuntimeException ();
 	}
 
 	@Override
@@ -42,7 +41,7 @@ public class CommandExecutorTask implements Runnable {
 		try {
 			loadExecutableMap ();
 		} catch (InterruptedException ex) {
-			logger.error (ex);
+			this.logger.error ("Thread Interrupted", ex);
 			BotUtils.PropogateInterruptIfExist (ex);
 		}
 	}
@@ -50,18 +49,18 @@ public class CommandExecutorTask implements Runnable {
 	private void loadExecutableMap() throws InterruptedException {
 		ServerExecutableCommandGenerator executableCommandGenerator;
 		executableCommandGenerator = ServerExecutableCommandGenerator.getInstance ();
-		executableMap = executableCommandGenerator.generateServerCommandMap ();
+		this.executableMap = executableCommandGenerator.generateServerCommandMap ();
 	}
 
 	private void startExecution() {
-		for (Server server : executableMap.keySet ())
+		for (Server server : this.executableMap.keySet ())
 			executeCommandsOnServerAndSaveFutures (server);
 	}
 
 	private void executeCommandsOnServerAndSaveFutures(Server server) {
 		Future<?> executableFuture;
 		Collection<Command> commands;
-		commands = executableMap.get (server);
+		commands = this.executableMap.get (server);
 		executableFuture = createAndSubmitCommandProcessor (server, commands);
 		this.executableFutures.add (executableFuture);
 	}
@@ -77,30 +76,30 @@ public class CommandExecutorTask implements Runnable {
 
 	private void waitForCompletion() {
 		Iterator<Future<?>> executableFutureIterator;
-		executableFutureIterator = executableFutures.iterator ();
+		executableFutureIterator = this.executableFutures.iterator ();
 		while (executableFutureIterator.hasNext ()) {
 			waitForFutureCompletion (executableFutureIterator.next ());
 		}
 	}
 
 	private void waitForFutureCompletion(Future<?> next) {
-		logger.entry ();
+		this.logger.entry ();
 		try {
 			next.get (ServerExecutionTimeoutInMinutes, TimeUnit.MINUTES);
 		} catch (InterruptedException | ExecutionException | TimeoutException e) {
 			handleFutureExceptions (e);
 		}
-		logger.exit ();
+		this.logger.exit ();
 	}
 
 	private void handleFutureExceptions(Exception e) {
-		logger.error (e);
+		this.logger.error (e);
 		BotUtils.PropogateInterruptIfExist (e);
-		errorCollector.addSuppressed (e);
+		this.errorCollector.addSuppressed (e);
 	}
 
 	private void alarmIfExceptionsCaught() {
-		if (errorCollector.getSuppressed ().length > 0)
-			throw errorCollector;
+		if (this.errorCollector.getSuppressed ().length > 0)
+			throw this.errorCollector;
 	}
 }
