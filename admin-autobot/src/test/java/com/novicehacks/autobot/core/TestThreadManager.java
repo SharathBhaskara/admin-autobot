@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
+import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
 
 public class TestThreadManager {
@@ -49,7 +50,7 @@ public class TestThreadManager {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void submitRunnableTaskToThreadPool() throws InterruptedException, ExecutionException {
 		// given
 		String message = "Thread Executed";
@@ -75,7 +76,7 @@ public class TestThreadManager {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void submitCallableTaskToThreadPool() throws InterruptedException, ExecutionException {
 		// given
 		String initiated = "Initiated";
@@ -103,7 +104,7 @@ public class TestThreadManager {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void waitForTaskCompletionWhenTimedout() throws InterruptedException,
 			ExecutionException, TimeoutException {
 		// given
@@ -137,7 +138,7 @@ public class TestThreadManager {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void waitForTaskCompletionWhenTaskComplete() throws InterruptedException,
 			ExecutionException, TimeoutException {
 		// given
@@ -156,7 +157,7 @@ public class TestThreadManager {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void initiateThreadPoolAfterDismiss() throws InterruptedException {
 		// given
 		ThreadManager tm = ThreadManager.getInstance ();
@@ -168,7 +169,7 @@ public class TestThreadManager {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void initiateThreadPoolForcedAfterInstanceCreation() throws InterruptedException {
 		// given
 		ThreadManager tm = ThreadManager.getInstance ();
@@ -179,7 +180,7 @@ public class TestThreadManager {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void initiateThreadPoolUnForcedAfterInstanceCreation() throws InterruptedException {
 		// given
 		ThreadManager tm = ThreadManager.getInstance ();
@@ -190,7 +191,7 @@ public class TestThreadManager {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void initiateThreadPoolAfterInstanceCreation() throws InterruptedException {
 		// given
 		ThreadManager tm = ThreadManager.getInstance ();

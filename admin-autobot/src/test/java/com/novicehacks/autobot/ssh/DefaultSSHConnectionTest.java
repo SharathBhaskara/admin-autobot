@@ -12,21 +12,19 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
 
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.ConnectionInfo;
 import ch.ethz.ssh2.Session;
 
+import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
 
-@FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class DefaultSSHConnectionTest {
 
 	private Session session;
@@ -88,7 +86,7 @@ public class DefaultSSHConnectionTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void connectTest() throws Exception {
 		// when
 		this.sshConnection.connect ();
@@ -117,7 +115,7 @@ public class DefaultSSHConnectionTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void authenticateTest() throws Exception {
 		// given
 		this.sshConnection.connect ();
@@ -176,7 +174,7 @@ public class DefaultSSHConnectionTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void openSessionTest() throws Exception {
 		SSHSession session;
 		// given
@@ -243,7 +241,7 @@ public class DefaultSSHConnectionTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void disconnectTest() throws Exception {
 		// given
 		this.sshConnection.connect ();

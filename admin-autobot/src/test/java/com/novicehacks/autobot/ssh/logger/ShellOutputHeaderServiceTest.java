@@ -5,12 +5,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.novicehacks.autobot.categories.FunctionalTest;
+import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.logger.OutputHeaderService;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
@@ -19,13 +20,10 @@ import com.novicehacks.autobot.types.UnixServer;
 
 public class ShellOutputHeaderServiceTest {
 	@Mock
-	Server server;
+	private Server server;
 	@Mock
-	Command command;
-	ShellOutputHeaderService headerService;
-
-	@Rule
-	public ExpectedException exception = ExpectedException.none ();
+	private Command command;
+	private ShellOutputHeaderService headerService;
 
 	@Before
 	public void setUp() {
@@ -34,6 +32,7 @@ public class ShellOutputHeaderServiceTest {
 	}
 
 	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testEquals() {
 		// given
 		ShellOutputHeaderService temp = new ShellOutputHeaderService (this.server, this.command);
@@ -44,6 +43,7 @@ public class ShellOutputHeaderServiceTest {
 	}
 
 	@Test
+	@Category ({ UnitTest.class })
 	public void testEqualsWithDifferentServer() {
 		// given
 		Server otherServer = new UnixServer ("");
@@ -55,6 +55,7 @@ public class ShellOutputHeaderServiceTest {
 	}
 
 	@Test
+	@Category ({ UnitTest.class })
 	public void testEqualsWithDifferentCommand() {
 		// given
 		Command otherCommand = new ShellCommand ("");
@@ -66,6 +67,7 @@ public class ShellOutputHeaderServiceTest {
 	}
 
 	@Test
+	@Category ({ UnitTest.class })
 	public void testEqualsWithDifferentHeaderServiceImpl() {
 		// given
 		OutputHeaderService otherService = mock (OutputHeaderService.class);

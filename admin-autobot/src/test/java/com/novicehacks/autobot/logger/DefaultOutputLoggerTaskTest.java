@@ -19,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.core.stubs.SysConfigDelegate;
 import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
@@ -58,7 +59,7 @@ public class DefaultOutputLoggerTaskTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void instantiate() {
 		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command,
 				this.commandOutput);
@@ -97,7 +98,7 @@ public class DefaultOutputLoggerTaskTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void headerServiceTest() {
 		// given
 		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command, null);
@@ -109,7 +110,7 @@ public class DefaultOutputLoggerTaskTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getHeader() {
 		// given
 		StringBuilder buffer = new StringBuilder ();
@@ -131,7 +132,7 @@ public class DefaultOutputLoggerTaskTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void footerServiceTest() {
 		// when
 		OutputFooterService actual = this.outputLogger.footerService ();
@@ -141,7 +142,7 @@ public class DefaultOutputLoggerTaskTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getFooter() {
 		// given
 		StringBuilder buffer = new StringBuilder ();
@@ -157,7 +158,7 @@ public class DefaultOutputLoggerTaskTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getFormattedContent() {
 		// given
 		StringBuilder buffer = new StringBuilder ();

@@ -10,21 +10,23 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.ExpectedException;
 import org.junit.runners.MethodSorters;
 
 import com.novicehacks.autobot.categories.EnvironmentalTest;
-import com.novicehacks.autobot.ssh.DefaultSSHConnection;
-import com.novicehacks.autobot.ssh.SSHConnection;
-import com.novicehacks.autobot.ssh.SSHSession;
 
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class DefaultSSHConnectionTestWithoutMocking {
-	private SSHConnection	sshConnection;
-	private final String	connectionStr	= "sdf.org";
-	private final String	password		= "novicehacks";
-	private final String	username		= "novicehacks";
+	private SSHConnection sshConnection;
+	private final String connectionStr = "sdf.org";
+	private final String password = "novicehacks";
+	private final String username = "novicehacks";
+
+	@Rule
+	public ExpectedException exception = ExpectedException.none ();
 
 	@Before
 	public void initializeConnectionMock() throws Exception {
@@ -50,16 +52,16 @@ public class DefaultSSHConnectionTestWithoutMocking {
 		this.sshConnection.disconnect ();
 	}
 
-	@Test (expected = IOException.class)
+	@Test
 	@Category (EnvironmentalTest.class)
 	public void connectWhenRemoteExceptionTest() throws Exception {
 		// given
-		String ipAddress = "192.168.0.1";
-		this.sshConnection = DefaultSSHConnection.getNewInstance (ipAddress);
+		String incorrectIPAddress = "192.168.0.1";
 		// when
-		this.sshConnection.connect (10, 10);
+		this.sshConnection = DefaultSSHConnection.getNewInstance (incorrectIPAddress);
 		// then
-		this.sshConnection.connect ();
+		this.exception.expect (IOException.class);
+		this.sshConnection.connect (10, 10);
 	}
 
 	@Test
@@ -106,7 +108,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 		assertNotNull (session);
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (EnvironmentalTest.class)
 	public void openSessionBeforeAuthenticateTest() throws Exception {
 		SSHSession session;
@@ -116,6 +118,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 		assertFalse ("Connection should not be authenticated",
 				this.sshConnection.isAuthenticated ());
 		// then
+		this.exception.expect (IllegalStateException.class);
 		session = this.sshConnection.openSession ();
 		assertNull (session);
 	}

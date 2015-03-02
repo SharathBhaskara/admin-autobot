@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.logger.DefaultOutputFooterService;
 import com.novicehacks.autobot.logger.OutputFooterService;
@@ -13,7 +14,7 @@ import com.novicehacks.autobot.logger.OutputFooterService;
 public class ShellOutputFooterServiceTest {
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testEquals() {
 		// given
 		OutputFooterService service1 = new ShellOutputFooterService ();

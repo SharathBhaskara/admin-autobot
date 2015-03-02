@@ -1,15 +1,19 @@
 package com.novicehacks.autobot.logger;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.novicehacks.autobot.categories.FunctionalTest;
+import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
@@ -32,6 +36,7 @@ public class DefaultOutputHeaderServiceTest {
 	}
 
 	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void headerTest() {
 		// given
 		when (this.server.id ()).thenReturn ("S001");
@@ -54,10 +59,11 @@ public class DefaultOutputHeaderServiceTest {
 		String actual = this.headerService.header ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
 		// then
-		assertEquals (expected, actual);
+		assertEquals ("Formatted output didnt match", expected, actual);
 	}
 
 	@Test
+	@Category ({ UnitTest.class })
 	public void headerTestWithNullValue() {
 		// given
 		StringBuilder buffer = new StringBuilder ();
@@ -73,10 +79,11 @@ public class DefaultOutputHeaderServiceTest {
 		String actual = this.headerService.header ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
 		// then
-		assertEquals (expected, actual);
+		assertEquals ("Formatted output didnt match", expected, actual);
 	}
 
 	@Test
+	@Category ({ UnitTest.class })
 	public void instantiationWithNullParam() {
 		// given
 		this.server = null;
@@ -84,6 +91,8 @@ public class DefaultOutputHeaderServiceTest {
 		// then
 		this.exception.expect (IllegalArgumentException.class);
 		this.headerService = new DefaultOutputHeaderService (this.server, this.command);
+
+		fail ("Invalid Parameters passed");
 	}
 
 }

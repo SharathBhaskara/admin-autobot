@@ -1,8 +1,10 @@
 package com.novicehacks.autobot.ssh;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,12 +13,15 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import ch.ethz.ssh2.Session;
 
+import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.IgnoredTest;
 import com.novicehacks.autobot.categories.NewFeature;
 import com.novicehacks.autobot.categories.UnitTest;
@@ -25,6 +30,9 @@ public class DefaultSSHSessionTest {
 	private static final String SecondExecuteCommand = "SecondExecuteCommand";
 	private SSHSession sshSession;
 	private Session remoteSession;
+
+	@Rule
+	public ExpectedException exception = ExpectedException.none ();
 
 	@Before
 	public void setUp() throws Exception {
@@ -42,7 +50,7 @@ public class DefaultSSHSessionTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getStdInputStream() {
 		// given
 		// when
@@ -51,42 +59,43 @@ public class DefaultSSHSessionTest {
 		verify (this.remoteSession).getStdin ();
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void getStdInputStreamAfterSessionClosed() {
-		// given
+		// when session closed
 		this.sshSession.closeSession ();
-		// when
-		this.sshSession.stdInputStream ();
 		// then
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.stdInputStream ();
+
 		verify (this.remoteSession, times (0)).getStdin ();
-		fail ("Exception should have raised before, or failed in verify");
+		fail ("Input Stream cannot be obtained after closing session");
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getStdOutputStream() {
-		// given
 		// when
 		this.sshSession.stdOutputStream ();
 		// then
 		verify (this.remoteSession).getStdout ();
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void getStdOutputStreamAfterSessionClosed() {
-		// given
+		// when session closed
 		this.sshSession.closeSession ();
-		// when
-		this.sshSession.stdOutputStream ();
 		// then
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.stdOutputStream ();
+
 		verify (this.remoteSession, times (0)).getStdout ();
-		fail ("Exception should have raised before, or failed in verify");
+		fail ("Output Stream cannot be obtained after closing session");
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getStdErrorStream() {
 		// given
 		// when
@@ -95,62 +104,68 @@ public class DefaultSSHSessionTest {
 		verify (this.remoteSession).getStderr ();
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void getStdErrorStreamAfterSessionClosed() {
-		// given
+		// when session closed
 		this.sshSession.closeSession ();
-		// when
-		this.sshSession.stdErrorStream ();
 		// then
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.stdErrorStream ();
+
 		verify (this.remoteSession, times (0)).getStderr ();
-		fail ("Exception should have raised before, or failed in verify");
+		fail ("Error Stream cannot be obtained after closing session");
+	}
+
+	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
+	public void startShell() throws IOException {
+		// when
+		this.sshSession.startShell ();
+		// then
+		verify (this.remoteSession).startShell ();
 	}
 
 	@Test
 	@Category (UnitTest.class)
-	public void startShell() throws IOException {
-		// given
-		// when
-		this.sshSession.startShell ();
-		// then
-		verify (this.remoteSession).startShell ();
-	}
-
-	@Test (expected = IllegalStateException.class)
-	@Category (UnitTest.class)
 	public void startShellMultipleTimes() throws IOException {
 		// given
 		this.sshSession.startShell ();
-		verify (this.remoteSession).startShell ();
 		// when
-		this.sshSession.startShell ();
+		verify (this.remoteSession, times (1)).startShell ();
 		// then
-		fail ("Should not start a new Shell As another Shell is already initiated on this session");
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.startShell ();
+
+		verify (this.remoteSession, times (1)).startShell ();
+		fail ("Shell can be initiated only once per session");
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void startShellAfterExecutingCommand() throws IOException {
-		// given
+		// when command executed on session
 		this.sshSession.execCommand ("df -k");
 		verify (this.remoteSession).execCommand (Mockito.anyString ());
-		// when
-		this.sshSession.startShell ();
 		// then
-		fail ("Should not start a new Shell As Command already executed on session");
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.startShell ();
+
+		verify (this.remoteSession, never ()).startShell ();
+		fail ("Shell cannot be started after Command Execution in same session");
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void startShellAfterSessionClosed() throws IOException {
-		// given
+		// when session closed
 		this.sshSession.closeSession ();
-		// when
-		this.sshSession.startShell ();
 		// then
-		verify (this.remoteSession, times (0)).startShell ();
-		fail ("Exception should have raised before, or failed in verify");
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.startShell ();
+
+		verify (this.remoteSession, never ()).startShell ();
+		fail ("shell cannot be started after closing session");
 	}
 
 	@Test
@@ -161,145 +176,158 @@ public class DefaultSSHSessionTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void executeCommand() throws IOException {
 		// given
 		String command = "abc";
 		// when
 		this.sshSession.execCommand (command);
 		// then
-		verify (this.remoteSession).execCommand (command);
+		verify (this.remoteSession, times (1)).execCommand (command);
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void executeCommandAfterShellStart() throws IOException {
-		// given
+		// when shell started on session
 		this.sshSession.startShell ();
-		verify (this.remoteSession).startShell ();
-		// when
-		this.sshSession.execCommand ("df -k");
+		verify (this.remoteSession, atLeast (1)).startShell ();
 		// then
-		fail ("Command should not be executed, as Shell is already started on the session");
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.execCommand ("df -k");
+
+		verify (this.remoteSession, never ()).execCommand (Mockito.anyString ());
+		fail ("Command cannot be executed after starting shell on same session");
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void executeCommandMultipleTimes() throws IOException {
 		// given
 		String command = "abc";
-		// when
+		// when command executed
 		this.sshSession.execCommand (command);
-		verify (this.remoteSession).execCommand (command);
-		this.sshSession.execCommand (command);
+		verify (this.remoteSession, atLeast (1)).execCommand (command);
 		// then
-		fail ("Multiple commands cannot be executed on same session");
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.execCommand (command);
+
+		fail ("Execute command cannot be run multiple times on same session");
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void executeCommandAfterSessionClosed() throws IOException {
 		// given
 		String command = "abc";
+		// when session closed
 		this.sshSession.closeSession ();
-		// when
-		this.sshSession.execCommand (command);
 		// then
-		fail ("Exception should be thrown prior");
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.execCommand (command);
+
+		fail ("Execute command cannot run after closing session");
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void requestTerminalBeforeShellStart() throws IOException {
-		// when
-		verify (this.remoteSession, times (0)).startShell ();
+		// given
+		verify (this.remoteSession, never ()).startShell ();
+		// when shell not started
 		this.sshSession.getTerminal ();
-		this.sshSession.startShell ();
 		// then
-		verify (this.remoteSession).requestDumbPTY ();
-		verify (this.remoteSession).startShell ();
+		verify (this.remoteSession, times (1)).requestDumbPTY ();
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void requestTerminalAfterShellStart() throws IOException {
-		// when
+		// when shell started
 		this.sshSession.startShell ();
-		verify (this.remoteSession).startShell ();
+		verify (this.remoteSession, atLeast (1)).startShell ();
 		// then
+		this.exception.expect (IllegalStateException.class);
 		this.sshSession.getTerminal ();
-		verify (this.remoteSession).requestDumbPTY ();
-		fail ("Get Terminal should have failed with exception");
+
+		verify (this.remoteSession, never ()).requestDumbPTY ();
+		fail ("Terminal cannot be obtained after starting shell on a session");
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void requestTerminalBeforeExecuteCommand() throws IOException {
-		// when
-		verify (this.remoteSession, times (0)).execCommand (Mockito.anyString ());
+		// given
+		verify (this.remoteSession, never ()).execCommand (Mockito.anyString ());
+		// when no commands executed
 		this.sshSession.getTerminal ();
-		this.sshSession.execCommand ("df -k");
 		// then
-		verify (this.remoteSession).requestDumbPTY ();
-		verify (this.remoteSession).execCommand ("df -k");
+		verify (this.remoteSession, times (1)).requestDumbPTY ();
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
 	public void requestTerminalAfterExecuteCommand() throws IOException {
-		// when
+		// when command executed
 		this.sshSession.execCommand ("df -k");
-		verify (this.remoteSession).execCommand ("df -k");
+		verify (this.remoteSession, atLeast (1)).execCommand ("df -k");
 		// then
+		this.exception.expect (IllegalStateException.class);
 		this.sshSession.getTerminal ();
-		verify (this.remoteSession).requestDumbPTY ();
-		fail ("Get Terminal should have failed with exception");
-	}
 
-	@Test (expected = IllegalStateException.class)
-	@Category (UnitTest.class)
-	public void requestMultipleTerminalBeforeShellStartOrCommandExecute() throws IOException {
-		// when
-		verify (this.remoteSession, times (0)).execCommand (Mockito.anyString ());
-		verify (this.remoteSession, times (0)).startShell ();
-		this.sshSession.getTerminal ();
-		// then
-		verify (this.remoteSession).requestDumbPTY ();
-		this.sshSession.getTerminal ();
-		fail ("Get Terminal should have failed with exception");
-	}
-
-	@Test (expected = IllegalStateException.class)
-	@Category (UnitTest.class)
-	public void requestTerminalAfterSessionClosed() throws IOException {
-		// given
-		this.sshSession.closeSession ();
-		// when
-		this.sshSession.getTerminal ();
-		// then
-		verify (this.remoteSession, times (0)).requestDumbPTY ();
-		fail ("Exception should have raised before, or failed in verify");
+		verify (this.remoteSession, never ()).requestDumbPTY ();
+		fail ("Terminal cannot be requested after command execution on a session");
 	}
 
 	@Test
 	@Category (UnitTest.class)
-	public void sessionClose() throws IOException {
+	public void requestMultipleTerminalBeforeShellStartOrCommandExecute() throws IOException {
 		// given
-		// when
-		this.sshSession.closeSession ();
+		verify (this.remoteSession, never ()).execCommand (Mockito.anyString ());
+		verify (this.remoteSession, never ()).startShell ();
+		// when terminal already requested
+		this.sshSession.getTerminal ();
+		verify (this.remoteSession, atLeast (1)).requestDumbPTY ();
 		// then
-		verify (this.remoteSession).close ();
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.getTerminal ();
+
+		fail ("Multiple Terminals cannot be requested on a session");
 	}
 
-	@Test (expected = IllegalStateException.class)
+	@Test
 	@Category (UnitTest.class)
-	public void sessionCloseMultipleTimes() throws IOException {
-		// given
+	public void requestTerminalAfterSessionClosed() throws IOException {
+		// when session closed
 		this.sshSession.closeSession ();
+		// then
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.getTerminal ();
+
+		verify (this.remoteSession, never ()).requestDumbPTY ();
+		fail ("Terminal cannot be requested after closing the session");
+	}
+
+	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
+	public void sessionClose() throws IOException {
 		// when
 		this.sshSession.closeSession ();
 		// then
-		fail ("Exception should be thrown prior");
+		verify (this.remoteSession, times (1)).close ();
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void sessionCloseMultipleTimes() throws IOException {
+		// when session closed
+		this.sshSession.closeSession ();
+		// then
+		this.exception.expect (IllegalStateException.class);
+		this.sshSession.closeSession ();
+
+		verify (this.remoteSession, times (1)).close ();
+		fail ("Session cannot be closed multiple times");
 	}
 
 }

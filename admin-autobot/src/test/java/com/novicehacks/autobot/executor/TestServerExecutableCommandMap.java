@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
@@ -20,7 +21,7 @@ import com.novicehacks.autobot.types.UnixServer;
 public class TestServerExecutableCommandMap {
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testInitialization() {
 		ServerExecutableCommandMap map = new ServerExecutableCommandMap ();
 		assertFalse (map.containsKey (null));
@@ -35,7 +36,7 @@ public class TestServerExecutableCommandMap {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testPutMultipleValuesCheckSize() {
 		Server server = new UnixServer ("123");
 		ServerExecutableCommandMap map = new ServerExecutableCommandMap ();
@@ -47,7 +48,7 @@ public class TestServerExecutableCommandMap {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testPutWithMultipleValue() {
 		Collection<Command> collection;
 		Server server = new UnixServer ("123");

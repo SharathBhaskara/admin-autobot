@@ -8,8 +8,12 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.junit.rules.ExpectedException;
 
+import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
 import com.novicehacks.autobot.types.Command;
@@ -25,6 +29,9 @@ public class ParallelCommandExecutorTaskTest {
 	private SSHSession session;
 	private ShellOutputLoggerTask outputLoggerTask;
 
+	@Rule
+	public ExpectedException exception = ExpectedException.none ();
+
 	@Before
 	public void setUp() throws IOException {
 		this.connection = mock (SSHConnection.class);
@@ -39,36 +46,39 @@ public class ParallelCommandExecutorTaskTest {
 		doNothing ().when (this.outputLoggerTask).run ();
 	}
 
-	@Test (expected = CommandExecutionException.class)
+	@Test
+	@Category (UnitTest.class)
 	public void nullCommandToTask() {
-		// given
+		// when
 		this.command = null;
-		// when
+		// then
+		this.exception.expect (CommandExecutionException.class);
 		this.commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
 				this.command);
-		// then
-		fail ("Invalid Parameters");
+		fail ("Command cannot be null");
 	}
 
-	@Test (expected = CommandExecutionException.class)
+	@Test
+	@Category (UnitTest.class)
 	public void nullConnectionToTask() {
-		// given
-		this.connection = null;
 		// when
+		this.connection = null;
+		// then
+		this.exception.expect (CommandExecutionException.class);
 		this.commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
 				this.command);
-		// then
-		fail ("Invalid Parameters");
+		fail ("Connection cannot be null");
 	}
 
-	@Test (expected = CommandExecutionException.class)
+	@Test
+	@Category (UnitTest.class)
 	public void nullServerToTask() throws IOException {
-		// given
-		this.server = null;
 		// when
+		this.server = null;
+		// then
+		this.exception.expect (CommandExecutionException.class);
 		this.commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
 				this.command);
-		// then
-		fail ("Invalid Parameters");
+		fail ("Server cannot be null");
 	}
 }
