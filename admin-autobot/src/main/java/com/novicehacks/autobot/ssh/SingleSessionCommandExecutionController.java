@@ -67,13 +67,14 @@ public class SingleSessionCommandExecutionController {
 
 	void appendHeaderToOutput(Command command) {
 		String data;
-		data = ShellOutputLoggerTaskHelper.headerService (this.server, command).header ();
+		data = ShellOutputLoggerTaskHelper.getInstance ().headerService (this.server, command)
+				.header ();
 		this.commandOutput.append (data);
 	}
 
 	void appendFooterToOutput() {
 		String data;
-		data = ShellOutputLoggerTaskHelper.footerService ().footer ();
+		data = ShellOutputLoggerTaskHelper.getInstance ().footerService ().footer ();
 		this.commandOutput.append (BotUtils.newLine ());
 		this.commandOutput.append (data);
 	}

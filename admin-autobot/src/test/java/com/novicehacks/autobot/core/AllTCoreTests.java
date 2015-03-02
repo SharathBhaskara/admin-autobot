@@ -6,6 +6,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith (Suite.class)
 @SuiteClasses (CoreUnitTestSuite.class)
-public class CoreAllTests {
+public class AllTCoreTests {
 
 }

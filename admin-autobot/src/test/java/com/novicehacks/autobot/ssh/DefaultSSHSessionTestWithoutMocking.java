@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.novicehacks.autobot.categories.EnvironmentDependent;
+import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.ssh.DefaultSSHConnection;
 import com.novicehacks.autobot.ssh.SSHConnection;
@@ -39,7 +39,7 @@ public class DefaultSSHSessionTestWithoutMocking {
 	}
 
 	@Test
-	@Category ({ UnitTest.class, EnvironmentDependent.class })
+	@Category ({ UnitTest.class, EnvironmentalTest.class })
 	public void testExecuteCommand() throws IOException {
 		// given
 		String command = "df -k";
@@ -50,7 +50,7 @@ public class DefaultSSHSessionTestWithoutMocking {
 	}
 
 	@Test
-	@Category ({ UnitTest.class, EnvironmentDependent.class })
+	@Category ({ UnitTest.class, EnvironmentalTest.class })
 	public void testStartShell() throws IOException {
 		// given
 		String command = "df -k";

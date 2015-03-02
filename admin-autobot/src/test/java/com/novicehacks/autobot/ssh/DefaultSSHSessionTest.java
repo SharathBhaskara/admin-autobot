@@ -17,6 +17,8 @@ import org.mockito.Mockito;
 
 import ch.ethz.ssh2.Session;
 
+import com.novicehacks.autobot.categories.IgnoredTest;
+import com.novicehacks.autobot.categories.NewFeature;
 import com.novicehacks.autobot.categories.UnitTest;
 
 public class DefaultSSHSessionTest {
@@ -152,7 +154,7 @@ public class DefaultSSHSessionTest {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, NewFeature.class, IgnoredTest.class })
 	@Ignore
 	public void startShellAndExecuteCommandParallely() throws IOException {
 		fail ("UnImplemented");

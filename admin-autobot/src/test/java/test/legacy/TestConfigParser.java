@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.novicehacks.autobot.categories.EnvironmentDependent;
+import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.ResourceConfig;
 import com.novicehacks.autobot.config.parser.ConfigParser;
@@ -19,7 +19,7 @@ public class TestConfigParser {
 	Logger	logger	= LogManager.getLogger ();
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void testConfigLoading() {
 		ConfigParser parser;
 		parser = ConfigParser.getIntance ();
@@ -34,7 +34,7 @@ public class TestConfigParser {
 	}
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void testResourceLoading() throws InterruptedException, ExecutionException,
 			TimeoutException {
 		AutobotConfigManager.loadSystemConfig ();

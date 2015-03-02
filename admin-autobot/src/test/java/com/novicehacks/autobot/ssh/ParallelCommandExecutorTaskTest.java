@@ -10,6 +10,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
@@ -38,7 +39,7 @@ public class ParallelCommandExecutorTaskTest {
 		doNothing ().when (this.outputLoggerTask).run ();
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test (expected = CommandExecutionException.class)
 	public void nullCommandToTask() {
 		// given
 		this.command = null;
@@ -49,7 +50,7 @@ public class ParallelCommandExecutorTaskTest {
 		fail ("Invalid Parameters");
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test (expected = CommandExecutionException.class)
 	public void nullConnectionToTask() {
 		// given
 		this.connection = null;
@@ -60,10 +61,10 @@ public class ParallelCommandExecutorTaskTest {
 		fail ("Invalid Parameters");
 	}
 
-	@Test
+	@Test (expected = CommandExecutionException.class)
 	public void nullServerToTask() throws IOException {
 		// given
-		when (this.connection.openSession ()).thenThrow (new IOException ());
+		this.server = null;
 		// when
 		this.commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
 				this.command);

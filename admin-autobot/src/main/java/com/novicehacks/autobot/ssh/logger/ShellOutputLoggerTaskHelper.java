@@ -17,10 +17,25 @@ import com.novicehacks.autobot.types.Server;
 
 public class ShellOutputLoggerTaskHelper {
 
-	protected static final String OutputFile = "botconsole.log";
+	public static final String OutputFile = "botconsole.log";
 	private static Logger logger = LogManager.getLogger (ShellOutputLoggerTask.class);
+	private static OutputFooterService footerService;
 
-	public static Path createFileIfNeededAndGetPath() {
+	private static class ShellOutputLoggerTaskHelperSingleton {
+		private final static ShellOutputLoggerTaskHelper instance = new ShellOutputLoggerTaskHelper ();
+
+		public static ShellOutputLoggerTaskHelper getInstance() {
+			return instance;
+		}
+	}
+
+	private ShellOutputLoggerTaskHelper () {}
+
+	public static ShellOutputLoggerTaskHelper getInstance() {
+		return ShellOutputLoggerTaskHelperSingleton.getInstance ();
+	}
+
+	public Path createFileIfNeededAndGetPath() {
 		logger.entry ();
 		String shellConsoleFolder = SysConfig.getInstance ().getShellConsoleFolder ();
 		Path outputFolderPath = Paths.get (shellConsoleFolder);
@@ -31,7 +46,7 @@ public class ShellOutputLoggerTaskHelper {
 		return outputFilePath;
 	}
 
-	private static void createFile(Path outputFolderPath, Path outputFilePath) {
+	private void createFile(Path outputFolderPath, Path outputFilePath) {
 		try {
 			Files.createDirectories (outputFolderPath);
 			Files.createFile (outputFilePath);
@@ -40,15 +55,15 @@ public class ShellOutputLoggerTaskHelper {
 		}
 	}
 
-	public static OutputHeaderService headerService(Server server, Command command) {
+	public OutputHeaderService headerService(Server server, Command command) {
 		OutputHeaderService headerService;
-		headerService = new ShellOuptutHeaderService (server, command);
+		headerService = new ShellOutputHeaderService (server, command);
 		return headerService;
 	}
 
-	public static OutputFooterService footerService() {
-		OutputFooterService footerService;
-		footerService = new ShellOutputFooterService ();
+	public OutputFooterService footerService() {
+		if (footerService == null)
+			footerService = new ShellOutputFooterService ();
 		return footerService;
 	}
 

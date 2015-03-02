@@ -11,12 +11,13 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.novicehacks.autobot.categories.ParameterizedTest;
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.ssh.DefaultSSHConnection;
 
 @RunWith (Parameterized.class)
+@Category ({ ParameterizedTest.class, UnitTest.class })
 public class DefaultSSHConnectionStringParameterizedTest {
-	private final String	IPAddressRegex	= DefaultSSHConnection.IPAddressRegex;
+	private final String IPAddressRegex = DefaultSSHConnection.IPAddressRegex;
 
 	@Parameters (name = "test({index}) : IPAddressRegex({0}) = {1}")
 	public static Collection<Object[]> paramValues() {
@@ -29,18 +30,17 @@ public class DefaultSSHConnectionStringParameterizedTest {
 	}
 
 	@Parameter (0)
-	public String	matcherInput;
+	public String matcherInput;
 
 	@Parameter (1)
-	public boolean	matcherOutput;
+	public boolean matcherOutput;
 
 	@Test
-	@Category (UnitTest.class)
 	public void testIPAddressRegex() {
 		// given
-		boolean expected = matcherOutput;
+		boolean expected = this.matcherOutput;
 		// when
-		boolean actual = matcherInput.matches (IPAddressRegex);
+		boolean actual = this.matcherInput.matches (this.IPAddressRegex);
 		// then
 		Assert.assertEquals (expected, actual);
 	}

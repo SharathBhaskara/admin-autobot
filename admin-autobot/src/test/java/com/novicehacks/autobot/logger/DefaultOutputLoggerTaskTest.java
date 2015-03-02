@@ -1,11 +1,10 @@
-package com.novicehacks.autobot.ssh.logger;
+package com.novicehacks.autobot.logger;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -23,12 +22,10 @@ import org.mockito.MockitoAnnotations;
 import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.core.stubs.SysConfigDelegate;
 import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
-import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
-import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTaskHelper;
 import com.novicehacks.autobot.types.ShellCommand;
 import com.novicehacks.autobot.types.UnixServer;
 
-public class SSHOutputLoggerTaskTest {
+public class DefaultOutputLoggerTaskTest {
 	private final String newLine = System.lineSeparator ();
 	private final String lineSeperator = ":-:";
 	private static final String OutputFolder = "temp-output";
@@ -38,7 +35,7 @@ public class SSHOutputLoggerTaskTest {
 	@Mock
 	private ShellCommand command;
 	@InjectMocks
-	private ShellOutputLoggerTask outputLogger;
+	private DefaultOutputLoggerTask outputLogger;
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none ();
@@ -56,15 +53,14 @@ public class SSHOutputLoggerTaskTest {
 
 	@After
 	public void cleanUp() throws IOException {
-		Path outputFolderPath = Paths.get (OutputFolder);
-		Files.deleteIfExists (outputFolderPath.resolve (ShellOutputLoggerTaskHelper.OutputFile));
+		Path outputFolderPath = this.outputLogger.logLocation ();
 		Files.deleteIfExists (outputFolderPath);
 	}
 
 	@Test
 	@Category (UnitTest.class)
 	public void instantiate() {
-		this.outputLogger = new ShellOutputLoggerTask (this.server, this.command,
+		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command,
 				this.commandOutput);
 	}
 
@@ -75,7 +71,7 @@ public class SSHOutputLoggerTaskTest {
 		this.server = null;
 		// then
 		this.exception.expect (UnixOutputLoggingException.class);
-		this.outputLogger = new ShellOutputLoggerTask (this.server, this.command,
+		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command,
 				this.commandOutput);
 	}
 
@@ -86,7 +82,7 @@ public class SSHOutputLoggerTaskTest {
 		this.command = null;
 		// then
 		this.exception.expect (UnixOutputLoggingException.class);
-		this.outputLogger = new ShellOutputLoggerTask (this.server, this.command,
+		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command,
 				this.commandOutput);
 	}
 
@@ -97,7 +93,19 @@ public class SSHOutputLoggerTaskTest {
 		this.commandOutput = null;
 		// then
 		this.exception.expect (UnixOutputLoggingException.class);
-		this.outputLogger = new ShellOutputLoggerTask (this.commandOutput);
+		this.outputLogger = new DefaultOutputLoggerTask (this.commandOutput);
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void headerServiceTest() {
+		// given
+		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command, null);
+		// when
+		OutputHeaderService actual = this.outputLogger.headerService ();
+		// then
+		Assert.assertThat (actual, CoreMatchers.instanceOf (OutputHeaderService.class));
+		Assert.assertThat (actual, CoreMatchers.instanceOf (DefaultOutputHeaderService.class));
 	}
 
 	@Test
@@ -109,19 +117,27 @@ public class SSHOutputLoggerTaskTest {
 				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
 				.append (this.lineSeperator).append ("Server : null (null)")
 				.append (this.lineSeperator).append ("Command : null (null)")
-				.append (this.lineSeperator).append (this.lineSeperator)
+				.append (this.lineSeperator)
 				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
 				.append (this.lineSeperator);
 		String expected = buffer.toString ();
 		// when
-		String actual = ShellOutputLoggerTaskHelper.headerService (this.server, this.command).header ();
+		String actual = this.outputLogger.headerService ().header ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
 		// then
-		System.out.println ("Header Actual - " + actual);
-		System.out.println ("Header expected - " + expected);
 		Assert.assertThat (actual, CoreMatchers.containsString ("Server : null (null)"));
 		Assert.assertThat (actual, CoreMatchers.containsString ("Command : null (null)"));
 		assertEquals (expected, actual);
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void footerServiceTest() {
+		// when
+		OutputFooterService actual = this.outputLogger.footerService ();
+		// then
+		Assert.assertThat (actual, CoreMatchers.instanceOf (OutputFooterService.class));
+		Assert.assertThat (actual, CoreMatchers.instanceOf (DefaultOutputFooterService.class));
 	}
 
 	@Test
@@ -134,11 +150,9 @@ public class SSHOutputLoggerTaskTest {
 				.append ("**************************************************");
 		String expected = buffer.toString ();
 		// when
-		String actual = ShellOutputLoggerTaskHelper.footerService ().footer ();
+		String actual = this.outputLogger.footerService ().footer ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
 		// then
-		System.out.println ("Footer Actual - " + actual);
-		System.out.println ("Footer expected - " + expected);
 		assertEquals (expected, actual);
 	}
 
@@ -151,7 +165,7 @@ public class SSHOutputLoggerTaskTest {
 				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
 				.append (this.lineSeperator).append ("Server : null (null)")
 				.append (this.lineSeperator).append ("Command : null (null)")
-				.append (this.lineSeperator).append (this.lineSeperator)
+				.append (this.lineSeperator)
 				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
 				.append (this.lineSeperator).append (this.commandOutput)
 				.append (this.lineSeperator)
@@ -161,13 +175,11 @@ public class SSHOutputLoggerTaskTest {
 		String expected = buffer.toString ();
 
 		// when
-		this.outputLogger = new ShellOutputLoggerTask (this.server, this.command,
+		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command,
 				this.commandOutput);
 		String actual = this.outputLogger.getFormattedContent ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
 		// then
-		System.out.println ("Formatted Content Actual - " + actual);
-		System.out.println ("Formatted Content Expected - " + expected);
 		assertEquals (expected, actual);
 	}
 }

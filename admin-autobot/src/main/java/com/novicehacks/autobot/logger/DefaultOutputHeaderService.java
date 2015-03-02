@@ -1,20 +1,25 @@
-package com.novicehacks.autobot.ssh.logger;
+package com.novicehacks.autobot.logger;
 
 import com.novicehacks.autobot.core.BotUtils;
-import com.novicehacks.autobot.logger.OutputHeaderService;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
-public class ShellOuptutHeaderService implements OutputHeaderService {
+public class DefaultOutputHeaderService implements OutputHeaderService {
 	private Server server;
 	private Command command;
 	private StringBuilder buffer;
 	private final int seperatorLength = 50;
 	private String headerSeparatorContent;
 
-	ShellOuptutHeaderService (Server server, Command command) {
+	public DefaultOutputHeaderService (Server server, Command command) {
+		validateParams (server, command);
 		this.server = server;
 		this.command = command;
+	}
+
+	private void validateParams(Server server, Command command) {
+		if (BotUtils.HasNullReferences (server, command))
+			throw new IllegalArgumentException ("Invalid params with null values");
 	}
 
 	@Override
@@ -36,7 +41,6 @@ public class ShellOuptutHeaderService implements OutputHeaderService {
 		buffer.append (getServerInfo ());
 		buffer.append (BotUtils.newLine ());
 		buffer.append (getCommandInfo ());
-		buffer.append (BotUtils.newLine ());
 		return buffer.toString ();
 	}
 

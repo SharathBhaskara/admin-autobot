@@ -1,31 +1,13 @@
 package com.novicehacks.autobot.ssh.logger;
 
-import com.novicehacks.autobot.core.BotUtils;
-import com.novicehacks.autobot.logger.OutputFooterService;
+import com.novicehacks.autobot.logger.DefaultOutputFooterService;
 
-public class ShellOutputFooterService implements OutputFooterService {
-	private final int seperatorLength = 50;
-	private String footerSeparatorContent;
-
+public final class ShellOutputFooterService extends DefaultOutputFooterService {
 	@Override
-	public String footer() {
-		StringBuilder buffer;
-		buffer = new StringBuilder ();
-		buffer.append (getFooterSeperator ());
-		buffer.append (BotUtils.newLine ());
-		buffer.append (getFooterSeperator ());
-		return buffer.toString ();
+	public boolean equals(Object obj) {
+		if (obj != null)
+			if (obj instanceof ShellOutputFooterService)
+				return true;
+		return false;
 	}
-
-	private String getFooterSeperator() {
-		StringBuilder buffer = new StringBuilder ();
-		if (this.footerSeparatorContent != null)
-			return this.footerSeparatorContent;
-		for (int count = 0; count < this.seperatorLength; count++) {
-			buffer.append ("*");
-		}
-		this.footerSeparatorContent = buffer.toString ();
-		return buffer.toString ();
-	}
-
 }

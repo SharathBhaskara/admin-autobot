@@ -15,7 +15,7 @@ import org.junit.experimental.categories.Category;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.novicehacks.autobot.categories.EnvironmentDependent;
+import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.ssh.ServerCommandProcessor;
@@ -82,14 +82,14 @@ public class TestUnixServerCommandProcessor {
 	}
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void testSequentialExection() throws InterruptedException {
 		Thread task = new Thread (this.commandProcessor);
 		executeAndWait (task);
 	}
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void testParallelExecution() throws InterruptedException {
 		when (this.server.initCommands ()).thenReturn (new String[] { });
 		when (this.server.ipaddress ()).thenReturn ("192.168.40.133");

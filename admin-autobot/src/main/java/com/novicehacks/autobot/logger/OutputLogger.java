@@ -1,6 +1,10 @@
 package com.novicehacks.autobot.logger;
 
-public interface OutputLoggerTask extends Runnable {
+import java.nio.file.Path;
+
+import com.novicehacks.autobot.core.ContentWriterService;
+
+public interface OutputLogger {
 	/**
 	 * Final content that is about to be written by this thread.
 	 * 
@@ -21,4 +25,18 @@ public interface OutputLoggerTask extends Runnable {
 	 * @return
 	 */
 	public OutputFooterService footerService();
+
+	/**
+	 * File Writer service that is used for writing the formatted content
+	 * 
+	 * @return
+	 */
+	public ContentWriterService writerService();
+
+	/**
+	 * Path of log, where the content is logged.
+	 * 
+	 * @return
+	 */
+	public Path logLocation();
 }

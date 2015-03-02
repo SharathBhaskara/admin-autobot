@@ -4,8 +4,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.novicehacks.autobot.core.CoreAllTests;
-import com.novicehacks.autobot.ssh.SSHAllTests;
+import com.novicehacks.autobot.core.AllTCoreTests;
+import com.novicehacks.autobot.executor.AllExecutorTests;
+import com.novicehacks.autobot.logger.AllOutputLoggerTests;
+import com.novicehacks.autobot.ssh.AllSSHTests;
 
 /**
  * Includes both parameterized and unit tests.
@@ -14,7 +16,8 @@ import com.novicehacks.autobot.ssh.SSHAllTests;
  *
  */
 @RunWith (Suite.class)
-@SuiteClasses ({ SSHAllTests.class, CoreAllTests.class })
+@SuiteClasses ({ AllSSHTests.class, AllTCoreTests.class, AllOutputLoggerTests.class,
+		AllExecutorTests.class })
 public class AllTests {
 
 }

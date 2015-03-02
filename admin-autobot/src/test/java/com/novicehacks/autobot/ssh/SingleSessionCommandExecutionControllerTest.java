@@ -1,5 +1,8 @@
 package com.novicehacks.autobot.ssh;
 
-public class SingleSessionCommandExecutionControllerTest {
+import org.junit.Test;
 
+public class SingleSessionCommandExecutionControllerTest {
+	@Test
+	public void nothing() {}
 }

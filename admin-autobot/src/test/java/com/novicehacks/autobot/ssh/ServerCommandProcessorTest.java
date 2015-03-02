@@ -1,5 +1,8 @@
 package com.novicehacks.autobot.ssh;
 
-public class ServerCommandProcessorTest {
+import org.junit.Test;
 
+public class ServerCommandProcessorTest {
+	@Test
+	public void nothing() {}
 }

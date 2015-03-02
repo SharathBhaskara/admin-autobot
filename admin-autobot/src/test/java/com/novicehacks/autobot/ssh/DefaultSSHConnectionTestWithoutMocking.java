@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
-import com.novicehacks.autobot.categories.EnvironmentDependent;
+import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.ssh.DefaultSSHConnection;
 import com.novicehacks.autobot.ssh.SSHConnection;
 import com.novicehacks.autobot.ssh.SSHSession;
@@ -38,7 +38,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 	}
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void connectTest() throws Exception {
 		// given
 		// when
@@ -51,7 +51,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 	}
 
 	@Test (expected = IOException.class)
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void connectWhenRemoteExceptionTest() throws Exception {
 		// given
 		String ipAddress = "192.168.0.1";
@@ -63,7 +63,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 	}
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void authenticationTest() throws Exception {
 		// given
 		boolean authStatus;
@@ -76,7 +76,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 	}
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void authenticationWithInvalidCredentialsTest() throws Exception {
 		// given
 		initializeConnectionMock ();
@@ -92,7 +92,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 	}
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void openSessionTest() throws Exception {
 		SSHSession session;
 		// given
@@ -107,7 +107,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 	}
 
 	@Test (expected = IllegalStateException.class)
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void openSessionBeforeAuthenticateTest() throws Exception {
 		SSHSession session;
 		// when not authenticated
@@ -121,7 +121,7 @@ public class DefaultSSHConnectionTestWithoutMocking {
 	}
 
 	@Test
-	@Category (EnvironmentDependent.class)
+	@Category (EnvironmentalTest.class)
 	public void disconnectionTest() throws Exception {
 		// given
 		initializeConnectionMock ();

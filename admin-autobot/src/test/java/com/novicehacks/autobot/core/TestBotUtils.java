@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
+import com.novicehacks.autobot.categories.IgnoredTest;
 import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.core.stubs.MappableStub;
 
@@ -76,7 +77,7 @@ public class TestBotUtils {
 	}
 
 	@Test
-	@Category (UnitTest.class)
+	@Category ({ UnitTest.class, IgnoredTest.class })
 	@Ignore
 	public void testHasNullReferencesWithMultipleArrayWithNullInArray() {
 		// given

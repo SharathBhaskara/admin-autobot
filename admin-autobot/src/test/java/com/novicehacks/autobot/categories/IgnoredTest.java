@@ -1,5 +1,5 @@
 package com.novicehacks.autobot.categories;
 
-public interface EnvironmentDependent {
+public interface IgnoredTest {
 
 }

@@ -131,3 +131,433 @@ drwx------     2 novicehacks  users   1536 Feb 26 00:25 .
 sdf:/udd/n/novicehacks> sdf:/udd/n/novicehacks>
 **************************************************
 **************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38362  1001 15 15:20 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38422 38362  0 15:20 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38424 38422  0 15:20 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38426 38424  0 15:20 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38436  1001  1 15:21 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38472 38436  0 15:21 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38474 38472  0 15:21 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38476 38474  0 15:21 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38482  1001  0 15:22 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38518 38482  0 15:22 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38520 38518  0 15:22 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38522 38520  0 15:22 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38524  1001  2 15:22 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38560 38524  0 15:22 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38561 38560  0 15:22 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38564 38561  0 15:22 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38566  1001  0 15:22 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38602 38566  0 15:22 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38604 38602  0 15:22 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38606 38604  0 15:22 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38621  1001  1 15:26 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38657 38621  0 15:26 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38658 38657  0 15:26 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38661 38658  0 15:26 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38664  1001  0 15:26 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38700 38664  0 15:26 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38701 38700  0 15:26 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38703 38701  0 15:26 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38712  1001  0 15:28 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38748 38712  0 15:28 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38750 38748  0 15:28 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38752 38750  0 15:28 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38766  1001  1 15:31 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38802 38766  0 15:31 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38803 38802  0 15:31 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38806 38803  0 15:31 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S003 ( df -kh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        19G  3.6G   15G  21% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+udev            483M  4.0K  483M   1% /dev
+tmpfs            99M  1.1M   98M   2% /run
+none            5.0M     0  5.0M   0% /run/lock
+none            494M  152K  494M   1% /run/shm
+none            100M   48K  100M   1% /run/user
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : 0011 (Local Server)
+Command : S002 (ps -eaf | grep sh)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+root      1001     1  0 Feb24 ?        00:00:00 /usr/sbin/sshd -D
+noviceh+  2678  2206  0 Feb24 ?        00:00:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+noviceh+  2882  2873  0 Feb24 pts/0    00:00:00 bash
+noviceh+ 17733  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17738 17733  0 Feb26 ?        00:00:01 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 17847  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 17852 17847  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19504  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19509 19504  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19618  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19623 19618  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 19970  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 19975 19970  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 20665  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 20685 20665  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+noviceh+ 21201  2206  0 Feb26 ?        00:00:00 /bin/sh -e /proc/self/fd/9
+noviceh+ 21206 21201  0 Feb26 ?        00:00:00 /usr/lib/update-notifier/system-crash-notification
+root     38837  1001  0 15:37 ?        00:00:00 sshd: novicehacks [priv]
+noviceh+ 38873 38837  0 15:37 ?        00:00:00 sshd: novicehacks@notty
+noviceh+ 38875 38873  0 15:37 ?        00:00:00 bash -c ps -eaf | grep sh
+noviceh+ 38877 38875  0 15:37 ?        00:00:00 grep sh
+
+**************************************************
+**************************************************
