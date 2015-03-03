@@ -11,16 +11,18 @@ import org.apache.logging.log4j.Logger;
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.ContentWriterService;
 import com.novicehacks.autobot.core.DefaultContentWriterService;
+import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
 import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
-public class DefaultOutputLoggerTask implements OutputLogger, Runnable {
+public class DefaultOutputLoggerTask implements OutputLogger, RunnableTask {
 	private Server server;
 	private Command command;
 	private String commandOutput;
 	private String content = "";
+	private boolean isThreadStarted = false;
 	private boolean headerFooterRequired = true;
 	private Logger logger = LogManager.getLogger (ShellOutputLoggerTask.class);
 
@@ -58,8 +60,9 @@ public class DefaultOutputLoggerTask implements OutputLogger, Runnable {
 
 	@Override
 	public void run() {
-		String formattedContent;
+		this.isThreadStarted = true;
 		this.logger.entry ();
+		String formattedContent;
 		formattedContent = getFormattedContent ();
 		writeContent (formattedContent);
 		this.logger.exit ();
@@ -146,6 +149,11 @@ public class DefaultOutputLoggerTask implements OutputLogger, Runnable {
 		ContentWriterService service;
 		service = new DefaultContentWriterService ();
 		return service;
+	}
+
+	@Override
+	public final boolean isThreadStarted() {
+		return this.isThreadStarted;
 	}
 
 }

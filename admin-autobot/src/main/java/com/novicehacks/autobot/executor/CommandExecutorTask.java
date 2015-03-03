@@ -12,16 +12,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.core.ThreadManager;
-import com.novicehacks.autobot.ssh.ServerCommandProcessor;
+import com.novicehacks.autobot.ssh.ServerCommandProcessorTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
-public class CommandExecutorTask implements Runnable {
+public class CommandExecutorTask implements RunnableTask {
 	private static final long ServerExecutionTimeoutInMinutes = 10;
 	private Collection<Future<?>> executableFutures;
 	private ServerExecutableCommandMap executableMap;
 	private RuntimeException errorCollector;
+	private boolean threadStarted = false;
 	private Logger logger = LogManager.getLogger (CommandExecutorTask.class);
 
 	public CommandExecutorTask () {
@@ -31,6 +33,7 @@ public class CommandExecutorTask implements Runnable {
 
 	@Override
 	public void run() {
+		this.threadStarted = true;
 		loadExecutables ();
 		startExecution ();
 		waitForCompletion ();
@@ -67,8 +70,8 @@ public class CommandExecutorTask implements Runnable {
 
 	private Future<?> createAndSubmitCommandProcessor(Server server, Collection<Command> commands) {
 		Future<?> executableFuture;
-		ServerCommandProcessor serverCommandProcessor;
-		serverCommandProcessor = new ServerCommandProcessor (server, commands);
+		ServerCommandProcessorTask serverCommandProcessor;
+		serverCommandProcessor = new ServerCommandProcessorTask (server, commands);
 		executableFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				serverCommandProcessor);
 		return executableFuture;
@@ -101,5 +104,10 @@ public class CommandExecutorTask implements Runnable {
 	private void alarmIfExceptionsCaught() {
 		if (this.errorCollector.getSuppressed ().length > 0)
 			throw this.errorCollector;
+	}
+
+	@Override
+	public final boolean isThreadStarted() {
+		return this.threadStarted;
 	}
 }

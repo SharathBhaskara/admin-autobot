@@ -13,7 +13,7 @@ import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTaskTest;
 		DefaultSSHConnectionTestWithoutMocking.class, DefaultSSHSessionTest.class,
 		DefaultSSHSessionTestWithoutMocking.class, ParallelCommandExecutorTaskTest.class,
 		SequentialCommandExecutorTaskTest.class, SingleSessionCommandOutputGobblerTaskTest.class,
-		SingleSessionCommandExecutorTest.class, ServerCommandProcessorTest.class,
+		SingleSessionCommandExecutorTest.class, ServerCommandProcessorTaskTest.class,
 		ServerConnectionHandleTest.class, SingleSessionCommandExecutionControllerTest.class,
 		SingleSessionCommandExecutorTest.class, SingleSessionCommandOutputGobblerTaskTest.class,
 		ShellOutputLoggerTaskTest.class, ShellOutputHeaderServiceTest.class,

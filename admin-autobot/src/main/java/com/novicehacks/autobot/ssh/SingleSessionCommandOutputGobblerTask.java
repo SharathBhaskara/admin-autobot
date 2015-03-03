@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.RunnableTask;
 
 /**
  * Asynchronous Task to consume all the remote output.
@@ -14,7 +15,8 @@ import com.novicehacks.autobot.core.BotUtils;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class SingleSessionCommandOutputGobblerTask implements Runnable {
+public class SingleSessionCommandOutputGobblerTask implements RunnableTask {
+	private boolean threadStarted = false;
 	private InputStream remoteInputStream;
 	private SingleSessionCommandExecutionController sessionController;
 	private Logger logger = LogManager.getLogger (SingleSessionCommandOutputGobblerTask.class);
@@ -27,6 +29,7 @@ public class SingleSessionCommandOutputGobblerTask implements Runnable {
 	@Override
 	public void run() {
 		this.logger.entry ();
+		this.threadStarted = true;
 		startConsumingOutput ();
 		this.logger.exit ();
 	}
@@ -99,6 +102,11 @@ public class SingleSessionCommandOutputGobblerTask implements Runnable {
 			this.sessionController.signalSendInputAndWaitForInputComplete ();
 		}
 		this.logger.exit ();
+	}
+
+	@Override
+	public boolean isThreadStarted() {
+		return this.threadStarted;
 	}
 
 }

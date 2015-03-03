@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
@@ -35,8 +36,8 @@ import com.novicehacks.autobot.types.Server;
  * 
  *
  */
-public class SequentialCommandExecutorTask implements Runnable {
-
+public class SequentialCommandExecutorTask implements RunnableTask {
+	private boolean threadStarted;
 	private Server server;
 	private Command[] executableCommands;
 	private SSHSession session;
@@ -69,6 +70,7 @@ public class SequentialCommandExecutorTask implements Runnable {
 
 	@Override
 	public void run() {
+		this.threadStarted = true;
 		this.logger.entry ();
 		createSessionAndInitiate ();
 		configureSessionController ();
@@ -84,7 +86,6 @@ public class SequentialCommandExecutorTask implements Runnable {
 		this.logger.entry ();
 		try {
 			initiateSession ();
-
 		} catch (IOException ex) {
 			throw new CommandExecutionException ("Unable to create a session on server: "
 					+ this.server.id (), ex);
@@ -119,7 +120,7 @@ public class SequentialCommandExecutorTask implements Runnable {
 		this.logger.exit ();
 	}
 
-	private Runnable getRemoteConsumerTask() {
+	Runnable getRemoteConsumerTask() {
 		Runnable remoteConsumerTask;
 		remoteConsumerTask = new SingleSessionCommandOutputGobblerTask (this.sessionController);
 		return remoteConsumerTask;
@@ -138,9 +139,13 @@ public class SequentialCommandExecutorTask implements Runnable {
 
 	private void startExecutingCommandsSequentially() throws InterruptedException {
 		SingleSessionCommandExecutor executor;
-		executor = new SingleSessionCommandExecutor (this.server, this.executableCommands,
-				this.sessionController);
+		executor = getSequentialCommandExecutor ();
 		executor.startExecution ();
+	}
+
+	SingleSessionCommandExecutor getSequentialCommandExecutor() {
+		return new SingleSessionCommandExecutor (this.server, this.executableCommands,
+				this.sessionController);
 	}
 
 	/**
@@ -182,6 +187,11 @@ public class SequentialCommandExecutorTask implements Runnable {
 
 	public Future<?> commandOutputLoggerTaskFuture() {
 		return this.commandOutputLoggerTaskFuture;
+	}
+
+	@Override
+	public final boolean isThreadStarted() {
+		return this.threadStarted;
 	}
 
 }

@@ -6,7 +6,7 @@ import org.junit.experimental.categories.Category;
 
 import com.novicehacks.autobot.categories.IgnoredTest;
 
-public class ServerCommandProcessorTest {
+public class ServerCommandProcessorTaskTest {
 	@Test
 	@Category (IgnoredTest.class)
 	@Ignore

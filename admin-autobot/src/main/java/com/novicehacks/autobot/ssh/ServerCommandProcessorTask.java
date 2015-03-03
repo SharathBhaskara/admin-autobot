@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.SysConfig;
 import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.types.Command;
@@ -27,8 +28,9 @@ import com.novicehacks.autobot.types.Server;
  * @see SequentialCommandExecutorTask
  * 
  */
-public final class ServerCommandProcessor implements Runnable {
+public final class ServerCommandProcessorTask implements RunnableTask {
 
+	private boolean threadStarted = false;
 	private Server server;
 	private Command[] commands;
 	private DefaultSSHConnection connection;
@@ -36,7 +38,7 @@ public final class ServerCommandProcessor implements Runnable {
 	private Future<?> sequentialTaskFuture;
 	private List<Future<?>> commandFutureList;
 	private boolean isRunningInParallel;
-	private Logger logger = LogManager.getLogger (ServerCommandProcessor.class);
+	private Logger logger = LogManager.getLogger (ServerCommandProcessorTask.class);
 
 	/**
 	 * @param unixServer
@@ -46,7 +48,8 @@ public final class ServerCommandProcessor implements Runnable {
 	 * @throws IllegalArgumentException
 	 *         if unixServer parameter is null
 	 */
-	public ServerCommandProcessor (final Server unixServer, final Collection<Command> unixCommands) {
+	public ServerCommandProcessorTask (	final Server unixServer,
+										final Collection<Command> unixCommands) {
 		this (unixServer, unixCommands.toArray (new Command[] { }));
 	}
 
@@ -56,7 +59,7 @@ public final class ServerCommandProcessor implements Runnable {
 	 * @throws IllegalArgumentException
 	 *         if either of the parameters are having null values
 	 */
-	public ServerCommandProcessor (final Server unixServer, final Command... unixCommands) {
+	public ServerCommandProcessorTask (final Server unixServer, final Command... unixCommands) {
 		validateParams (unixServer, unixCommands);
 		this.server = unixServer;
 		this.commands = unixCommands;
@@ -73,6 +76,7 @@ public final class ServerCommandProcessor implements Runnable {
 	@Override
 	public void run() {
 		this.logger.entry ();
+		this.threadStarted = true;
 		connectToServer ();
 		executeCommandsAndDisconnectServer ();
 		this.logger.exit ();
@@ -219,6 +223,11 @@ public final class ServerCommandProcessor implements Runnable {
 			exception.setMultipleReasons (failureReasons);
 			throw exception;
 		}
+	}
+
+	@Override
+	public final boolean isThreadStarted() {
+		return this.threadStarted;
 	}
 
 }

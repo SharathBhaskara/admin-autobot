@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
@@ -23,13 +24,18 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class ParallelCommandExecutorTask implements Runnable {
+public class ParallelCommandExecutorTask implements RunnableTask {
 
+	private boolean threadStarted = false;
+	private boolean createSessionStepFlag = false;
+	private boolean executeCommandStepFlag = false;
+	private boolean outputLoggingStepFlag = false;
 	private SSHConnection connection;
 	private SSHSession session;
 	private Server server;
 	private Command command;
-	private StringBuilder commandOutputBuffer;
+
+	private StringBuilder commandOutputBuffer = new StringBuilder ();
 	private Future<?> commandOutputLoggerTaskFuture;
 	private Logger logger = LogManager.getLogger (ParallelCommandExecutorTask.class);
 
@@ -60,9 +66,13 @@ public class ParallelCommandExecutorTask implements Runnable {
 	 */
 	@Override
 	public void run() {
+		this.threadStarted = true;
 		createSession ();
+		this.createSessionStepFlag = true;
 		executeCommandAndDisconnectSession ();
+		this.executeCommandStepFlag = true;
 		logCommandOutputAsynchronously ();
+		this.outputLoggingStepFlag = true;
 	}
 
 	private void createSession() {
@@ -105,17 +115,12 @@ public class ParallelCommandExecutorTask implements Runnable {
 		}
 	}
 
-	private void endSession() {
-		this.session.closeSession ();
-	}
-
 	private void executeCommandInSessionAndCollectOutput(String unixCommand) throws IOException {
 		this.session.execCommand (unixCommand);
 		collectOutputFromSession ();
 	}
 
 	private void collectOutputFromSession() throws IOException {
-		this.commandOutputBuffer = new StringBuilder ();
 		InputStream inputStream = this.session.stdOutputStream ();
 		parseAndPopulateOutput (inputStream);
 	}
@@ -136,12 +141,13 @@ public class ParallelCommandExecutorTask implements Runnable {
 
 	}
 
+	private void endSession() {
+		this.session.closeSession ();
+	}
+
 	private void logCommandOutputAsynchronously() {
 		ShellOutputLoggerTask loggerTask;
-		String commandOutput = this.commandOutputBuffer.toString ();
-		Server unixServer = this.server;
-		Command unixCommand = this.command;
-		loggerTask = new ShellOutputLoggerTask (unixServer, unixCommand, commandOutput);
+		loggerTask = getOutputLoggerTask ();
 		this.commandOutputLoggerTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				loggerTask);
 	}
@@ -150,4 +156,31 @@ public class ParallelCommandExecutorTask implements Runnable {
 		return this.commandOutputLoggerTaskFuture;
 	}
 
+	ShellOutputLoggerTask getOutputLoggerTask() {
+		ShellOutputLoggerTask loggerTask;
+		String commandOutput = this.commandOutputBuffer.toString ();
+		loggerTask = new ShellOutputLoggerTask (this.server, this.command, commandOutput);
+		return loggerTask;
+	}
+
+	final String commandOutputFromRemote() {
+		return this.commandOutputBuffer.toString ();
+	}
+
+	final boolean isCreateSessionCompleted() {
+		return this.createSessionStepFlag;
+	}
+
+	final boolean isExecuteCommandCompleted() {
+		return this.executeCommandStepFlag;
+	}
+
+	final boolean isOutputLoggingCompleted() {
+		return this.outputLoggingStepFlag;
+	}
+
+	@Override
+	public final boolean isThreadStarted() {
+		return this.threadStarted;
+	}
 }

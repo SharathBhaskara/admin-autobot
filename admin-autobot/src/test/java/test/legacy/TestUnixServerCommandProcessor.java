@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.core.ThreadManager;
-import com.novicehacks.autobot.ssh.ServerCommandProcessor;
+import com.novicehacks.autobot.ssh.ServerCommandProcessorTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ServerCredential;
@@ -31,7 +31,7 @@ public class TestUnixServerCommandProcessor {
 	@Mock
 	Command unixCommand2;
 
-	private ServerCommandProcessor commandProcessor;
+	private ServerCommandProcessorTask commandProcessor;
 	Logger logger = LogManager.getLogger (TestUnixServerCommandProcessor.class);
 
 	@BeforeClass
@@ -45,7 +45,7 @@ public class TestUnixServerCommandProcessor {
 		MockitoAnnotations.initMocks (this);
 		setupStubOfServer ();
 		setupStubOfCommands ();
-		this.commandProcessor = new ServerCommandProcessor (this.server, this.unixCommand1,
+		this.commandProcessor = new ServerCommandProcessorTask (this.server, this.unixCommand1,
 				this.unixCommand2);
 		ThreadManager.getInstance ().createThreadPool (true);
 	}
