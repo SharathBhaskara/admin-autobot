@@ -22,7 +22,7 @@ public final class ServerConnectionHandle {
 	DefaultSSHConnection connection;
 	Logger logger = LogManager.getLogger (ServerConnectionHandle.class);
 
-	protected ServerConnectionHandle (Server unixServer) {
+	ServerConnectionHandle (Server unixServer) {
 		this.server = unixServer;
 	}
 

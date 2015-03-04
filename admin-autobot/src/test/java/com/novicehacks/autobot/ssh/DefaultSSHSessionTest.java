@@ -12,7 +12,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -170,9 +169,8 @@ public class DefaultSSHSessionTest {
 
 	@Test
 	@Category ({ UnitTest.class, NewFeature.class, IgnoredTest.class })
-	@Ignore
 	public void startShellAndExecuteCommandParallely() throws IOException {
-		fail ("UnImplemented");
+
 	}
 
 	@Test

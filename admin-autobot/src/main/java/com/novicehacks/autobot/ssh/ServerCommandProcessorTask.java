@@ -35,8 +35,8 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 	private Command[] commands;
 	private DefaultSSHConnection connection;
 	private ServerConnectionHandle serverHandle;
-	private Future<?> sequentialTaskFuture;
-	private List<Future<?>> commandFutureList;
+	private Future<?> sequentialCommandFuture;
+	private List<Future<?>> parallelCommandFutures;
 	private boolean isRunningInParallel;
 	private Logger logger = LogManager.getLogger (ServerCommandProcessorTask.class);
 
@@ -63,7 +63,11 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 		validateParams (unixServer, unixCommands);
 		this.server = unixServer;
 		this.commands = unixCommands;
-		this.serverHandle = new ServerConnectionHandle (unixServer);
+		this.serverHandle = getServerHandle (unixServer);
+	}
+
+	ServerConnectionHandle getServerHandle(Server unixServer) {
+		return new ServerConnectionHandle (unixServer);
 	}
 
 	private void validateParams(final Server unixServer, final Command[] unixCommands) {
@@ -75,8 +79,8 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 
 	@Override
 	public void run() {
-		this.logger.entry ();
 		this.threadStarted = true;
+		this.logger.entry ();
 		connectToServer ();
 		executeCommandsAndDisconnectServer ();
 		this.logger.exit ();
@@ -130,7 +134,7 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 	private void executeCommandsSequentially() {
 		SequentialCommandExecutorTask task;
 		task = new SequentialCommandExecutorTask (this.connection, this.server, this.commands);
-		this.sequentialTaskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
+		this.sequentialCommandFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
 	}
 
 	private void executeParallely() {
@@ -145,18 +149,17 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 		List<Future<?>> taskFutureList = new LinkedList<Future<?>> ();
 
 		for (Command command : this.commands) {
-			taskFuture = submitCommandForExecution (command);
+			taskFuture = submitCommandForParallelExecution (command);
 			taskFutureList.add (taskFuture);
 		}
-		this.commandFutureList = taskFutureList;
+		this.parallelCommandFutures = taskFutureList;
 
 	}
 
-	private Future<?> submitCommandForExecution(Command command) {
+	private Future<?> submitCommandForParallelExecution(Command command) {
 		Future<?> taskFuture;
 		ParallelCommandExecutorTask task;
 		task = new ParallelCommandExecutorTask (this.connection, this.server, command);
-		// TODO get the output logger future and check for exceptions
 		taskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
 		return taskFuture;
 	}
@@ -170,7 +173,7 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 
 	private void waitForSequentialExecitionCompletion() {
 		try {
-			this.sequentialTaskFuture.get (SysConfig.getInstance ().longTimeoutInMinutes (),
+			this.sequentialCommandFuture.get (SysConfig.getInstance ().longTimeoutInMinutes (),
 					TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			this.logger.error ("Thread Interrupted", e);
@@ -191,7 +194,7 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 
 	private void waitForParallelExecutionCompletion() {
 		List<Throwable> failureReasons = new LinkedList<Throwable> ();
-		for (Future<?> future : this.commandFutureList) {
+		for (Future<?> future : this.parallelCommandFutures) {
 			try {
 				handleCommandExecutorTaskFuture (future);
 			} catch (CommandExecutionException e) {

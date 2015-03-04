@@ -8,6 +8,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.novicehacks.autobot.categories.EnvironmentalTest;
+import com.novicehacks.autobot.categories.IgnoredTest;
 import com.novicehacks.autobot.categories.UnitTest;
 
 @RunWith (Suite.class)
@@ -18,8 +19,15 @@ public class AllUnitTests {
 
 @RunWith (Categories.class)
 @IncludeCategory (UnitTest.class)
-@SuiteClasses (UnitTestSuiteWithEnvironmentFilter.class)
+@SuiteClasses (UnitTestSuiteWithIgnoredFilter.class)
 class UnitTestSuiteWithAllFilters {
+
+}
+
+@RunWith (Categories.class)
+@ExcludeCategory (IgnoredTest.class)
+@SuiteClasses (UnitTestSuiteWithEnvironmentFilter.class)
+class UnitTestSuiteWithIgnoredFilter {
 
 }
 

@@ -12,12 +12,9 @@ import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTaskTest;
 @SuiteClasses ({ DefaultSSHConnectionStringParameterizedTest.class, DefaultSSHConnectionTest.class,
 		DefaultSSHConnectionTestWithoutMocking.class, DefaultSSHSessionTest.class,
 		DefaultSSHSessionTestWithoutMocking.class, ParallelCommandExecutorTaskTest.class,
-		SequentialCommandExecutorTaskTest.class, SingleSessionCommandOutputGobblerTaskTest.class,
-		SingleSessionCommandExecutorTest.class, ServerCommandProcessorTaskTest.class,
-		ServerConnectionHandleTest.class, SingleSessionCommandExecutionControllerTest.class,
-		SingleSessionCommandExecutorTest.class, SingleSessionCommandOutputGobblerTaskTest.class,
-		ShellOutputLoggerTaskTest.class, ShellOutputHeaderServiceTest.class,
-		ShellOutputFooterServiceTest.class })
+		SequentialCommandExecutorTaskTest.class, ServerCommandProcessorTaskTest.class,
+		ServerConnectionHandleTest.class, ShellOutputLoggerTaskTest.class,
+		ShellOutputHeaderServiceTest.class, ShellOutputFooterServiceTest.class })
 public class AllSSHTests {
 
 }
