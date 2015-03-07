@@ -9,11 +9,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.SysConfig;
-import com.novicehacks.autobot.logger.OutputFooterService;
-import com.novicehacks.autobot.logger.OutputHeaderService;
+import com.novicehacks.autobot.core.services.OutputFooterService;
+import com.novicehacks.autobot.core.services.OutputHeaderService;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.Server;
 import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Server;
 
 public class ShellOutputLoggerTaskHelper {
 

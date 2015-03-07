@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.novicehacks.autobot.types.Mappable;
+import com.novicehacks.autobot.core.types.Mappable;
 
 /**
  * Utility Methods, that are frequently used are grouped together in BotUtils.

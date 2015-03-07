@@ -1,8 +1,8 @@
 package com.novicehacks.autobot.ssh.logger;
 
-import com.novicehacks.autobot.logger.DefaultOutputHeaderService;
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.core.services.DefaultOutputHeaderService;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.Server;
 
 public final class ShellOutputHeaderService extends DefaultOutputHeaderService {
 	private Server server;

@@ -10,32 +10,31 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.ResourceConfig;
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Executable;
-import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.Executable;
+import com.novicehacks.autobot.core.types.Server;
 
 public final class ServerExecutableCommandGenerator {
 
-	private Set<Executable>				executables;
-	private Map<String, Server>			servers;
-	private Map<String, Command>		commands;
-	private ServerExecutableCommandMap	executableMap;
-	private Lock						generatorLock				= new ReentrantLock ();
-	private static int					GeneratorTimeoutInSeconds	= 15;
-	private Logger						logger						= LogManager
-																			.getLogger (ServerExecutableCommandGenerator.class);
+	private Set<Executable> executables;
+	private Map<String, Server> servers;
+	private Map<String, Command> commands;
+	private ServerExecutableCommandMap executableMap;
+	private Lock generatorLock = new ReentrantLock ();
+	private static int GeneratorTimeoutInSeconds = 15;
+	private Logger logger = LogManager.getLogger (ServerExecutableCommandGenerator.class);
 
 	private ServerExecutableCommandGenerator () {
 		ResourceConfig resourceConfig;
 		resourceConfig = ResourceConfig.getInstance ();
-		servers = resourceConfig.serverMap ();
-		commands = resourceConfig.commandMap ();
-		executables = resourceConfig.executables ();
-		executableMap = new ServerExecutableCommandMap ();
+		this.servers = resourceConfig.serverMap ();
+		this.commands = resourceConfig.commandMap ();
+		this.executables = resourceConfig.executables ();
+		this.executableMap = new ServerExecutableCommandMap ();
 	}
 
 	private static class ServerExecutableCommandGeneratorSingleton {
-		private static ServerExecutableCommandGenerator	instance	= new ServerExecutableCommandGenerator ();
+		private static ServerExecutableCommandGenerator instance = new ServerExecutableCommandGenerator ();
 
 		private static ServerExecutableCommandGenerator getInstance() {
 			return instance;
@@ -47,33 +46,33 @@ public final class ServerExecutableCommandGenerator {
 	}
 
 	public ServerExecutableCommandMap generateServerCommandMap() throws InterruptedException {
-		logger.entry ();
-		generatorLock.tryLock (GeneratorTimeoutInSeconds, TimeUnit.SECONDS);
+		this.logger.entry ();
+		this.generatorLock.tryLock (GeneratorTimeoutInSeconds, TimeUnit.SECONDS);
 		populateServerCommandMapIfNeeded (false);
-		generatorLock.unlock ();
-		logger.exit (this.executableMap);
+		this.generatorLock.unlock ();
+		this.logger.exit (this.executableMap);
 		return this.executableMap;
 	}
 
 	public ServerExecutableCommandMap generateServerCommandMap(boolean forced)
 			throws InterruptedException {
-		logger.entry ();
-		generatorLock.tryLock (GeneratorTimeoutInSeconds, TimeUnit.SECONDS);
+		this.logger.entry ();
+		this.generatorLock.tryLock (GeneratorTimeoutInSeconds, TimeUnit.SECONDS);
 		populateServerCommandMapIfNeeded (forced);
-		generatorLock.unlock ();
-		logger.exit (this.executableMap);
+		this.generatorLock.unlock ();
+		this.logger.exit (this.executableMap);
 		return this.executableMap;
 	}
 
 	private void populateServerCommandMapIfNeeded(boolean forced) {
-		if (forced || executableMap == null || executableMap.size () == 0)
+		if (forced || this.executableMap == null || this.executableMap.size () == 0)
 			populateServerCommandMap ();
 	}
 
 	private void populateServerCommandMap() {
 		String serverId;
 		String commandId;
-		for (Executable executable : executables) {
+		for (Executable executable : this.executables) {
 			serverId = executable.getServerId ();
 			commandId = executable.getCommandId ();
 			addCommandToMap (serverId, commandId);

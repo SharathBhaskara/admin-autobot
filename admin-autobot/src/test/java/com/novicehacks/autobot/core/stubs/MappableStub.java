@@ -1,6 +1,6 @@
 package com.novicehacks.autobot.core.stubs;
 
-import com.novicehacks.autobot.types.Mappable;
+import com.novicehacks.autobot.core.types.Mappable;
 
 public class MappableStub implements Mappable {
 	private String	key;

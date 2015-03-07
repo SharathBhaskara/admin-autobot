@@ -1016,3 +1016,217 @@ drwx------     2 novicehacks  users    1536 Mar  7 09:02 .
 sdf:/udd/n/novicehacks> sdf:/udd/n/novicehacks>
 **************************************************
 **************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : T001 (null)
+Command : TC01 (df -k)
+Execution Timestamp : 1425724310 (2015-03-07T10:31:50.240Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+command output
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0001 (df -k)
+Execution Timestamp : 1425724319 (2015-03-07T10:31:59.168Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+df -k
+
+Filesystem    1K-blocks       Used      Avail %Cap Mounted on
+/dev/wd0a      71768512    4925062   63255026   7% /
+ol1:/sys       70654382   61819680    8834702  87% /sys
+ol1:/udd       70660478   46784714   23875764  66% /udd
+ol1:/ftp       70654382   27890290   42764092  39% /ftp
+ol1:/com       19857846    5559618   13305336  29% /com
+ol1:/arpa/af  142249776   78189548   64060228  54% /arpa/af
+ol1:/arpa/gm   70022090   66961898    3060192  95% /arpa/gm
+ol1:/arpa/ns   70654382   49020530   21633852  69% /arpa/ns
+ol1:/arpa/tz   70022090   22586842   47435248  32% /arpa/tz
+ol1:/www/af   142249776   69550628   72699148  48% /www/af
+ol1:/www/gm    70654382   60042308   10612074  84% /www/gm
+ol1:/www/nz    69587532   67830506    1757026  97% /www/nz
+mx1:/mail     290671236  259774056   30897180  89% /mail
+sdf:/udd/n/novicehacks> sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0002 (ls -lrt)
+Execution Timestamp : 1425724320 (2015-03-07T10:32:00.675Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ls -lrt
+
+total 304
+-rw-------     1 novicehacks  users      67 Jan  5 19:34 .signature
+-rw-------     1 novicehacks  users       0 Jan  5 19:34 .hushlogin
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:10 .4248
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:12 .3323
+-rw-r--r--     1 novicehacks  users       1 Jan  9 14:57 .4681
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:54 .24940
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:56 .26273
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:58 .14262
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:00 .27954
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:04 .5603
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:06 .11797
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:09 .29858
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:11 .29516
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:12 .27313
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:13 .29477
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:45 .8800
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:50 .29391
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:52 .18850
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:54 .10912
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:55 .25438
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:56 .29255
+-rw-r--r--     1 novicehacks  users       0 Jan 10 16:36 .22858
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:29 .17724
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:31 .16449
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:32 .29172
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:35 .11585
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:36 .26146
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:37 .20810
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:39 .6308
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .7393
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .22171
+-rw-r--r--     1 novicehacks  users     512 Jan 10 18:49 .14045
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .15172
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .9949
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:59 .2209
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:02 .21249
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:04 .11784
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:23 .16495
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:33 .12825
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:33 .11856
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:39 .329
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:40 .26759
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .3115
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .29773
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:47 .9154
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:49 .9776
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:53 .25167
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:56 .13874
+-rw-r--r--     1 novicehacks  users       0 Jan 11 21:00 .12920
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:29 .18328
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:32 .1301
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:41 .25769
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:45 .19286
+-rw-r--r--     1 novicehacks  users       0 Feb  5 01:00 .24799
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:00 .493
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:02 .29059
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:03 .23786
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:15 .27051
+-rw-r--r--     1 novicehacks  users       0 Feb  8 08:37 .3790
+-rw-r--r--     1 novicehacks  users       0 Feb 23 20:09 .4994
+drwxr-xr-x  1537 new          wheel   28672 Mar  7 06:55 ..
+drwx------     2 novicehacks  users    1536 Mar  7 10:31 .
+-rw-r--r--     1 novicehacks  users  111907 Mar  7 10:31 .history
+sdf:/udd/n/novicehacks> sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : T001 (null)
+Command : TC01 (df -k)
+Execution Timestamp : 1425725523 (2015-03-07T10:52:03.216Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+command output
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0001 (df -k)
+Execution Timestamp : 1425725531 (2015-03-07T10:52:11.996Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+df -k
+
+Filesystem    1K-blocks       Used      Avail %Cap Mounted on
+/dev/wd0a      71768512    4925224   63254864   7% /
+ol1:/sys       70654382   61819730    8834652  87% /sys
+ol1:/udd       70660478   46784730   23875748  66% /udd
+ol1:/ftp       70654382   27890290   42764092  39% /ftp
+ol1:/com       19857846    5559942   13305012  29% /com
+ol1:/arpa/af  142249776   78189688   64060088  54% /arpa/af
+ol1:/arpa/gm   70022090   66969718    3052372  95% /arpa/gm
+ol1:/arpa/ns   70654382   49020558   21633824  69% /arpa/ns
+ol1:/arpa/tz   70022090   22586828   47435262  32% /arpa/tz
+ol1:/www/af   142249776   69550640   72699136  48% /www/af
+ol1:/www/gm    70654382   60042220   10612162  84% /www/gm
+ol1:/www/nz    69587532   67830482    1757050  97% /www/nz
+mx1:/mail     290671236  259770100   30901136  89% /mail
+sdf:/udd/n/novicehacks> sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0002 (ls -lrt)
+Execution Timestamp : 1425725533 (2015-03-07T10:52:13.509Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ls -lrt
+
+total 308
+-rw-------     1 novicehacks  users      67 Jan  5 19:34 .signature
+-rw-------     1 novicehacks  users       0 Jan  5 19:34 .hushlogin
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:10 .4248
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:12 .3323
+-rw-r--r--     1 novicehacks  users       1 Jan  9 14:57 .4681
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:54 .24940
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:56 .26273
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:58 .14262
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:00 .27954
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:04 .5603
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:06 .11797
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:09 .29858
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:11 .29516
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:12 .27313
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:13 .29477
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:45 .8800
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:50 .29391
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:52 .18850
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:54 .10912
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:55 .25438
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:56 .29255
+-rw-r--r--     1 novicehacks  users       0 Jan 10 16:36 .22858
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:29 .17724
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:31 .16449
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:32 .29172
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:35 .11585
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:36 .26146
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:37 .20810
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:39 .6308
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .7393
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .22171
+-rw-r--r--     1 novicehacks  users     512 Jan 10 18:49 .14045
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .15172
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .9949
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:59 .2209
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:02 .21249
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:04 .11784
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:23 .16495
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:33 .12825
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:33 .11856
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:39 .329
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:40 .26759
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .3115
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .29773
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:47 .9154
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:49 .9776
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:53 .25167
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:56 .13874
+-rw-r--r--     1 novicehacks  users       0 Jan 11 21:00 .12920
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:29 .18328
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:32 .1301
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:41 .25769
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:45 .19286
+-rw-r--r--     1 novicehacks  users       0 Feb  5 01:00 .24799
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:00 .493
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:02 .29059
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:03 .23786
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:15 .27051
+-rw-r--r--     1 novicehacks  users       0 Feb  8 08:37 .3790
+-rw-r--r--     1 novicehacks  users       0 Feb 23 20:09 .4994
+drwxr-xr-x  1537 new          wheel   28672 Mar  7 06:55 ..
+drwx------     2 novicehacks  users    1536 Mar  7 10:51 .
+-rw-r--r--     1 novicehacks  users  112900 Mar  7 10:51 .history
+sdf:/udd/n/novicehacks> sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************

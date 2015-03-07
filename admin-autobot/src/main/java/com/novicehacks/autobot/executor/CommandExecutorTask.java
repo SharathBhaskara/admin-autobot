@@ -12,11 +12,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.core.BotUtils;
-import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.core.ThreadManager;
-import com.novicehacks.autobot.ssh.ShellCommandExecutorServiceTask;
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.RunnableTask;
+import com.novicehacks.autobot.core.types.Server;
+import com.novicehacks.autobot.ssh.commandexecutor.SSHCommandExecutorServiceTask;
 
 public class CommandExecutorTask implements RunnableTask {
 	private static final long ServerExecutionTimeoutInMinutes = 10;
@@ -70,8 +70,8 @@ public class CommandExecutorTask implements RunnableTask {
 
 	private Future<?> createAndSubmitCommandProcessor(Server server, Collection<Command> commands) {
 		Future<?> executableFuture;
-		ShellCommandExecutorServiceTask serverCommandProcessor;
-		serverCommandProcessor = new ShellCommandExecutorServiceTask (server, commands);
+		SSHCommandExecutorServiceTask serverCommandProcessor;
+		serverCommandProcessor = new SSHCommandExecutorServiceTask (server, commands);
 		executableFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				serverCommandProcessor);
 		return executableFuture;

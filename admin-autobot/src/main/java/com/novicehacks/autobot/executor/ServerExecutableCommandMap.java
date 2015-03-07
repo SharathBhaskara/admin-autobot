@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.Server;
 
 public class ServerExecutableCommandMap extends HashMap<Server, Collection<Command>> {
 

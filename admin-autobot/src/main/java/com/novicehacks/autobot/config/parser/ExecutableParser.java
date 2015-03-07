@@ -7,7 +7,7 @@ import java.util.TreeSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.types.Executable;
+import com.novicehacks.autobot.core.types.Executable;
 
 /**
  * MonitorParser is a Callable that will parse the monitor commands from the

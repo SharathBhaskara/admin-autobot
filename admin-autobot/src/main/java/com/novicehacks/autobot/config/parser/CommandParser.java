@@ -7,8 +7,8 @@ import java.util.TreeSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.ShellCommand;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.ShellCommand;
 
 /**
  * CommandParser is a Callable that will parse the bot commands from the

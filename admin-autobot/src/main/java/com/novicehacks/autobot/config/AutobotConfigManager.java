@@ -18,9 +18,9 @@ import com.novicehacks.autobot.config.parser.ConfigParser;
 import com.novicehacks.autobot.config.parser.ExecutableParser;
 import com.novicehacks.autobot.config.parser.Parser;
 import com.novicehacks.autobot.config.parser.ServerParser;
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Executable;
-import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.Executable;
+import com.novicehacks.autobot.core.types.Server;
 
 /**
  * This is the API exposed to the Autobot, which will load all the resources for

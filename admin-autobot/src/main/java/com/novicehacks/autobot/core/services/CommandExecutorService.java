@@ -1,19 +1,11 @@
 package com.novicehacks.autobot.core.services;
 
-import java.util.concurrent.Future;
-
-import com.novicehacks.autobot.core.annotations.Incomplete;
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Server;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.Server;
 
 public interface CommandExecutorService {
 
-	@Incomplete
-	public default void executeCommands() {
-
-	};
-
-	public Future<?> executeCommandsAsynchonously();
+	public void executeCommands();
 
 	public Command[] commandArray();
 

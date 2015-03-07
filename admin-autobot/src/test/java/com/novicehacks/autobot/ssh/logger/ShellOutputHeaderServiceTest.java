@@ -12,11 +12,11 @@ import org.mockito.MockitoAnnotations;
 
 import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.logger.OutputHeaderService;
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Server;
-import com.novicehacks.autobot.types.ShellCommand;
-import com.novicehacks.autobot.types.SSHServer;
+import com.novicehacks.autobot.core.services.OutputHeaderService;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.SSHServer;
+import com.novicehacks.autobot.core.types.Server;
+import com.novicehacks.autobot.core.types.ShellCommand;
 
 public class ShellOutputHeaderServiceTest {
 	@Mock

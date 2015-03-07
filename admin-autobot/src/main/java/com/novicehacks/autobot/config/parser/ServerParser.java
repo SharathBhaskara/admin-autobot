@@ -9,9 +9,9 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.types.Server;
-import com.novicehacks.autobot.types.ServerCredential;
-import com.novicehacks.autobot.types.SSHServer;
+import com.novicehacks.autobot.core.types.SSHServer;
+import com.novicehacks.autobot.core.types.Server;
+import com.novicehacks.autobot.core.types.ServerCredential;
 
 /**
  * ServerParser is a Callable that will parse the server types from the resource

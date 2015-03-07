@@ -13,10 +13,10 @@ import org.junit.experimental.categories.Category;
 
 import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.types.Command;
-import com.novicehacks.autobot.types.Server;
-import com.novicehacks.autobot.types.ShellCommand;
-import com.novicehacks.autobot.types.SSHServer;
+import com.novicehacks.autobot.core.types.Command;
+import com.novicehacks.autobot.core.types.SSHServer;
+import com.novicehacks.autobot.core.types.Server;
+import com.novicehacks.autobot.core.types.ShellCommand;
 
 public class TestServerExecutableCommandMap {
 
