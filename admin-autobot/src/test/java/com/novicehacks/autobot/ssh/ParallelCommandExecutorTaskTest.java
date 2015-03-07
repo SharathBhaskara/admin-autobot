@@ -55,14 +55,14 @@ public class ParallelCommandExecutorTaskTest {
 	@Category (UnitTest.class)
 	public void nullCommandToTask() throws IOException {
 		// given
-		ParallelCommandExecutorTask commandExecutor;
+		ParallelExecutorTask commandExecutor;
 		this.server = mock (Server.class);
 		this.connection = mock (SSHConnection.class);
 		// when
 		this.command = null;
 		// then
 		this.exception.expect (CommandExecutionException.class);
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		fail ("Command cannot be null");
 	}
@@ -71,14 +71,14 @@ public class ParallelCommandExecutorTaskTest {
 	@Category (UnitTest.class)
 	public void nullConnectionToTask() {
 		// given
-		ParallelCommandExecutorTask commandExecutor;
+		ParallelExecutorTask commandExecutor;
 		this.server = mock (Server.class);
 		this.command = mock (Command.class);
 		// when connection is set to null;
 		this.connection = null;
 		// then
 		this.exception.expect (CommandExecutionException.class);
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		fail ("Connection cannot be null");
 	}
@@ -87,14 +87,14 @@ public class ParallelCommandExecutorTaskTest {
 	@Category (UnitTest.class)
 	public void nullServerToTask() throws IOException {
 		// given
-		ParallelCommandExecutorTask commandExecutor;
+		ParallelExecutorTask commandExecutor;
 		this.command = mock (Command.class);
 		this.connection = mock (SSHConnection.class);
 		// when
 		this.server = null;
 		// then
 		this.exception.expect (CommandExecutionException.class);
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		fail ("Server cannot be null");
 	}
@@ -105,8 +105,8 @@ public class ParallelCommandExecutorTaskTest {
 		// given
 		mockCollaboratorsWithBasicOperations ();
 
-		ParallelCommandExecutorTask commandExecutor;
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		ParallelExecutorTask commandExecutor;
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		// when
 		when (this.connection.openSession ()).thenThrow (new IOException ());
@@ -125,7 +125,7 @@ public class ParallelCommandExecutorTaskTest {
 
 		// command mocking
 		this.command = mock (Command.class);
-		when (this.command.command ()).thenReturn ("df -k");
+		when (this.command.commandTxt ()).thenReturn ("df -k");
 		when (this.command.id ()).thenReturn ("TC01");
 
 		// outputLoggertask mocking
@@ -157,11 +157,11 @@ public class ParallelCommandExecutorTaskTest {
 		// given
 		mockCollaboratorsWithBasicOperations ();
 
-		ParallelCommandExecutorTask commandExecutor;
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		ParallelExecutorTask commandExecutor;
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		// when command string is null
-		when (this.command.command ()).thenReturn (null);
+		when (this.command.commandTxt ()).thenReturn (null);
 
 		// then
 		this.exception.expect (CommandExecutionException.class);
@@ -179,8 +179,8 @@ public class ParallelCommandExecutorTaskTest {
 		// given
 		mockCollaboratorsWithBasicOperations ();
 
-		ParallelCommandExecutorTask commandExecutor;
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		ParallelExecutorTask commandExecutor;
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 
 		doThrow (new IOException ()).when (this.session).execCommand (Mockito.anyString ());
@@ -202,8 +202,8 @@ public class ParallelCommandExecutorTaskTest {
 		// given
 		mockCollaboratorsWithBasicOperations ();
 
-		ParallelCommandExecutorTask commandExecutor;
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		ParallelExecutorTask commandExecutor;
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		commandExecutor = Mockito.spy (commandExecutor);
 		doReturn (this.outputLoggerTask).when (commandExecutor).getOutputLoggerTask ();
@@ -230,8 +230,8 @@ public class ParallelCommandExecutorTaskTest {
 		doReturn (new ByteArrayInputStream (expected.getBytes ())).when (this.session)
 				.stdOutputStream ();
 
-		ParallelCommandExecutorTask commandExecutor;
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		ParallelExecutorTask commandExecutor;
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		// when
 		commandExecutor.run ();
@@ -248,8 +248,8 @@ public class ParallelCommandExecutorTaskTest {
 		// given
 		mockCollaboratorsWithBasicOperations ();
 
-		ParallelCommandExecutorTask commandExecutor;
-		commandExecutor = new ParallelCommandExecutorTask (this.connection, this.server,
+		ParallelExecutorTask commandExecutor;
+		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		commandExecutor = spy (commandExecutor);
 		doReturn (this.outputLoggerTask).when (commandExecutor).getOutputLoggerTask ();

@@ -1,4 +1,4 @@
-package test.legacy;
+package com.novicehacks.autobot.ssh;
 
 import static org.mockito.Mockito.when;
 
@@ -16,14 +16,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.novicehacks.autobot.categories.EnvironmentalTest;
+import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.core.ThreadManager;
-import com.novicehacks.autobot.ssh.ServerCommandProcessorTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ServerCredential;
 
-public class TestUnixServerCommandProcessor {
+public class ServerCommandProcessorFunctionalTest {
 	@Mock
 	Server server;
 	@Mock
@@ -31,8 +31,8 @@ public class TestUnixServerCommandProcessor {
 	@Mock
 	Command unixCommand2;
 
-	private ServerCommandProcessorTask commandProcessor;
-	Logger logger = LogManager.getLogger (TestUnixServerCommandProcessor.class);
+	private ShellCommandExecutorServiceTask commandProcessor;
+	Logger logger = LogManager.getLogger (ServerCommandProcessorFunctionalTest.class);
 
 	@BeforeClass
 	public static void loadConfig() throws InterruptedException, ExecutionException,
@@ -45,7 +45,7 @@ public class TestUnixServerCommandProcessor {
 		MockitoAnnotations.initMocks (this);
 		setupStubOfServer ();
 		setupStubOfCommands ();
-		this.commandProcessor = new ServerCommandProcessorTask (this.server, this.unixCommand1,
+		this.commandProcessor = new ShellCommandExecutorServiceTask (this.server, this.unixCommand1,
 				this.unixCommand2);
 		ThreadManager.getInstance ().createThreadPool (true);
 	}
@@ -60,10 +60,10 @@ public class TestUnixServerCommandProcessor {
 	}
 
 	private void setupStubOfCommands() {
-		when (this.unixCommand1.command ()).thenReturn ("df -k");
+		when (this.unixCommand1.commandTxt ()).thenReturn ("df -k");
 		when (this.unixCommand1.id ()).thenReturn ("0001");
 		when (this.unixCommand1.description ()).thenReturn ("Disk Utilization");
-		when (this.unixCommand2.command ()).thenReturn ("ls -lrt");
+		when (this.unixCommand2.commandTxt ()).thenReturn ("ls -lrt");
 		when (this.unixCommand2.id ()).thenReturn ("0002");
 		when (this.unixCommand2.description ()).thenReturn ("Show Files");
 	}
@@ -82,14 +82,14 @@ public class TestUnixServerCommandProcessor {
 	}
 
 	@Test
-	@Category (EnvironmentalTest.class)
+	@Category ({ FunctionalTest.class, EnvironmentalTest.class })
 	public void testSequentialExection() throws InterruptedException {
 		Thread task = new Thread (this.commandProcessor);
 		executeAndWait (task);
 	}
 
 	@Test
-	@Category (EnvironmentalTest.class)
+	@Category ({ FunctionalTest.class, EnvironmentalTest.class })
 	public void testParallelExecution() throws InterruptedException {
 		when (this.server.initCommands ()).thenReturn (new String[] { });
 		when (this.server.ipaddress ()).thenReturn ("192.168.40.133");

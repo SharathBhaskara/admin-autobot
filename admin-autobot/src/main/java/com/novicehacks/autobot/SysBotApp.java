@@ -13,8 +13,8 @@ import org.apache.logging.log4j.Logger;
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.SysConfig;
 import com.novicehacks.autobot.core.ThreadManager;
+import com.novicehacks.autobot.core.annotations.Incomplete;
 import com.novicehacks.autobot.executor.CommandExecutorTask;
-import com.novicehacks.autobot.types.Incomplete;
 
 /**
  * <p>

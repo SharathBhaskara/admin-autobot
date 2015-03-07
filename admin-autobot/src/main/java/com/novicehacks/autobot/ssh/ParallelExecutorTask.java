@@ -24,7 +24,7 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class ParallelCommandExecutorTask implements RunnableTask {
+public class ParallelExecutorTask implements RunnableTask {
 
 	private boolean threadStarted = false;
 	private boolean createSessionStepFlag = false;
@@ -37,7 +37,7 @@ public class ParallelCommandExecutorTask implements RunnableTask {
 
 	private StringBuilder commandOutputBuffer = new StringBuilder ();
 	private Future<?> commandOutputLoggerTaskFuture;
-	private Logger logger = LogManager.getLogger (ParallelCommandExecutorTask.class);
+	private Logger logger = LogManager.getLogger (ParallelExecutorTask.class);
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class ParallelCommandExecutorTask implements RunnableTask {
 	 * @param unixCommand
 	 * @throws CommandExecutionException
 	 */
-	protected ParallelCommandExecutorTask (	SSHConnection shellConnection,
+	protected ParallelExecutorTask (	SSHConnection shellConnection,
 											Server server,
 											Command unixCommand) {
 		validateParams (shellConnection, server, unixCommand);
@@ -92,7 +92,7 @@ public class ParallelCommandExecutorTask implements RunnableTask {
 	}
 
 	private void executeCommand() {
-		String unixCommand = this.command.command ();
+		String unixCommand = this.command.commandTxt ();
 		if (unixCommand == null)
 			throw new CommandExecutionException ("Invalid Command String in Command :"
 					+ this.command);

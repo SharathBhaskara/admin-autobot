@@ -1,12 +1,12 @@
 package com.novicehacks.autobot.types;
 
 /**
- * Login Id and Password Credentials used for logging in to the server. <br/>
- * <br/>
- * <em><strong>Note:</strong> sshKey authentication is for future use.
+ * Authentication credentials in the format of Login Id and Password
+ * combinations, these objects are used by {@link Server} to authenticate
+ * connection to the remote machines.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
- * @See Server
+ * @see Server
  */
 public class ServerCredential {
 
@@ -16,7 +16,7 @@ public class ServerCredential {
 	private String sshKey;
 
 	public String getLoginid() {
-		return loginid;
+		return this.loginid;
 	}
 
 	public void setLoginid(String loginid) {
@@ -24,7 +24,7 @@ public class ServerCredential {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -32,7 +32,7 @@ public class ServerCredential {
 	}
 
 	public String getSshKey() {
-		return sshKey;
+		return this.sshKey;
 	}
 
 	public void setSshKey(String sshKey) {
@@ -41,7 +41,7 @@ public class ServerCredential {
 
 	@Override
 	public String toString() {
-		return loginid + "-" + password;
+		return this.loginid + "-" + this.password;
 	}
 
 }

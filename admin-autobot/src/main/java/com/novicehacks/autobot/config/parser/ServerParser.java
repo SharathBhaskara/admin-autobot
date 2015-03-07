@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ServerCredential;
-import com.novicehacks.autobot.types.UnixServer;
+import com.novicehacks.autobot.types.SSHServer;
 
 /**
  * ServerParser is a Callable that will parse the server types from the resource
@@ -47,7 +47,7 @@ public class ServerParser extends Parser<Server> {
 	public Set<Server> call() throws Exception {
 		Map<String, String[]> tokenList;
 		Set<Server> serverSet;
-		UnixServer server;
+		SSHServer server;
 		logger.entry();
 		tokenList = getTokensFromFile();
 		logger.debug("Count of Commands in the ResourceFile : {}",
@@ -61,7 +61,7 @@ public class ServerParser extends Parser<Server> {
 			 * representing the credentials
 			 */
 			if (tokens.length >= MinTokenCount) {
-				server = new UnixServer(line);
+				server = new SSHServer(line);
 				int tokenIndex = 0;
 				server.setId(tokens[tokenIndex++]);
 				server.setName(tokens[tokenIndex++]);

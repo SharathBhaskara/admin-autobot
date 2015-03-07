@@ -56,7 +56,7 @@ public class CommandParser extends Parser<Command> {
 			} else {
 				command = new ShellCommand(line);
 				command.setDescription(tokens[0]);
-				command.setCommand(tokens[1]);
+				command.setCommandTxt(tokens[1]);
 				command.setId(tokens[2]);
 				commandSet.add(command);
 			}

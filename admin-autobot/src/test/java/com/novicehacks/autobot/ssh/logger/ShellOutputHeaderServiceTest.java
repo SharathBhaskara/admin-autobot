@@ -16,7 +16,7 @@ import com.novicehacks.autobot.logger.OutputHeaderService;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ShellCommand;
-import com.novicehacks.autobot.types.UnixServer;
+import com.novicehacks.autobot.types.SSHServer;
 
 public class ShellOutputHeaderServiceTest {
 	@Mock
@@ -46,7 +46,7 @@ public class ShellOutputHeaderServiceTest {
 	@Category ({ UnitTest.class })
 	public void testEqualsWithDifferentServer() {
 		// given
-		Server otherServer = new UnixServer ("");
+		Server otherServer = new SSHServer ("");
 		ShellOutputHeaderService temp = new ShellOutputHeaderService (otherServer, this.command);
 		// when
 		boolean status = this.headerService.equals (temp);

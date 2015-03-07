@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.ssh;
+package com.novicehacks.autobot.ssh.session;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +11,9 @@ import org.apache.logging.log4j.Logger;
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.core.ThreadManager;
+import com.novicehacks.autobot.ssh.DefaultSSHConnection;
+import com.novicehacks.autobot.ssh.SSHConnection;
+import com.novicehacks.autobot.ssh.SSHSession;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
 import com.novicehacks.autobot.types.Command;
@@ -24,19 +27,19 @@ import com.novicehacks.autobot.types.Server;
  * commands sequentially in an open session.
  * </p>
  * <p>
- * Uses {@link SingleSessionCommandExecutionController
+ * Uses {@link ShellSessionController
  * SessionController} as shared object for controlling the execution of the
  * command executor and output gobbler
  * </p>
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
- * @see SingleSessionCommandExecutor
+ * @see ShellSessionExecutor
  * @see ShellSequentialCommandOutputGobbler
- * @see SingleSessionCommandExecutionController
+ * @see ShellSessionController
  * 
  *
  */
-public class SequentialCommandExecutorTask implements RunnableTask {
+public class ShellExecutorTask implements RunnableTask {
 	private boolean threadStarted;
 	private Server server;
 	private Command[] executableCommands;
@@ -46,17 +49,17 @@ public class SequentialCommandExecutorTask implements RunnableTask {
 	private OutputStream remoteOutputStream;
 	private Thread remoteConsumerThread;
 	private Future<?> commandOutputLoggerTaskFuture;
-	private SingleSessionCommandExecutionController sessionController;
-	private Logger logger = LogManager.getLogger (SequentialCommandExecutorTask.class);
+	private ShellSessionController sessionController;
+	private Logger logger = LogManager.getLogger (ShellExecutorTask.class);
 
-	protected SequentialCommandExecutorTask (	DefaultSSHConnection connection,
-												Server unixServer,
-												Command[] unixCommands) {
+	public ShellExecutorTask (	DefaultSSHConnection connection,
+								Server unixServer,
+								Command[] unixCommands) {
 		validateParams (connection, unixServer, unixCommands);
 		this.connection = connection;
 		this.server = unixServer;
 		this.executableCommands = unixCommands;
-		this.sessionController = new SingleSessionCommandExecutionController (unixServer);
+		this.sessionController = new ShellSessionController (unixServer);
 	}
 
 	private void validateParams(DefaultSSHConnection connection,
@@ -122,7 +125,7 @@ public class SequentialCommandExecutorTask implements RunnableTask {
 
 	Runnable getRemoteConsumerTask() {
 		Runnable remoteConsumerTask;
-		remoteConsumerTask = new SingleSessionCommandOutputGobblerTask (this.sessionController);
+		remoteConsumerTask = new ShellSessionOutputGobblerTask (this.sessionController);
 		return remoteConsumerTask;
 	}
 
@@ -138,13 +141,13 @@ public class SequentialCommandExecutorTask implements RunnableTask {
 	}
 
 	private void startExecutingCommandsSequentially() throws InterruptedException {
-		SingleSessionCommandExecutor executor;
+		ShellSessionExecutor executor;
 		executor = getSequentialCommandExecutor ();
 		executor.startExecution ();
 	}
 
-	SingleSessionCommandExecutor getSequentialCommandExecutor() {
-		return new SingleSessionCommandExecutor (this.server, this.executableCommands,
+	ShellSessionExecutor getSequentialCommandExecutor() {
+		return new ShellSessionExecutor (this.server, this.executableCommands,
 				this.sessionController);
 	}
 

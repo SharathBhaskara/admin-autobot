@@ -1,7 +1,7 @@
 package com.novicehacks.autobot.types;
 
 /**
- * A Command is a single unit that will be executed on a server.
+ * A Command is a unit of work that is needed to be executed on a server.
  * 
  * <p>
  * All Known implementations of this type are
@@ -17,7 +17,7 @@ package com.novicehacks.autobot.types;
  */
 public interface Command extends Comparable<Command>, Mappable {
 
-	public String command();
+	public String commandTxt();
 
 	public String id();
 

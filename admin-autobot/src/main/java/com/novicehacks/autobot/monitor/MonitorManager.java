@@ -1,6 +1,6 @@
 package com.novicehacks.autobot.monitor;
 
-import com.novicehacks.autobot.types.Incomplete;
+import com.novicehacks.autobot.core.annotations.Incomplete;
 
 /**
  * 

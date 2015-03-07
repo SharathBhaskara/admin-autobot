@@ -16,7 +16,7 @@ import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 import com.novicehacks.autobot.types.ShellCommand;
-import com.novicehacks.autobot.types.UnixServer;
+import com.novicehacks.autobot.types.SSHServer;
 
 public class TestServerExecutableCommandMap {
 
@@ -38,7 +38,7 @@ public class TestServerExecutableCommandMap {
 	@Test
 	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testPutMultipleValuesCheckSize() {
-		Server server = new UnixServer ("123");
+		Server server = new SSHServer ("123");
 		ServerExecutableCommandMap map = new ServerExecutableCommandMap ();
 		map.put (server, new ShellCommand ("abc"));
 		map.put (server, new ShellCommand ("def"));
@@ -51,7 +51,7 @@ public class TestServerExecutableCommandMap {
 	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testPutWithMultipleValue() {
 		Collection<Command> collection;
-		Server server = new UnixServer ("123");
+		Server server = new SSHServer ("123");
 		Command command1 = new ShellCommand ("abc");
 		Command command2 = new ShellCommand ("def");
 		Command command3 = new ShellCommand ("ghi");

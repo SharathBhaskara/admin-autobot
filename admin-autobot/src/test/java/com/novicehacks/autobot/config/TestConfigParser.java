@@ -1,4 +1,4 @@
-package test.legacy;
+package com.novicehacks.autobot.config;
 
 import static org.junit.Assert.assertNotNull;
 

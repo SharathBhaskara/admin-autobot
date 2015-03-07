@@ -4,13 +4,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.management.monitor.Monitor;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Executable;
-import com.novicehacks.autobot.types.Monitor;
 import com.novicehacks.autobot.types.Server;
 
 /**
@@ -36,15 +37,15 @@ import com.novicehacks.autobot.types.Server;
  */
 public final class ResourceConfig {
 
-	private static AtomicBoolean	ConfigLoaded	= new AtomicBoolean (false);
-	private Set<Server>				servers;
-	private Map<String, Server>		serverMap;
-	private Map<String, Command>	commandMap;
-	private Set<Command>			commands;
-	private Set<Executable>			executables;
-	private Set<Monitor>			monitors;
+	private static AtomicBoolean ConfigLoaded = new AtomicBoolean (false);
+	private Set<Server> servers;
+	private Map<String, Server> serverMap;
+	private Map<String, Command> commandMap;
+	private Set<Command> commands;
+	private Set<Executable> executables;
+	private Set<Monitor> monitors;
 
-	private Logger					logger			= LogManager.getLogger (ResourceConfig.class);
+	private Logger logger = LogManager.getLogger (ResourceConfig.class);
 
 	/**
 	 * Private Constructor, will make no instance created outside this class.
@@ -71,19 +72,19 @@ public final class ResourceConfig {
 	 */
 	protected void loadConfig(	Set<Server> servers,
 								Set<Command> commands,
-								Set<Executable> executables,
-								Set<Monitor> monitors) {
+								Set<Executable> executables) {
 		this.logger.entry ();
 		if (!ConfigLoaded.get ()) {
 			ConfigLoaded.set (true);
 			this.servers = servers;
 			this.commands = commands;
-			this.monitors = monitors;
 			this.executables = executables;
 			this.commandMap = BotUtils.CreateMap (commands);
 			this.serverMap = BotUtils.CreateMap (servers);
 		} else {
-			throw new IllegalStateException ("Load Config cannot be called multiple times");
+			// do nothing
+			// throw new IllegalStateException
+			// ("Load Config cannot be called multiple times");
 		}
 		this.logger.exit ();
 	}
@@ -140,7 +141,7 @@ public final class ResourceConfig {
 	 *
 	 */
 	private static class ResourceConfigSingleton {
-		private static ResourceConfig	instance	= new ResourceConfig ();
+		private static ResourceConfig instance = new ResourceConfig ();
 
 		public static ResourceConfig getInstance() {
 			return instance;

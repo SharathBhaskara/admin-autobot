@@ -65,7 +65,7 @@ public class ConfigParser {
 	}
 
 	/**
-	 * Returns the singleton instance of the config parser object.
+	 * Returns the singleton instance of the com.novicehacks.autobot.config parser object.
 	 * 
 	 * @return
 	 */
@@ -86,7 +86,7 @@ public class ConfigParser {
 	 */
 	private void loadConfig() {
 		logger.entry();
-		logger.debug("Loading the system config from : {}", ConfigFile);
+		logger.debug("Loading the system com.novicehacks.autobot.config from : {}", ConfigFile);
 		InputStream _is = ClassLoader.getSystemResourceAsStream(ConfigFile);
 		Properties properties;
 		properties = new Properties();

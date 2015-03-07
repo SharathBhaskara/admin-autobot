@@ -15,7 +15,9 @@ import com.novicehacks.autobot.config.SysConfig;
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.core.ThreadManager;
+import com.novicehacks.autobot.core.services.CommandExecutorService;
 import com.novicehacks.autobot.ssh.exception.CommandExecutionException;
+import com.novicehacks.autobot.ssh.session.ShellExecutorTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
@@ -24,11 +26,11 @@ import com.novicehacks.autobot.types.Server;
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
  * 
- * @see ParallelCommandExecutorTask
- * @see SequentialCommandExecutorTask
+ * @see ParallelExecutorTask
+ * @see ShellExecutorTask
  * 
  */
-public final class ServerCommandProcessorTask implements RunnableTask {
+public final class ShellCommandExecutorServiceTask implements RunnableTask, CommandExecutorService {
 
 	private boolean threadStarted = false;
 	private Server server;
@@ -38,7 +40,7 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 	private Future<?> sequentialCommandFuture;
 	private List<Future<?>> parallelCommandFutures;
 	private boolean isRunningInParallel;
-	private Logger logger = LogManager.getLogger (ServerCommandProcessorTask.class);
+	private Logger logger = LogManager.getLogger (ShellCommandExecutorServiceTask.class);
 
 	/**
 	 * @param unixServer
@@ -48,7 +50,7 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 	 * @throws IllegalArgumentException
 	 *         if unixServer parameter is null
 	 */
-	public ServerCommandProcessorTask (	final Server unixServer,
+	public ShellCommandExecutorServiceTask (	final Server unixServer,
 										final Collection<Command> unixCommands) {
 		this (unixServer, unixCommands.toArray (new Command[] { }));
 	}
@@ -59,7 +61,7 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 	 * @throws IllegalArgumentException
 	 *         if either of the parameters are having null values
 	 */
-	public ServerCommandProcessorTask (final Server unixServer, final Command... unixCommands) {
+	public ShellCommandExecutorServiceTask (final Server unixServer, final Command... unixCommands) {
 		validateParams (unixServer, unixCommands);
 		this.server = unixServer;
 		this.commands = unixCommands;
@@ -132,8 +134,8 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 	}
 
 	private void executeCommandsSequentially() {
-		SequentialCommandExecutorTask task;
-		task = new SequentialCommandExecutorTask (this.connection, this.server, this.commands);
+		ShellExecutorTask task;
+		task = new ShellExecutorTask (this.connection, this.server, this.commands);
 		this.sequentialCommandFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
 	}
 
@@ -158,8 +160,8 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 
 	private Future<?> submitCommandForParallelExecution(Command command) {
 		Future<?> taskFuture;
-		ParallelCommandExecutorTask task;
-		task = new ParallelCommandExecutorTask (this.connection, this.server, command);
+		ParallelExecutorTask task;
+		task = new ParallelExecutorTask (this.connection, this.server, command);
 		taskFuture = ThreadManager.getInstance ().submitTaskToThreadPool (task);
 		return taskFuture;
 	}
@@ -231,6 +233,21 @@ public final class ServerCommandProcessorTask implements RunnableTask {
 	@Override
 	public final boolean isThreadStarted() {
 		return this.threadStarted;
+	}
+
+	@Override
+	public Command[] commandArray() {
+		return this.commands;
+	}
+
+	@Override
+	public Server server() {
+		return this.server;
+	}
+
+	@Override
+	public Future<?> executeCommandsAsynchonously() {
+		return ThreadManager.getInstance ().submitTaskToThreadPool (this);
 	}
 
 }

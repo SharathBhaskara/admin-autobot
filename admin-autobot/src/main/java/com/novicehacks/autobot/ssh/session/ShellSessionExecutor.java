@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.ssh;
+package com.novicehacks.autobot.ssh.session;
 
 import java.io.PrintStream;
 
@@ -15,17 +15,17 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class SingleSessionCommandExecutor {
+public class ShellSessionExecutor {
 	private Server server;
 	private Command[] executableCommands;
-	private SingleSessionCommandExecutionController sessionController;
+	private ShellSessionController sessionController;
 	private PrintStream remoteCommandWriter;
 
-	private Logger logger = LogManager.getLogger (SingleSessionCommandExecutor.class);
+	private Logger logger = LogManager.getLogger (ShellSessionExecutor.class);
 
-	protected SingleSessionCommandExecutor (Server server,
+	protected ShellSessionExecutor (Server server,
 											Command[] executableCommands,
-											SingleSessionCommandExecutionController controller) {
+											ShellSessionController controller) {
 		this.server = server;
 		this.executableCommands = executableCommands;
 		this.sessionController = controller;
@@ -70,14 +70,14 @@ public class SingleSessionCommandExecutor {
 
 	private void processExecutableCommands() throws InterruptedException {
 		for (Command command : this.executableCommands) {
-			this.logger.trace ("Executing Command {} With Id : {}", command.command (),
+			this.logger.trace ("Executing Command {} With Id : {}", command.commandTxt (),
 					command.id ());
 			this.sessionController.appendHeaderToOutput (command);
-			sendCommandToRemoteShell (command.command (), false, true);
+			sendCommandToRemoteShell (command.commandTxt (), false, true);
 			waitUntilOutputConsumed ();
 			this.sessionController.appendFooterToOutput ();
 			this.logger.trace ("Execution Completed For Command {} With Id : {}",
-					command.command (), command.id ());
+					command.commandTxt (), command.id ());
 		}
 	}
 

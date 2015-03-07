@@ -1,16 +1,12 @@
 package com.novicehacks.autobot.types;
 
+import com.novicehacks.autobot.core.services.CommandExecutorService;
+
 /**
- * A server object is used to locate a machine in the network, for
- * authentication it uses an array of credentials.
- * 
- * <p>
- * As of this version only UnixServer is using these objects
- * </p>
- * <ul>
- * <li>{@link UnixServer}</li>
- * <li>{@link DBServer}</li>
- * </ul>
+ * A Server is a remote machine, where the commands can be exeuted. It is
+ * identified by its {@link #ipaddress()}.
+ * For authenticating the connection to the server we can use multiple
+ * {@link ServerCredential} objects as specified in {@link #credentials()}.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
@@ -18,7 +14,7 @@ package com.novicehacks.autobot.types;
 public interface Server extends Comparable<Server>, Mappable {
 
 	public ServerCredential[] credentials();
-	
+
 	public String[] initCommands();
 
 	public String ipaddress();
@@ -26,5 +22,7 @@ public interface Server extends Comparable<Server>, Mappable {
 	public String name();
 
 	public String id();
+
+	public CommandExecutorService commandExecutorService();
 
 }

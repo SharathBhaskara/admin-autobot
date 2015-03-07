@@ -1,10 +1,13 @@
 package com.novicehacks.autobot.logger;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -23,8 +26,8 @@ import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
 import com.novicehacks.autobot.core.stubs.SysConfigDelegate;
 import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
+import com.novicehacks.autobot.types.SSHServer;
 import com.novicehacks.autobot.types.ShellCommand;
-import com.novicehacks.autobot.types.UnixServer;
 
 public class DefaultOutputLoggerTaskTest {
 	private final String newLine = System.lineSeparator ();
@@ -32,7 +35,7 @@ public class DefaultOutputLoggerTaskTest {
 	private static final String OutputFolder = "temp-output";
 	private String commandOutput = "output";
 	@Mock
-	private UnixServer server;
+	private SSHServer server;
 	@Mock
 	private ShellCommand command;
 	@InjectMocks
@@ -113,22 +116,43 @@ public class DefaultOutputLoggerTaskTest {
 	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getHeader() {
 		// given
-		StringBuilder buffer = new StringBuilder ();
-		buffer.append (this.lineSeperator)
-				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
-				.append (this.lineSeperator).append ("Server : null (null)")
-				.append (this.lineSeperator).append ("Command : null (null)")
-				.append (this.lineSeperator)
-				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
-				.append (this.lineSeperator);
-		String expected = buffer.toString ();
+		Instant instantTime = Instant.now ();
+		mockOutputLoggerWithHeaderServiceAndInstantTime (instantTime);
+		StringBuilder expectedBuffer = new StringBuilder ();
+		expectedBuffer.append (getExpectedHeader (instantTime));
+
+		String expected = expectedBuffer.toString ();
 		// when
 		String actual = this.outputLogger.headerService ().header ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
 		// then
-		Assert.assertThat (actual, CoreMatchers.containsString ("Server : null (null)"));
-		Assert.assertThat (actual, CoreMatchers.containsString ("Command : null (null)"));
+		System.out.println ("Expected : " + expected);
+		System.out.println ("Actual   : " + actual);
 		assertEquals (expected, actual);
+	}
+
+	private void mockOutputLoggerWithHeaderServiceAndInstantTime(Instant instantTime) {
+		DefaultOutputHeaderService headerService;
+		headerService = new DefaultOutputHeaderService (this.server, this.command);
+		headerService = spy (headerService);
+		when (headerService.getInstantTime ()).thenReturn (instantTime, instantTime, instantTime);
+
+		this.outputLogger = spy (this.outputLogger);
+		when (this.outputLogger.headerService ()).thenReturn (headerService);
+	}
+
+	private String getExpectedHeader(Instant instantTime) {
+		StringBuilder expectedBuffer = new StringBuilder ();
+		expectedBuffer.append (this.lineSeperator)
+				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+				.append (this.lineSeperator).append ("Server : null (null)")
+				.append (this.lineSeperator).append ("Command : null (null)")
+				.append (this.lineSeperator).append ("Execution Timestamp : ")
+				.append (instantTime.getEpochSecond ()).append (" (")
+				.append (instantTime.toString ()).append (")").append (this.lineSeperator)
+				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
+				.append (this.lineSeperator);
+		return expectedBuffer.toString ();
 	}
 
 	@Test
@@ -145,11 +169,9 @@ public class DefaultOutputLoggerTaskTest {
 	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getFooter() {
 		// given
-		StringBuilder buffer = new StringBuilder ();
-		buffer.append ("**************************************************")
-				.append (this.lineSeperator)
-				.append ("**************************************************");
-		String expected = buffer.toString ();
+		StringBuilder expectedBuffer = new StringBuilder ();
+		expectedBuffer.append (getExpectedFooter ());
+		String expected = expectedBuffer.toString ();
 		// when
 		String actual = this.outputLogger.footerService ().footer ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
@@ -157,30 +179,40 @@ public class DefaultOutputLoggerTaskTest {
 		assertEquals (expected, actual);
 	}
 
+	private Object getExpectedFooter() {
+		StringBuilder expectedBuffer = new StringBuilder ();
+		expectedBuffer.append ("**************************************************")
+				.append (this.lineSeperator)
+				.append ("**************************************************");
+
+		return expectedBuffer.toString ();
+	}
+
 	@Test
 	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void getFormattedContent() {
 		// given
-		StringBuilder buffer = new StringBuilder ();
-		buffer.append (this.lineSeperator)
-				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
-				.append (this.lineSeperator).append ("Server : null (null)")
-				.append (this.lineSeperator).append ("Command : null (null)")
-				.append (this.lineSeperator)
-				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
-				.append (this.lineSeperator).append (this.commandOutput)
-				.append (this.lineSeperator)
-				.append ("**************************************************")
-				.append (this.lineSeperator)
-				.append ("**************************************************");
-		String expected = buffer.toString ();
+		String sampleOutput = "Sample Output";
+		Instant instantTime = Instant.now ();
+		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command, sampleOutput);
+
+		mockOutputLoggerWithHeaderServiceAndInstantTime (instantTime);
+
+		StringBuilder expectedBuffer = new StringBuilder ();
+		expectedBuffer.append (getExpectedHeader (instantTime));
+		expectedBuffer.append (sampleOutput).append (this.lineSeperator);
+		expectedBuffer.append (getExpectedFooter ());
+
+		String expected = expectedBuffer.toString ();
 
 		// when
-		this.outputLogger = new DefaultOutputLoggerTask (this.server, this.command,
-				this.commandOutput);
 		String actual = this.outputLogger.getFormattedContent ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
 		// then
+		System.out.println ("Expected : " + expected);
+		System.out.println ("Actual   : " + actual);
+
 		assertEquals (expected, actual);
 	}
+
 }

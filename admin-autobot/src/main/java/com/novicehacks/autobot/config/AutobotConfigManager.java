@@ -8,18 +8,18 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import javax.management.monitor.Monitor;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.parser.CommandParser;
 import com.novicehacks.autobot.config.parser.ConfigParser;
 import com.novicehacks.autobot.config.parser.ExecutableParser;
-import com.novicehacks.autobot.config.parser.MonitorParser;
 import com.novicehacks.autobot.config.parser.Parser;
 import com.novicehacks.autobot.config.parser.ServerParser;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Executable;
-import com.novicehacks.autobot.types.Monitor;
 import com.novicehacks.autobot.types.Server;
 
 /**
@@ -35,8 +35,7 @@ public class AutobotConfigManager {
 	 * complete and return the Collection of objects.
 	 */
 	public static final int ReadTimeOut = 3;
-	private static Logger logger = LogManager
-			.getLogger(AutobotConfigManager.class);
+	private static Logger logger = LogManager.getLogger (AutobotConfigManager.class);
 
 	/**
 	 * First call to this method will initialize the SysConfig object, so no
@@ -46,7 +45,7 @@ public class AutobotConfigManager {
 	 * @return
 	 */
 	public static SysConfig loadSystemConfig() {
-		return ConfigParser.getIntance().systemConfig();
+		return ConfigParser.getIntance ().systemConfig ();
 	}
 
 	/**
@@ -60,14 +59,15 @@ public class AutobotConfigManager {
 	 * load {@link SysConfig}
 	 * </p>
 	 * 
-	 * @return Configuration instance with the loaded config. Is a singleton
+	 * @return Configuration instance with the loaded
+	 *         com.novicehacks.autobot.config. Is a singleton
 	 *         instance
 	 * @throws TimeoutException
 	 * @throws ExecutionException
 	 * @throws InterruptedException
 	 */
-	public static ResourceConfig loadResourceConfig()
-			throws InterruptedException, ExecutionException, TimeoutException {
+	public static ResourceConfig loadResourceConfig() throws InterruptedException,
+			ExecutionException, TimeoutException {
 		Parser<Server> serverParser;
 		Parser<Command> commandParser;
 		Parser<Executable> executableParser;
@@ -82,30 +82,26 @@ public class AutobotConfigManager {
 		Set<Monitor> monitors;
 		ExecutorService executor;
 		ConfigParser parser;
-		logger.entry();
-		parser = ConfigParser.getIntance();
+		logger.entry ();
+		parser = ConfigParser.getIntance ();
 
-		serverParser = new ServerParser(parser.serverResource());
-		commandParser = new CommandParser(parser.commandResource());
-		executableParser = new ExecutableParser(parser.executableResource());
-		monitorParser = new MonitorParser(parser.monitorResource());
-		logger.debug("Submitting the parsers to the executor");
-		executor = Executors.newCachedThreadPool();
-		serverInfo = executor.submit(serverParser);
-		commandInfo = executor.submit(commandParser);
-		executableInfo = executor.submit(executableParser);
-		monitorInfo = executor.submit(monitorParser);
-		executor.shutdown();
-		logger.debug("Awaiting the completion of threads after shutdown.");
-		servers = serverInfo.get(ReadTimeOut, TimeUnit.MINUTES);
-		commands = commandInfo.get(ReadTimeOut, TimeUnit.MINUTES);
-		executables = executableInfo.get(ReadTimeOut, TimeUnit.MINUTES);
-		monitors = monitorInfo.get(ReadTimeOut, TimeUnit.MINUTES);
-		logger.debug("Setting the data into the Config Object");
+		serverParser = new ServerParser (parser.serverResource ());
+		commandParser = new CommandParser (parser.commandResource ());
+		executableParser = new ExecutableParser (parser.executableResource ());
+		logger.debug ("Submitting the parsers to the executor");
+		executor = Executors.newCachedThreadPool ();
+		serverInfo = executor.submit (serverParser);
+		commandInfo = executor.submit (commandParser);
+		executableInfo = executor.submit (executableParser);
+		executor.shutdown ();
+		logger.debug ("Awaiting the completion of threads after shutdown.");
+		servers = serverInfo.get (ReadTimeOut, TimeUnit.MINUTES);
+		commands = commandInfo.get (ReadTimeOut, TimeUnit.MINUTES);
+		executables = executableInfo.get (ReadTimeOut, TimeUnit.MINUTES);
+		logger.debug ("Setting the data into the Config Object");
 
-		ResourceConfig.getInstance().loadConfig(servers, commands, executables,
-				monitors);
-		logger.exit();
-		return ResourceConfig.getInstance();
+		ResourceConfig.getInstance ().loadConfig (servers, commands, executables);
+		logger.exit ();
+		return ResourceConfig.getInstance ();
 	}
 }

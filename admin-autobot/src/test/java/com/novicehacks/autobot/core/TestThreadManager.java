@@ -155,6 +155,28 @@ public class TestThreadManager {
 		assertTrue ("Task execution should have been completed", status);
 		assertNull (f.get (0, unit));
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@Test
 	@Category ({ UnitTest.class, FunctionalTest.class })

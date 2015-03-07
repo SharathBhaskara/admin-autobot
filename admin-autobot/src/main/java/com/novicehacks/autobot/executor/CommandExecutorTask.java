@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.RunnableTask;
 import com.novicehacks.autobot.core.ThreadManager;
-import com.novicehacks.autobot.ssh.ServerCommandProcessorTask;
+import com.novicehacks.autobot.ssh.ShellCommandExecutorServiceTask;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
 
@@ -70,8 +70,8 @@ public class CommandExecutorTask implements RunnableTask {
 
 	private Future<?> createAndSubmitCommandProcessor(Server server, Collection<Command> commands) {
 		Future<?> executableFuture;
-		ServerCommandProcessorTask serverCommandProcessor;
-		serverCommandProcessor = new ServerCommandProcessorTask (server, commands);
+		ShellCommandExecutorServiceTask serverCommandProcessor;
+		serverCommandProcessor = new ShellCommandExecutorServiceTask (server, commands);
 		executableFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
 				serverCommandProcessor);
 		return executableFuture;

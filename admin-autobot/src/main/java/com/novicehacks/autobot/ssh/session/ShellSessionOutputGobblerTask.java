@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.ssh;
+package com.novicehacks.autobot.ssh.session;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,13 +15,13 @@ import com.novicehacks.autobot.core.RunnableTask;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class SingleSessionCommandOutputGobblerTask implements RunnableTask {
+public class ShellSessionOutputGobblerTask implements RunnableTask {
 	private boolean threadStarted = false;
 	private InputStream remoteInputStream;
-	private SingleSessionCommandExecutionController sessionController;
-	private Logger logger = LogManager.getLogger (SingleSessionCommandOutputGobblerTask.class);
+	private ShellSessionController sessionController;
+	private Logger logger = LogManager.getLogger (ShellSessionOutputGobblerTask.class);
 
-	protected SingleSessionCommandOutputGobblerTask (SingleSessionCommandExecutionController sessionController) {
+	protected ShellSessionOutputGobblerTask (ShellSessionController sessionController) {
 		this.sessionController = sessionController;
 		this.remoteInputStream = sessionController.getRemoteInputStream ();
 	}

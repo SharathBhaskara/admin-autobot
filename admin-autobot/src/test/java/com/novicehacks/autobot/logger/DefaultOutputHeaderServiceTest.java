@@ -2,7 +2,10 @@ package com.novicehacks.autobot.logger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+
+import java.time.Instant;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,14 +45,19 @@ public class DefaultOutputHeaderServiceTest {
 		when (this.server.id ()).thenReturn ("S001");
 		when (this.server.name ()).thenReturn ("AppServer");
 		when (this.command.id ()).thenReturn ("C001");
-		when (this.command.command ()).thenReturn ("df -k");
+		when (this.command.commandTxt ()).thenReturn ("df -k");
+		Instant instantTime = Instant.now ();
+		this.headerService = spy (this.headerService);
+		when (this.headerService.getInstantTime ()).thenReturn (instantTime);
 
 		StringBuilder buffer = new StringBuilder ();
 		buffer.append (this.lineSeperator)
 				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
 				.append (this.lineSeperator).append ("Server : S001 (AppServer)")
 				.append (this.lineSeperator).append ("Command : C001 (df -k)")
-				.append (this.lineSeperator)
+				.append (this.lineSeperator).append ("Execution Timestamp : ")
+				.append (instantTime.getEpochSecond ()).append (" (")
+				.append (instantTime.toString ()).append (")").append (this.lineSeperator)
 				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
 				.append (this.lineSeperator);
 
@@ -66,19 +74,27 @@ public class DefaultOutputHeaderServiceTest {
 	@Category ({ UnitTest.class })
 	public void headerTestWithNullValue() {
 		// given
+		Instant instantTime = Instant.now ();
 		StringBuilder buffer = new StringBuilder ();
 		buffer.append (this.lineSeperator)
 				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
 				.append (this.lineSeperator).append ("Server : null (null)")
 				.append (this.lineSeperator).append ("Command : null (null)")
-				.append (this.lineSeperator)
+				.append (this.lineSeperator).append ("Execution Timestamp : ")
+				.append (instantTime.getEpochSecond ()).append (" (")
+				.append (instantTime.toString ()).append (")").append (this.lineSeperator)
 				.append ("++++++++++++++++++++++++++++++++++++++++++++++++++")
 				.append (this.lineSeperator);
 		String expected = buffer.toString ();
+
+		this.headerService = spy (this.headerService);
+		when (this.headerService.getInstantTime ()).thenReturn (instantTime);
 		// when
 		String actual = this.headerService.header ();
 		actual = actual.replaceAll (this.newLine, this.lineSeperator);
 		// then
+		System.out.println ("Expected Header: " + expected);
+		System.out.println ("Actual Header:   " + actual);
 		assertEquals ("Formatted output didnt match", expected, actual);
 	}
 

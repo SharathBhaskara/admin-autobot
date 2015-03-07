@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.ssh;
+package com.novicehacks.autobot.ssh.session;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,7 +21,7 @@ import com.novicehacks.autobot.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class SingleSessionCommandExecutionController {
+public class ShellSessionController {
 	private Server server;
 	private InputStream remoteInputStream;
 	private OutputStream remoteOutputStream;
@@ -32,9 +32,9 @@ public class SingleSessionCommandExecutionController {
 	private Condition InputComplete = this.shellLock.newCondition ();
 	private StringBuilder commandOutput = new StringBuilder ();
 
-	private Logger logger = LogManager.getLogger (SingleSessionCommandExecutionController.class);
+	private Logger logger = LogManager.getLogger (ShellSessionController.class);
 
-	protected SingleSessionCommandExecutionController (Server server) {
+	protected ShellSessionController (Server server) {
 		this.server = server;
 	}
 

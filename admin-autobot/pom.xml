@@ -4,8 +4,7 @@
 	<groupId>com.novicehacks</groupId>
 	<artifactId>admin-autobot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>System admin automation bot</name>
-	<description>System admin automation bot, will perform the routine admin tasks and report the status</description>
+	<name>Admin Autobot</name>
 	<dependencies>
 		<dependency>
 			<groupId>ch.ethz.ganymed</groupId>
@@ -37,6 +36,15 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.1</version>
 				<configuration>
@@ -45,4 +53,12 @@
 			</plugin>
 		</plugins>
 	</build>
+	<organization>
+		<name>NoviceHacks</name>
+		<url>www.novicehacks.com</url>
+	</organization>
+	<scm>
+		<url>git@github.com:bsharathchand/admin-autobot.git</url>
+	</scm>
+	<description>A thin wrapper for all scheduled ssh monitoring actions. </description>
 </project>

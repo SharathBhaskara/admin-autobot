@@ -1,5 +1,7 @@
 package com.novicehacks.autobot.types;
 
+import com.novicehacks.autobot.core.annotations.Incomplete;
+
 /**
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
@@ -11,7 +13,7 @@ package com.novicehacks.autobot.types;
 public class SQLCommand implements Command {
 
 	@Override
-	public String command() {
+	public String commandTxt() {
 		// TODO Auto-generated method stub
 		return null;
 	}

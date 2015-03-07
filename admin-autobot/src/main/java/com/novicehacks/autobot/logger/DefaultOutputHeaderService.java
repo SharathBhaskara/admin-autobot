@@ -1,5 +1,7 @@
 package com.novicehacks.autobot.logger;
 
+import java.time.Instant;
+
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.types.Command;
 import com.novicehacks.autobot.types.Server;
@@ -41,6 +43,8 @@ public class DefaultOutputHeaderService implements OutputHeaderService {
 		buffer.append (getServerInfo ());
 		buffer.append (BotUtils.newLine ());
 		buffer.append (getCommandInfo ());
+		buffer.append (BotUtils.newLine ());
+		buffer.append (executionTimestamp ());
 		return buffer.toString ();
 	}
 
@@ -61,9 +65,25 @@ public class DefaultOutputHeaderService implements OutputHeaderService {
 		buffer.append ("Command : ");
 		buffer.append (this.command.id ());
 		buffer.append (" (");
-		buffer.append (this.command.command ());
+		buffer.append (this.command.commandTxt ());
 		buffer.append (")");
 		return buffer.toString ();
+	}
+
+	private Object executionTimestamp() {
+		StringBuilder buffer;
+		buffer = new StringBuilder ();
+		Instant time = getInstantTime ();
+		buffer.append ("Execution Timestamp : ");
+		buffer.append (time.getEpochSecond ());
+		buffer.append (" (");
+		buffer.append (time.toString ());
+		buffer.append (")");
+		return buffer.toString ();
+	}
+
+	Instant getInstantTime() {
+		return Instant.now ();
 	}
 
 	private String getHeaderSeperator() {
