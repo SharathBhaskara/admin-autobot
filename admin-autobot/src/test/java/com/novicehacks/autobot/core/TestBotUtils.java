@@ -44,6 +44,15 @@ public class TestBotUtils {
 
 	@Test
 	@Category ({ UnitTest.class, FunctionalTest.class })
+	public void testHasNullReferencesWithNoParams() {
+		// when
+		boolean status = BotUtils.HasNullReferences ();
+		// then
+		assertFalse ("No Values Passed, to verify null references; should result in false", status);
+	}
+
+	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testHasNullReferencesWithStringArrayParamHavingNull() {
 		// given
 		String[] data = { "abc", null, "def" };
@@ -139,6 +148,48 @@ public class TestBotUtils {
 		// then
 		assertNotNull ("Created Map cannot be null", elementMap);
 		assertEquals ("Created Map should be empty", 0, elementMap.size ());
+	}
+
+	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
+	public void testHasEmptyStringWithNoParams() {
+		// when
+		boolean status = BotUtils.HasEmptyStrings ();
+		// then
+		assertFalse ("No Values Passed, to verify null references; should result in false", status);
+	}
+
+	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
+	public void testHasEmptyStringWithNullArray() {
+		// given
+		String[] data = null;
+		// when
+		boolean status = BotUtils.HasEmptyStrings (data);
+		// then
+		assertTrue ("Null value Passed but Ignored", status);
+	}
+
+	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
+	public void testHasEmptyStringWithNullContents() {
+		// given
+		String[] data = { "abc", null, "def" };
+		// when
+		boolean status = BotUtils.HasEmptyStrings (data);
+		// then
+		assertTrue ("Nul value Passed but Ignored", status);
+	}
+
+	@Test
+	@Category ({ UnitTest.class, FunctionalTest.class })
+	public void testHasEmptyStringWithEmptyStrings() {
+		// given
+		String[] data = { "ab", " ", "" };
+		// when
+		boolean status = BotUtils.HasEmptyStrings (data);
+		// then
+		assertTrue ("Empty value Passed but Ignored", status);
 	}
 
 	@Test

@@ -15,8 +15,10 @@ import com.novicehacks.autobot.core.types.Mappable;
 public class BotUtils {
 
 	/**
-	 * Will check that none of the parameters are having null values. If even
-	 * one param is having null then it will return a false.
+	 * Returns true if any of the parameter passed has a null reference to it.
+	 * 
+	 * If any array or array objects is passed when will not validate, the
+	 * contents of that array for null values.
 	 * 
 	 * @param params
 	 * @return <p>
@@ -29,7 +31,8 @@ public class BotUtils {
 	public static boolean HasNullReferences(Object... params) {
 		if (params == null)
 			return true;
-		return HasNullReferencesInArray (params);
+		else
+			return HasNullReferencesInArray (params);
 	}
 
 	private static boolean HasNullReferencesInArray(Object[] params) {
@@ -57,9 +60,10 @@ public class BotUtils {
 	public static <T extends Mappable> Map<String, T> CreateMap(Collection<T> collection) {
 		Map<String, T> finalMap;
 		finalMap = new HashMap<String, T> ();
-		if (collection == null || collection.size () == 0) {
+
+		if (collection == null || collection.size () == 0)
 			return finalMap;
-		}
+
 		for (T mappable : collection) {
 			finalMap.put (mappable.mapKey (), mappable);
 		}
@@ -93,4 +97,30 @@ public class BotUtils {
 	public static String newLine() {
 		return System.lineSeparator ();
 	}
+
+	/**
+	 * Returns true if any of the string is null or has empty strings
+	 * <p>
+	 * <strong> <em>Empty Strings</em> </strong> are strings of any length
+	 * containing only spaces and no data.
+	 * </p>
+	 * 
+	 * @param strings
+	 * @return
+	 */
+	public static boolean HasEmptyStrings(String... strings) {
+		if (strings == null)
+			return true;
+		else
+			return HasEmptyStringsInArray (strings);
+	}
+
+	private static boolean HasEmptyStringsInArray(String[] strings) {
+		for (String string : strings)
+			if (string == null || string.trim ().equals (""))
+				return true;
+
+		return false;
+	}
+
 }
