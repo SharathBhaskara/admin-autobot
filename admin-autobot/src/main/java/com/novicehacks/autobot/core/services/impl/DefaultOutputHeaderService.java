@@ -1,8 +1,9 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.core.services.impl;
 
 import java.time.Instant;
 
 import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.services.OutputHeaderService;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
 

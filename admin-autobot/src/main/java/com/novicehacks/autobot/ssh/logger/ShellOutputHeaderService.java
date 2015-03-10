@@ -1,6 +1,6 @@
 package com.novicehacks.autobot.ssh.logger;
 
-import com.novicehacks.autobot.core.services.DefaultOutputHeaderService;
+import com.novicehacks.autobot.core.services.impl.DefaultOutputHeaderService;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
 

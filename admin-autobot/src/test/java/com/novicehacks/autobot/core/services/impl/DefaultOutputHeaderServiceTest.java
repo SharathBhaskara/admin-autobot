@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.core.services.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.core.services.DefaultOutputHeaderService;
+import com.novicehacks.autobot.core.services.impl.DefaultOutputHeaderService;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
 

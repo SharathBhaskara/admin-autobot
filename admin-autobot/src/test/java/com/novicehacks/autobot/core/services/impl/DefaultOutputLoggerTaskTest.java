@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.core.services.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.spy;
@@ -24,11 +24,11 @@ import org.mockito.MockitoAnnotations;
 
 import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.core.services.DefaultOutputFooterService;
-import com.novicehacks.autobot.core.services.DefaultOutputHeaderService;
-import com.novicehacks.autobot.core.services.DefaultOutputLoggerTask;
 import com.novicehacks.autobot.core.services.OutputFooterService;
 import com.novicehacks.autobot.core.services.OutputHeaderService;
+import com.novicehacks.autobot.core.services.impl.DefaultOutputFooterService;
+import com.novicehacks.autobot.core.services.impl.DefaultOutputHeaderService;
+import com.novicehacks.autobot.core.services.impl.DefaultOutputLoggerTask;
 import com.novicehacks.autobot.core.stubs.SysConfigDelegate;
 import com.novicehacks.autobot.core.types.SSHServer;
 import com.novicehacks.autobot.core.types.ShellCommand;

@@ -2,9 +2,9 @@ package com.novicehacks.autobot.ssh.logger;
 
 import java.nio.file.Path;
 
-import com.novicehacks.autobot.core.services.DefaultOutputLoggerTask;
 import com.novicehacks.autobot.core.services.OutputFooterService;
 import com.novicehacks.autobot.core.services.OutputHeaderService;
+import com.novicehacks.autobot.core.services.impl.DefaultOutputLoggerTask;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
 

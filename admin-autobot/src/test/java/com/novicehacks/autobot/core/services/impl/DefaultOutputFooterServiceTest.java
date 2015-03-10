@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.core.services.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,8 +7,8 @@ import org.junit.experimental.categories.Category;
 
 import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.core.services.DefaultOutputFooterService;
 import com.novicehacks.autobot.core.services.OutputFooterService;
+import com.novicehacks.autobot.core.services.impl.DefaultOutputFooterService;
 
 public class DefaultOutputFooterServiceTest {
 	private final String newLine = System.lineSeparator ();

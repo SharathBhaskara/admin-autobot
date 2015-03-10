@@ -1,6 +1,7 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.core.services.impl;
 
 import com.novicehacks.autobot.core.BotUtils;
+import com.novicehacks.autobot.core.services.OutputFooterService;
 
 public class DefaultOutputFooterService implements OutputFooterService {
 	private final int seperatorLength = 50;

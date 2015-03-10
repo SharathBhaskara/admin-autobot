@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.core.services.impl;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -9,6 +9,7 @@ import java.nio.file.StandardOpenOption;
 
 import com.novicehacks.autobot.core.exception.FileNotExistException;
 import com.novicehacks.autobot.core.exception.WriteToDirectoryException;
+import com.novicehacks.autobot.core.services.ContentWriterService;
 
 public class DefaultContentWriterService implements ContentWriterService {
 
