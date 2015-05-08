@@ -2,7 +2,7 @@ package com.novicehacks.autobot.core.services;
 
 import java.nio.file.Path;
 
-public interface OutputLoggerService {
+public interface OutputLoggerService extends Service {
 	/**
 	 * Final content that is about to be written by this thread.
 	 * 

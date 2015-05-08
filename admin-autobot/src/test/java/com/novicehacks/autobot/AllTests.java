@@ -6,7 +6,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import com.novicehacks.autobot.config.AllConfigTests;
 import com.novicehacks.autobot.core.AllTCoreTests;
-import com.novicehacks.autobot.core.services.AllOutputLoggerTests;
 import com.novicehacks.autobot.executor.AllExecutorTests;
 import com.novicehacks.autobot.ssh.AllSSHTests;
 
@@ -18,7 +17,7 @@ import com.novicehacks.autobot.ssh.AllSSHTests;
  */
 @RunWith (Suite.class)
 @SuiteClasses ({ AllConfigTests.class, AllSSHTests.class, AllTCoreTests.class,
-		AllOutputLoggerTests.class, AllExecutorTests.class })
+		AllExecutorTests.class })
 public class AllTests {
 
 }
