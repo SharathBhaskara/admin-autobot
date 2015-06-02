@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -242,5 +243,69 @@ public class TestBotUtils {
 			}
 		};
 		return task;
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void testStringToIntCoversion() {
+		final String integerStr = "456";
+		int integer = BotUtils.convertStringToInt (integerStr);
+		assertEquals ("Conversion not done correctly", integer, Integer.parseInt (integerStr));
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void stringToIntWithAlphabets() {
+		final String integerStr = "456a";
+		this.exception.expect (NumberFormatException.class);
+		this.exception.expectMessage (CoreMatchers.containsString (integerStr));
+		BotUtils.convertStringToInt (integerStr);
+		fail ("NFE should have raised prior");
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void stringToIntWithHexval() {
+		final String integerStr = "ff";
+		int integer = BotUtils.convertStringToInt (integerStr, DecimalRadix.Hexadecimal);
+		assertEquals ("Hex value conversion failed", Integer.toHexString (integer), integerStr);
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void stringToIntWithOctalval() {
+		final String integerStr = "77";
+		int integer = BotUtils.convertStringToInt (integerStr, DecimalRadix.Octal);
+		assertEquals ("Octal value conversion failed", Integer.toOctalString (integer), integerStr);
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void stringToIntWithBinaryval() {
+		final String integerStr = "1101";
+		int integer = BotUtils.convertStringToInt (integerStr, DecimalRadix.Binary);
+		assertEquals ("Binary value conversion failed", Integer.toBinaryString (integer),
+				integerStr);
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void stringToIntWithLongVal() {
+		final String integerStr = "78923432432423423l";
+		this.exception.expect (NumberFormatException.class);
+		this.exception.expectMessage (CoreMatchers.containsString (integerStr));
+		BotUtils.convertStringToInt (integerStr);
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void testStringToBooleanConversion() {
+
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void testStringToLongConversion() {
+
 	}
 }

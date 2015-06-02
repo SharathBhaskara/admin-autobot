@@ -82,7 +82,7 @@ public final class ResourceConfig {
 			this.commandMap = BotUtils.CreateMap (commands);
 			this.serverMap = BotUtils.CreateMap (servers);
 		} else {
-			// do nothing
+			// TODO need to evaluate what has to be done in this case.
 			// throw new IllegalStateException
 			// ("Load Config cannot be called multiple times");
 		}

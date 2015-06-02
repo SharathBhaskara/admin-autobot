@@ -28,14 +28,14 @@ public class BotUtils {
 	 *         false if any object has null value
 	 *         </p>
 	 */
-	public static boolean HasNullReferences(Object... params) {
+	public static boolean HasNullReferences(final Object... params) {
 		if (params == null)
 			return true;
 		else
 			return HasNullReferencesInArray (params);
 	}
 
-	private static boolean HasNullReferencesInArray(Object[] params) {
+	private static boolean HasNullReferencesInArray(final Object[] params) {
 		for (Object object : params) {
 			if (object == null)
 				return true;
@@ -108,19 +108,29 @@ public class BotUtils {
 	 * @param strings
 	 * @return
 	 */
-	public static boolean HasEmptyStrings(String... strings) {
+	public static boolean HasEmptyStrings(final String... strings) {
 		if (strings == null)
 			return true;
 		else
 			return HasEmptyStringsInArray (strings);
 	}
 
-	private static boolean HasEmptyStringsInArray(String[] strings) {
+	private static boolean HasEmptyStringsInArray(final String[] strings) {
 		for (String string : strings)
 			if (string == null || string.trim ().equals (""))
 				return true;
 
 		return false;
+	}
+
+	public static int convertStringToInt(final String integerStr) {
+		return convertStringToInt (integerStr, DecimalRadix.Decimal);
+	}
+
+	public static int convertStringToInt(final String integerStr, final DecimalRadix radix) {
+		int value;
+		value = Integer.parseInt (integerStr, radix.value ());
+		return value;
 	}
 
 }
