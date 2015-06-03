@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.core.ExitStatusCode;
+import com.novicehacks.autobot.core.types.ExitStatusCode;
 
 public class ConfigurationManager {
 	private static final AtomicBoolean AppConfigNotLoaded = new AtomicBoolean (true);

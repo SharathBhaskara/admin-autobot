@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.core;
+package com.novicehacks.autobot.core.types;
 
 /**
  * ExitStatusCode will be used, when the application needs to exit due to erros.
