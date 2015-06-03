@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.parser.CommandParser;
-import com.novicehacks.autobot.config.parser.ConfigParser;
 import com.novicehacks.autobot.config.parser.ExecutableParser;
 import com.novicehacks.autobot.config.parser.Parser;
 import com.novicehacks.autobot.config.parser.ServerParser;
@@ -29,6 +28,7 @@ import com.novicehacks.autobot.core.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
+@Deprecated
 public class AutobotConfigManager {
 	/**
 	 * ReadTimeOut in minutes is used to wait for the Resource Parsers to

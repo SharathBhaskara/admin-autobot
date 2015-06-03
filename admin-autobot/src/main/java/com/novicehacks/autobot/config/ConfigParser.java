@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.config.parser;
+package com.novicehacks.autobot.config;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +8,6 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.novicehacks.autobot.config.SysConfig;
 
 /**
  * ConfigParser is a singleton implementation. It is really of no use to create
@@ -33,7 +31,7 @@ public class ConfigParser {
 	private static final String ExecutableResource = "ExecutableFileName";
 	private static final String MonitorResource = "MonitorsFileName";
 
-	private Logger logger = LogManager.getLogger(ConfigParser.class);
+	private Logger logger = LogManager.getLogger (ConfigParser.class);
 	private Properties properties;
 
 	/**
@@ -44,7 +42,7 @@ public class ConfigParser {
 	 */
 	private static class ConfigParserSingleton {
 
-		private static ConfigParser instance = new ConfigParser();
+		private static ConfigParser instance = new ConfigParser ();
 
 		public static ConfigParser instance() {
 			return instance;
@@ -58,19 +56,20 @@ public class ConfigParser {
 	 * time of instantiation.
 	 * 
 	 * @throws IllegalStateException
-	 *             when unable to load the configurations
+	 *         when unable to load the configurations
 	 */
-	private ConfigParser() throws IllegalStateException {
-		loadConfig();
+	private ConfigParser () throws IllegalStateException {
+		loadConfig ();
 	}
 
 	/**
-	 * Returns the singleton instance of the com.novicehacks.autobot.config parser object.
+	 * Returns the singleton instance of the com.novicehacks.autobot.config
+	 * parser object.
 	 * 
 	 * @return
 	 */
 	public static ConfigParser getIntance() {
-		return ConfigParserSingleton.instance();
+		return ConfigParserSingleton.instance ();
 	}
 
 	/**
@@ -85,21 +84,24 @@ public class ConfigParser {
 	 * the resource file
 	 */
 	private void loadConfig() {
-		logger.entry();
-		logger.debug("Loading the system com.novicehacks.autobot.config from : {}", ConfigFile);
-		InputStream _is = ClassLoader.getSystemResourceAsStream(ConfigFile);
+		logger.entry ();
+		logger.debug ("Loading the system com.novicehacks.autobot.config from : {}", ConfigFile);
+		InputStream _is = ClassLoader.getSystemResourceAsStream (ConfigFile);
 		Properties properties;
-		properties = new Properties();
+		properties = new Properties ();
 		try {
-			properties.load(_is);
+			properties.load (_is);
 		} catch (IOException e) {
-			logger.error("Unable to load autobot properties.", e);
-			throw new IllegalStateException("Loading System Config Failed", e);
+			logger.error ("Unable to load autobot properties.", e);
+			throw new IllegalStateException ("Loading System Config Failed", e);
 		}
 		this.properties = properties;
 		/* Load System Config Object also from Properties */
-		SysConfig.getInstance().loadConfig(properties);
-		logger.exit();
+		// TODO should modify to load the Application Config properties from
+		// AppConfigManager
+		SysConfig.getInstance ().loadConfig (properties);
+		new AppConfigManager(properties).loadApplicationConfig ();
+		logger.exit ();
 	}
 
 	/**
@@ -110,9 +112,9 @@ public class ConfigParser {
 	 */
 	public String serverResource() {
 		Path path;
-		path = Paths.get(this.properties.getProperty(ResourceFolder),
-				properties.getProperty(ServerResource));
-		return path.toString();
+		path = Paths.get (this.properties.getProperty (ResourceFolder),
+				properties.getProperty (ServerResource));
+		return path.toString ();
 	}
 
 	/**
@@ -123,9 +125,9 @@ public class ConfigParser {
 	 */
 	public String commandResource() {
 		Path path;
-		path = Paths.get(this.properties.getProperty(ResourceFolder),
-				properties.getProperty(CommandResource));
-		return path.toString();
+		path = Paths.get (this.properties.getProperty (ResourceFolder),
+				properties.getProperty (CommandResource));
+		return path.toString ();
 	}
 
 	/**
@@ -136,9 +138,9 @@ public class ConfigParser {
 	 */
 	public String executableResource() {
 		Path path;
-		path = Paths.get(this.properties.getProperty(ResourceFolder),
-				properties.getProperty(ExecutableResource));
-		return path.toString();
+		path = Paths.get (this.properties.getProperty (ResourceFolder),
+				properties.getProperty (ExecutableResource));
+		return path.toString ();
 	}
 
 	/**
@@ -149,9 +151,9 @@ public class ConfigParser {
 	 */
 	public String monitorResource() {
 		Path path;
-		path = Paths.get(this.properties.getProperty(ResourceFolder),
-				properties.getProperty(MonitorResource));
-		return path.toString();
+		path = Paths.get (this.properties.getProperty (ResourceFolder),
+				properties.getProperty (MonitorResource));
+		return path.toString ();
 	}
 
 	/**
@@ -164,6 +166,6 @@ public class ConfigParser {
 		 * Returns the singleton instance which is loaded already durint the
 		 * class instantiation
 		 */
-		return SysConfig.getInstance();
+		return SysConfig.getInstance ();
 	}
 }

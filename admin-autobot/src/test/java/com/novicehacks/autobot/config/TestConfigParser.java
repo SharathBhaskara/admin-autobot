@@ -13,7 +13,6 @@ import org.junit.experimental.categories.Category;
 import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.config.AutobotConfigManager;
 import com.novicehacks.autobot.config.ResourceConfig;
-import com.novicehacks.autobot.config.parser.ConfigParser;
 
 public class TestConfigParser {
 	Logger	logger	= LogManager.getLogger ();

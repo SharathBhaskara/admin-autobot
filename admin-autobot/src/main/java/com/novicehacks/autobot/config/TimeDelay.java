@@ -1,5 +1,12 @@
 package com.novicehacks.autobot.config;
 
+/**
+ * TimeDelay is used as a constant definition for consistently using the time
+ * delay, across the application.
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ *
+ */
 public enum TimeDelay {
 	delayInMins (3l),
 	delayInSecs (90l),

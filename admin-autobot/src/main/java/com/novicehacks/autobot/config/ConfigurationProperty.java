@@ -1,5 +1,11 @@
 package com.novicehacks.autobot.config;
 
+/**
+ * Property definitions and default values for the Autobot application.
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ *
+ */
 public enum ConfigurationProperty {
 	ResourceFolder ("ResourceFolder", "."),
 	CommandFileName ("CommandFileName", "commands.txt"),
@@ -16,7 +22,7 @@ public enum ConfigurationProperty {
 	private String key;
 	private String defaultValue;
 
-	ConfigurationProperty (String name, String value) {
+	private ConfigurationProperty (String name, String value) {
 		this.key = name;
 		this.defaultValue = value;
 	}
@@ -27,5 +33,13 @@ public enum ConfigurationProperty {
 
 	public String defaultValue() {
 		return this.defaultValue;
+	}
+
+	public static ConfigurationProperty fromKey(String configKey) {
+		for (ConfigurationProperty prop : ConfigurationProperty.values ()) {
+			if (prop.key.equalsIgnoreCase (configKey))
+				return prop;
+		}
+		return null;
 	}
 }

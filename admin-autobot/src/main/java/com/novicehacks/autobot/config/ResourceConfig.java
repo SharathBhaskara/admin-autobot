@@ -35,6 +35,8 @@ import com.novicehacks.autobot.core.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
+
+@Deprecated
 public final class ResourceConfig {
 
 	private static AtomicBoolean ConfigLoaded = new AtomicBoolean (false);

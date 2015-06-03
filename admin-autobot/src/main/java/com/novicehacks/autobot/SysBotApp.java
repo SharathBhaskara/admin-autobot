@@ -46,7 +46,7 @@ import com.novicehacks.autobot.executor.CommandExecutorTask;
  *
  */
 public class SysBotApp {
-	private static Logger	logger	= LogManager.getLogger (SysBotApp.class);
+	private static Logger logger = LogManager.getLogger (SysBotApp.class);
 
 	public static void main(String[] args) throws InterruptedException, ExecutionException,
 			TimeoutException {

@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
+@Deprecated
 public final class SysConfig {
 
 	private Logger logger = LogManager.getLogger (SysConfig.class);

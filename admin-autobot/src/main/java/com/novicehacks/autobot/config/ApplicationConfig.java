@@ -44,10 +44,6 @@ public class ApplicationConfig {
 	private String executableDelayInHours;
 	private String monitoringEnabled;
 	private String executableTimeoutInMins;
-	private String delayInMins;
-	private String delayInSecs;
-	private String shortDelayInMins;
-	private String shortDelayInSecs;
 
 	/**
 	 * unload method will reset all the configuration properties to null values.
