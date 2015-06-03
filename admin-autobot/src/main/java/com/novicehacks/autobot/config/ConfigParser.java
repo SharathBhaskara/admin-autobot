@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -24,24 +25,17 @@ public class ConfigParser {
 	 * All the below constants define the property names in autobot.properties,
 	 * and are used to populate the state of SysConfig
 	 */
-	public static final String ConfigFile = "autobot.properties";
-	private static final String ResourceFolder = "ResourceFolder";
-	private static final String CommandResource = "CommandFileName";
-	private static final String ServerResource = "ServerFileName";
-	private static final String ExecutableResource = "ExecutableFileName";
-	private static final String MonitorResource = "MonitorsFileName";
+	public static final String ConfigFileName = "autobot.properties";
+	private static final String ResourceFolderName = "ResourceFolder";
+	private static final String CommandResourceFileName = "CommandFileName";
+	private static final String ServerResourceFileName = "ServerFileName";
+	private static final String ExecutableResourceFileName = "ExecutableFileName";
+	private static final String MonitorResourceFileName = "MonitorsFileName";
 
 	private Logger logger = LogManager.getLogger (ConfigParser.class);
 	private Properties properties;
 
-	/**
-	 * Singleton Implementation using static inner class
-	 * 
-	 * @author Sharath Chand Bhaskara for NoviceHacks
-	 *
-	 */
 	private static class ConfigParserSingleton {
-
 		private static ConfigParser instance = new ConfigParser ();
 
 		public static ConfigParser instance() {
@@ -50,26 +44,23 @@ public class ConfigParser {
 	}
 
 	/**
-	 * Private Config Parser Constructor.
+	 * Singleton object handler.
 	 * 
-	 * Will call the loadConfig method to load the Basic configurations at the
-	 * time of instantiation.
-	 * 
-	 * @throws IllegalStateException
-	 *         when unable to load the configurations
-	 */
-	private ConfigParser () throws IllegalStateException {
-		loadConfig ();
-	}
-
-	/**
-	 * Returns the singleton instance of the com.novicehacks.autobot.config
-	 * parser object.
-	 * 
-	 * @return
+	 * @return object instance
 	 */
 	public static ConfigParser getIntance() {
 		return ConfigParserSingleton.instance ();
+	}
+
+	/**
+	 * ConfigParser constructor will load the properties required for
+	 * ApplicationConfig during intialization.
+	 * 
+	 * @throws IllegalStateException
+	 *         when unable to load the properties from config file
+	 */
+	private ConfigParser () throws IllegalStateException {
+		loadProperitesFromFile ();
 	}
 
 	/**
@@ -83,10 +74,17 @@ public class ConfigParser {
 	 * throws IllegalStateException when unable to create the properties from
 	 * the resource file
 	 */
-	private void loadConfig() {
+	private void loadProperitesFromFile() {
 		logger.entry ();
-		logger.debug ("Loading the system com.novicehacks.autobot.config from : {}", ConfigFile);
-		InputStream _is = ClassLoader.getSystemResourceAsStream (ConfigFile);
+		logger.debug ("Loading the ApplicationConfig from : {}", ConfigFileName);
+		InputStream _is = ClassLoader.getSystemResourceAsStream (ConfigFileName);
+
+		this.properties = getPropertiesFromInputStram (_is);
+		logger.trace ("Count of properties loaded from configFile: {}", this.properties.size ());
+		logger.exit ();
+	}
+
+	private Properties getPropertiesFromInputStram(InputStream _is) {
 		Properties properties;
 		properties = new Properties ();
 		try {
@@ -95,74 +93,79 @@ public class ConfigParser {
 			logger.error ("Unable to load autobot properties.", e);
 			throw new IllegalStateException ("Loading System Config Failed", e);
 		}
-		this.properties = properties;
-		/* Load System Config Object also from Properties */
-		new ConfigManager(properties).loadApplicationConfig ();
-		logger.exit ();
+		return properties;
 	}
 
 	/**
-	 * The absoulute path of the file where server information is defined.
+	 * Returns a cloned properties set to the calling method, so that the
+	 * properties remain unchanged once loaded.
+	 * 
+	 * @return
+	 */
+	public Properties getConfigProperties() {
+		Properties props;
+		props = new Properties ();
+		props.putAll (this.properties);
+		return props;
+	}
+
+	/**
+	 * Handler to return the location of server resource from config
+	 * properties.
 	 * 
 	 * @return Absolute path of the server resource
 	 * 
 	 */
 	public String serverResource() {
-		Path path;
-		path = Paths.get (this.properties.getProperty (ResourceFolder),
-				properties.getProperty (ServerResource));
+		String fileName = ServerResourceFileName;
+		String filePath = getAbsolutePathAsString (fileName);
+		return filePath;
+	}
+
+	private String getAbsolutePathAsString(String fileName) {
+		String resourceFolder = this.properties.getProperty (ResourceFolderName);
+		String resourceName = this.properties.getProperty (fileName);
+		Path path = Paths.get (resourceFolder, resourceName);
 		return path.toString ();
 	}
 
 	/**
-	 * The absoulute path of the file where Command information is defined.
+	 * Handler to return the location of command resource from config
+	 * properties.
 	 * 
 	 * @return Absolute path of the Command resource
 	 * 
 	 */
 	public String commandResource() {
-		Path path;
-		path = Paths.get (this.properties.getProperty (ResourceFolder),
-				properties.getProperty (CommandResource));
-		return path.toString ();
+		String fileName = CommandResourceFileName;
+		String filePath = getAbsolutePathAsString (fileName);
+		return filePath;
 	}
 
 	/**
-	 * The absoulute path of the file where Executable information is defined.
+	 * Handler to return the location of executable resource from config
+	 * properties.
 	 * 
 	 * @return Absolute path of the server resource
 	 * 
 	 */
 	public String executableResource() {
-		Path path;
-		path = Paths.get (this.properties.getProperty (ResourceFolder),
-				properties.getProperty (ExecutableResource));
-		return path.toString ();
+		String fileName = ExecutableResourceFileName;
+		String filePath = getAbsolutePathAsString (fileName);
+		return filePath;
 	}
 
 	/**
-	 * The absoulute path of the file where Monitors information is defined.
+	 * Handler to return the location of monitor resource from config
+	 * properties.
 	 * 
 	 * @return Absolute path of the monitors resource
 	 * 
 	 */
 	public String monitorResource() {
-		Path path;
-		path = Paths.get (this.properties.getProperty (ResourceFolder),
-				properties.getProperty (MonitorResource));
-		return path.toString ();
+		String fileName = MonitorResourceFileName;
+		String filePath = getAbsolutePathAsString (fileName);
+		return filePath;
 	}
 
-	/**
-	 * Creates the SysConfig object from the properties loaded.
-	 * 
-	 * @return
-	 */
-	public ApplicationConfig applicationConfig() {
-		/*
-		 * Returns the singleton instance which is loaded already durint the
-		 * class instantiation
-		 */
-		return ApplicationConfig.getInstance ();
-	}
 }

@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.categories.FunctionalTest;
-import com.novicehacks.autobot.config.AutobotConfigManager;
+import com.novicehacks.autobot.config.RssourceConfigManager;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
@@ -38,7 +38,7 @@ public class SSHCommandExecutorServiceTaskFunctionalTest {
 	@BeforeClass
 	public static void loadConfig() throws InterruptedException, ExecutionException,
 			TimeoutException {
-		AutobotConfigManager.loadResourceConfig ();
+		RssourceConfigManager.loadResourceConfig ();
 	}
 
 	@Before

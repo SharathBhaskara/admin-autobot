@@ -1,5 +1,6 @@
 package com.novicehacks.autobot.config;
 
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -28,24 +29,31 @@ import com.novicehacks.autobot.core.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
-@Deprecated
-public class AutobotConfigManager {
+public class RssourceConfigManager {
 	/**
 	 * ReadTimeOut in minutes is used to wait for the Resource Parsers to
 	 * complete and return the Collection of objects.
 	 */
 	public static final int ReadTimeOut = 3;
-	private static Logger logger = LogManager.getLogger (AutobotConfigManager.class);
+	private static Logger logger = LogManager.getLogger (RssourceConfigManager.class);
 
 	/**
-	 * First call to this method will initialize the SysConfig object, so no
-	 * need to call this method every time. Since SysConfig is a singleton the
-	 * state of this will be retained until otherwise deleted.
+	 * Loads the configuration properties from config file to ApplicationConfig
+	 * bean.
 	 * 
-	 * @return
+	 * <p>
+	 * uses {@link ConfigParser} to fetch the configurations from file and uses
+	 * {@link ConfigLoader} to load them to ApplicationConfig bean.
+	 * 
+	 * @see ConfigParser
+	 * @see ConfigLoader
 	 */
 	public static ApplicationConfig loadSystemConfig() {
-		return ConfigParser.getIntance ().applicationConfig();
+		ConfigParser parser = ConfigParser.getIntance ();
+		Properties configProperties = parser.getConfigProperties ();
+		ConfigLoader manager = new ConfigLoader (configProperties);
+		manager.loadApplicationConfig ();
+		return ApplicationConfig.getInstance ();
 	}
 
 	/**

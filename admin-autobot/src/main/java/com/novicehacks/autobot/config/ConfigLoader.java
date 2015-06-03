@@ -6,27 +6,58 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * AppConfigManager loads the ApplicationConfig property from the properties
- * object.
+ * loads the {@link ApplicationConfig} bean from the properties
  * 
  * <p>
- * The properties will be supplied by the ConfigParser, after reading the
+ * The properties will be supplied by the {@link ConfigParser}, after reading the
  * content from the property files.
  * </p>
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
  * @see ConfigParser
  */
-public class ConfigManager {
-	private Logger logger = LogManager.getLogger (ConfigManager.class);
+public class ConfigLoader {
+	private Logger logger = LogManager.getLogger (ConfigLoader.class);
 	private ApplicationConfig config = ApplicationConfig.getInstance ();
 	private Properties props;
 
-	protected ConfigManager (Properties props) {
-		this.props = props;
+	/**
+	 * Will use the properties, to load the application config, to be used along
+	 * with {@link #loadApplicationConfig()}
+	 * 
+	 * @param props
+	 * @see #loadApplicationConfig()
+	 */
+	protected ConfigLoader (Properties properties) {
+		this.props = properties;
 	}
 
+	/**
+	 * Creates a dummy property set, to be used along with
+	 * {@link #loadApplicationConfig(Properties)}
+	 * 
+	 * @see #loadApplicationConfig(Properties)
+	 */
+	protected ConfigLoader () {
+		this.props = new Properties ();
+	}
+
+	/**
+	 * Loads the {@link ApplicationConfig} frmo the properties defined during
+	 * initialization.
+	 */
 	public void loadApplicationConfig() {
+		for (String configKey : props.stringPropertyNames ()) {
+			setConfigForKey (configKey);
+		}
+	}
+
+	/**
+	 * Loads the {@link ApplicationConfig} from the properties passed.
+	 * 
+	 * @param props
+	 */
+	public void loadApplicationConfig(Properties props) {
 		for (String configKey : props.stringPropertyNames ()) {
 			setConfigForKey (configKey);
 		}

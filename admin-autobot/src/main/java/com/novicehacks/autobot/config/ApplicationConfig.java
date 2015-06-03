@@ -2,20 +2,18 @@ package com.novicehacks.autobot.config;
 
 /**
  * ApplicationConfig is a singleton bean loaded during the launch of the
- * application.
+ * application by {@link ConfigLoader}.
  * 
  * <p>
- * If the configuration for any of the property is null then this bean will
- * return the default value specified in the {@linkplain ConfigurationProperty}
+ * If the configuration for any of the property is not loaded or set to null
+ * then this bean will return the default value specified in the
+ * {@linkplain ConfigurationProperty}
  * </p>
  * 
- * <p>
- * The configurations in this bean are loaded by {@link AppConfigLoader} class
- * during the launch of the application.
- * </p>
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
  * @see ConfigurationProperty
+ * @see ConfigLoader
  */
 public class ApplicationConfig {
 

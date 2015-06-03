@@ -6,7 +6,7 @@ import org.junit.experimental.categories.Category;
 import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.IgnoredTest;
-import com.novicehacks.autobot.config.AutobotConfigManager;
+import com.novicehacks.autobot.config.RssourceConfigManager;
 
 public class TestCommandExecutorTask {
 
@@ -16,7 +16,7 @@ public class TestCommandExecutorTask {
 		CommandExecutorTask task;
 		task = new CommandExecutorTask ();
 		try {
-			AutobotConfigManager.loadResourceConfig ();
+			RssourceConfigManager.loadResourceConfig ();
 			task.run ();
 		} catch (Exception ex) {
 			ex.printStackTrace ();
