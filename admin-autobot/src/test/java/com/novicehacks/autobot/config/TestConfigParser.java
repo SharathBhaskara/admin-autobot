@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import com.novicehacks.autobot.categories.EnvironmentalTest;
-import com.novicehacks.autobot.config.RssourceConfigManager;
+import com.novicehacks.autobot.config.ResourceConfigLoader;
 import com.novicehacks.autobot.config.ResourceConfig;
 
 public class TestConfigParser {
@@ -36,11 +36,10 @@ public class TestConfigParser {
 	@Category (EnvironmentalTest.class)
 	public void testResourceLoading() throws InterruptedException, ExecutionException,
 			TimeoutException {
-		RssourceConfigManager.loadSystemConfig ();
-		ResourceConfig resourceConfig = RssourceConfigManager.loadResourceConfig ();
+		ConfigurationManager.loadSystemConfig ();
+		ResourceConfig resourceConfig = new ResourceConfigLoader().loadResourceConfig ();
 		logger.info ("Commands : {}", resourceConfig.commands ());
 		logger.info ("Servers : {}", resourceConfig.servers ());
-		logger.info ("Monitors : {}", resourceConfig.monitors ());
 		logger.info ("Executable : {}", resourceConfig.executables ());
 	}
 

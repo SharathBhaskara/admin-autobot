@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.config.ApplicationConfig;
-import com.novicehacks.autobot.config.RssourceConfigManager;
+import com.novicehacks.autobot.config.ConfigurationManager;
 import com.novicehacks.autobot.config.TimeDelay;
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.ThreadManager;
@@ -56,7 +56,7 @@ public class SysBotApp {
 		SysBotApp app = new SysBotApp ();
 		ThreadManager.getInstance ().createThreadPool (true);
 		logger.info ("Loading the Configurations");
-		RssourceConfigManager.loadResourceConfig ();
+		ConfigurationManager.loadResourceConfig ();
 		logger.info ("Starting the ExecutableManager with a scheduled delay");
 		app.StartExecutableManager ();
 		logger.info ("Starting the ReportingManager with a scheduled delay");

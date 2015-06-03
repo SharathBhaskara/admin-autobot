@@ -19,12 +19,15 @@ import com.novicehacks.autobot.config.ApplicationConfig;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  * @param <T>
+ * @see ServerParser
+ * @see CommandParser
+ * @see ExecutableParser
  */
 public abstract class Parser<T> implements Callable<Set<T>> {
 	private String path;
-	private Logger logger = LogManager.getLogger(Parser.class);
+	private Logger logger = LogManager.getLogger (Parser.class);
 
-	public Parser(String resourcePath) {
+	public Parser (String resourcePath) {
 		this.path = resourcePath;
 	}
 
@@ -38,20 +41,21 @@ public abstract class Parser<T> implements Callable<Set<T>> {
 	public Map<String, String[]> getTokensFromFile() throws IOException {
 		String line;
 		String tokenSeperator;
-		logger.entry();
-		tokenSeperator = ApplicationConfig.getInstance().tokenSeperator();
-		Map<String, String[]> tokenList = new HashMap<String, String[]>();
+		logger.entry ();
+		tokenSeperator = ApplicationConfig.getInstance ().tokenSeperator ();
+		Map<String, String[]> tokenList = new HashMap<String, String[]> ();
 
-		try (InputStream is = ClassLoader.getSystemResourceAsStream(path);
-				Scanner scanner = new Scanner(is)) {
-			while (scanner.hasNextLine()) {
-				line = scanner.nextLine();
-				logger.debug("Creation token for Line : {}", line);
-				String[] tokens = line.split(tokenSeperator);
-				tokenList.put(line, tokens);
+		try (
+				InputStream is = ClassLoader.getSystemResourceAsStream (path);
+				Scanner scanner = new Scanner (is) ) {
+			while (scanner.hasNextLine ()) {
+				line = scanner.nextLine ();
+				logger.debug ("Creation token for Line : {}", line);
+				String[] tokens = line.split (tokenSeperator);
+				tokenList.put (line, tokens);
 			}
 		}
-		logger.exit();
+		logger.exit ();
 		return tokenList;
 	}
 

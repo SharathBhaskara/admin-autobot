@@ -6,7 +6,7 @@ import org.junit.experimental.categories.Category;
 import com.novicehacks.autobot.categories.EnvironmentalTest;
 import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.IgnoredTest;
-import com.novicehacks.autobot.config.RssourceConfigManager;
+import com.novicehacks.autobot.config.ConfigurationManager;
 
 public class TestCommandExecutorTask {
 
@@ -16,12 +16,12 @@ public class TestCommandExecutorTask {
 		CommandExecutorTask task;
 		task = new CommandExecutorTask ();
 		try {
-			RssourceConfigManager.loadResourceConfig ();
+			ConfigurationManager.loadResourceConfig ();
 			task.run ();
 		} catch (Exception ex) {
 			ex.printStackTrace ();
 			System.out.println (ex.getSuppressed ());
-			// fail ("Exception raised while command execution");
+			// TODO fail ("Exception raised while command execution");
 		}
 	}
 }
