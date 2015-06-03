@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.config.ApplicationConfig;
 
 /**
  * Basic Implementation for all the parsers.
@@ -39,7 +39,7 @@ public abstract class Parser<T> implements Callable<Set<T>> {
 		String line;
 		String tokenSeperator;
 		logger.entry();
-		tokenSeperator = SysConfig.getInstance().getTokenSeperator();
+		tokenSeperator = ApplicationConfig.getInstance().tokenSeperator();
 		Map<String, String[]> tokenList = new HashMap<String, String[]>();
 
 		try (InputStream is = ClassLoader.getSystemResourceAsStream(path);

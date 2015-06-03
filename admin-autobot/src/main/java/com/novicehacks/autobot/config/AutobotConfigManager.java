@@ -44,8 +44,8 @@ public class AutobotConfigManager {
 	 * 
 	 * @return
 	 */
-	public static SysConfig loadSystemConfig() {
-		return ConfigParser.getIntance ().systemConfig ();
+	public static ApplicationConfig loadSystemConfig() {
+		return ConfigParser.getIntance ().applicationConfig();
 	}
 
 	/**

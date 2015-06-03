@@ -133,4 +133,13 @@ public class BotUtils {
 		return value;
 	}
 
+	public static boolean convertStringToBoolean(String booleanStr) {
+		if (booleanStr == null)
+			return false;
+		else if (booleanStr.equalsIgnoreCase ("true"))
+			return true;
+		else
+			return false;
+	}
+
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeoutException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.config.TimeDelay;
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.core.services.CommandExecutorService;
@@ -175,7 +175,7 @@ public class SSHCommandExecutorService implements CommandExecutorService {
 
 	private void waitForSequentialExecitionCompletion() {
 		try {
-			this.sequentialCommandFuture.get (SysConfig.getInstance ().longTimeoutInMinutes (),
+			this.sequentialCommandFuture.get (TimeDelay.largeDelayInMins.delay (),
 					TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			this.logger.error ("Thread Interrupted", e);
@@ -208,7 +208,7 @@ public class SSHCommandExecutorService implements CommandExecutorService {
 
 	private void handleCommandExecutorTaskFuture(Future<?> future) {
 		try {
-			future.get (SysConfig.getInstance ().longTimeoutInMinutes (), TimeUnit.MINUTES);
+			future.get (TimeDelay.largeDelayInMins.delay (), TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			this.logger.error ("Thread Interrupted", e);
 			BotUtils.PropogateInterruptIfExist (e);

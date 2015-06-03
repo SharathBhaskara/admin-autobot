@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.config.ApplicationConfig;
 import com.novicehacks.autobot.core.services.OutputFooterService;
 import com.novicehacks.autobot.core.services.OutputHeaderService;
 import com.novicehacks.autobot.core.types.Command;
@@ -37,7 +37,7 @@ public class ShellOutputLoggerTaskHelper {
 
 	public Path createFileIfNeededAndGetPath() {
 		logger.entry ();
-		String shellConsoleFolder = SysConfig.getInstance ().getShellConsoleFolder ();
+		String shellConsoleFolder = ApplicationConfig.getInstance ().shellConsoleFolder  ();
 		Path outputFolderPath = Paths.get (shellConsoleFolder);
 		Path outputFilePath = outputFolderPath.resolve (OutputFile);
 		if (Files.notExists (outputFilePath))

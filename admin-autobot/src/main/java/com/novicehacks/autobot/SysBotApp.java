@@ -10,8 +10,10 @@ import java.util.concurrent.TimeoutException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.novicehacks.autobot.config.ApplicationConfig;
 import com.novicehacks.autobot.config.AutobotConfigManager;
-import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.config.TimeDelay;
+import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.core.annotations.Incomplete;
 import com.novicehacks.autobot.executor.CommandExecutorTask;
@@ -59,7 +61,9 @@ public class SysBotApp {
 		app.StartExecutableManager ();
 		logger.info ("Starting the ReportingManager with a scheduled delay");
 		app.StartReportManager ();
-		if (SysConfig.getInstance ().MonitoringEnabled ()) {
+		String monitoringEnabledStr = ApplicationConfig.getInstance ().monitoringEnabled ();
+		boolean monitoringEnabled = BotUtils.convertStringToBoolean(monitoringEnabledStr);
+		if (monitoringEnabled) {
 			logger.info ("Starting the Monitoring Thread");
 			app.StartMonitoringManager ();
 		}
@@ -79,12 +83,14 @@ public class SysBotApp {
 
 	private void StartExecutableManager() {
 		logger.entry ();
+		String executableDelayStr = ApplicationConfig.getInstance ().executableDelayInHours ();
+		int executableDelay = BotUtils.convertStringToInt (executableDelayStr);
 		ScheduledExecutorService service = Executors.newScheduledThreadPool (1);
 		ScheduledFuture<?> future = service.scheduleWithFixedDelay (new CommandExecutorTask (), 0,
-				SysConfig.getInstance ().ExecutableDelay (), TimeUnit.MINUTES);
+				executableDelay, TimeUnit.MINUTES);
 		try {
 			System.out.println (future.getDelay (TimeUnit.MINUTES));
-			future.get (SysConfig.getInstance ().longTimeoutInMinutes (), TimeUnit.MINUTES);
+			future.get (TimeDelay.largeDelayInMins.delay (), TimeUnit.MINUTES);
 		} catch (InterruptedException | TimeoutException e) {
 			logger.info ("Scheduled Future Timedout / Interrupted : {}", e);
 			if (Thread.interrupted ()) {

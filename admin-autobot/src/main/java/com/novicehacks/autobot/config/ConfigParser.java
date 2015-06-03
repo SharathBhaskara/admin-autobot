@@ -97,10 +97,7 @@ public class ConfigParser {
 		}
 		this.properties = properties;
 		/* Load System Config Object also from Properties */
-		// TODO should modify to load the Application Config properties from
-		// AppConfigManager
-		SysConfig.getInstance ().loadConfig (properties);
-		new AppConfigManager(properties).loadApplicationConfig ();
+		new ConfigManager(properties).loadApplicationConfig ();
 		logger.exit ();
 	}
 
@@ -161,11 +158,11 @@ public class ConfigParser {
 	 * 
 	 * @return
 	 */
-	public SysConfig systemConfig() {
+	public ApplicationConfig applicationConfig() {
 		/*
 		 * Returns the singleton instance which is loaded already durint the
 		 * class instantiation
 		 */
-		return SysConfig.getInstance ();
+		return ApplicationConfig.getInstance ();
 	}
 }

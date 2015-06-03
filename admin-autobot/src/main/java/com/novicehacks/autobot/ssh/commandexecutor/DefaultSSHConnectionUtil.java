@@ -5,7 +5,8 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.config.SysConfig;
+import com.novicehacks.autobot.config.ApplicationConfig;
+import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.types.Server;
 import com.novicehacks.autobot.core.types.ServerCredential;
 import com.novicehacks.autobot.ssh.DefaultSSHConnection;
@@ -58,7 +59,8 @@ public final class DefaultSSHConnectionUtil {
 
 	private void initiateConnectionToServer() throws IOException {
 		int keyExchangeTimeout = 10 * 30 * 1000;
-		int connectionTimeout = SysConfig.getInstance ().serverConnectionTimeout ();
+		String connectionTimeoutStr = ApplicationConfig.getInstance ().serverConnectionTimeoutInMins  ();
+		int connectionTimeout = BotUtils.convertStringToInt (connectionTimeoutStr);
 		// HostKeyVerifier set to null to accept any server host key
 		this.logger.debug ("Connecting to : {}", this.server.ipaddress ());
 		this.connection = DefaultSSHConnection.getNewInstance (this.server.ipaddress ());

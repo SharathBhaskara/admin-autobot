@@ -17,12 +17,12 @@ import org.apache.logging.log4j.Logger;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  * @see ConfigParser
  */
-public class AppConfigManager {
-	private Logger logger = LogManager.getLogger (AppConfigManager.class);
+public class ConfigManager {
+	private Logger logger = LogManager.getLogger (ConfigManager.class);
 	private ApplicationConfig config = ApplicationConfig.getInstance ();
 	private Properties props;
 
-	protected AppConfigManager (Properties props) {
+	protected ConfigManager (Properties props) {
 		this.props = props;
 	}
 
@@ -32,7 +32,7 @@ public class AppConfigManager {
 		}
 	}
 
-	private void setConfigForKey(String configKey) {
+	protected void setConfigForKey(String configKey) {
 		ConfigurationProperty configProperty = ConfigurationProperty.fromKey (configKey);
 		if (configProperty == null)
 			logger.warn ("Unknown property defined in the system config properties {}", configKey);
