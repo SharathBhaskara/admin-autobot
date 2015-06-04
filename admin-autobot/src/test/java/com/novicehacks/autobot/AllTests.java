@@ -16,7 +16,7 @@ import com.novicehacks.autobot.ssh.AllSSHTests;
  *
  */
 @RunWith (Suite.class)
-@SuiteClasses ({ AllConfigTests.class, AllSSHTests.class, AllTCoreTests.class,
+@SuiteClasses ({  AllSSHTests.class, AllTCoreTests.class,
 		AllExecutorTests.class })
 public class AllTests {
 

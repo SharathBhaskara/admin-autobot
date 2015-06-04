@@ -14,7 +14,12 @@ import org.apache.logging.log4j.Logger;
 import com.novicehacks.autobot.config.ApplicationConfig;
 
 /**
- * Basic Implementation for all the parsers.
+ * Creates a map of lines with tokens, after reading them from a file.
+ * 
+ * <p>
+ * Based on the resource path passed will a map with the line and its tokens
+ * split by the token seperator in {@link ApplicationConfig}.
+ * </p>
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
@@ -24,16 +29,23 @@ import com.novicehacks.autobot.config.ApplicationConfig;
  * @see ExecutableParser
  */
 public abstract class Parser<T> implements Callable<Set<T>> {
-	private String path;
 	private Logger logger = LogManager.getLogger (Parser.class);
+	String filePath;
 
-	public Parser (String resourcePath) {
-		this.path = resourcePath;
+	protected Parser (String path) {
+		this.filePath = path;
+	}
+
+	Parser () {}
+
+	void setFilePath(String path) {
+		this.filePath = path;
 	}
 
 	/**
 	 * Loops for all the lines of a resource, and creates tokens for each line
-	 * based on the token separator property in the sysconfig
+	 * based on the <em>token separator</em> property in the
+	 * {@link ApplicationConfig}
 	 * 
 	 * @return A List of String tokens in the file.
 	 * @throws IOException
@@ -44,9 +56,10 @@ public abstract class Parser<T> implements Callable<Set<T>> {
 		logger.entry ();
 		tokenSeperator = ApplicationConfig.getInstance ().tokenSeperator ();
 		Map<String, String[]> tokenList = new HashMap<String, String[]> ();
-
+		logger.trace ("Reading the resource file : {} and using '{}' as token seperator", filePath,
+				tokenSeperator);
 		try (
-				InputStream is = ClassLoader.getSystemResourceAsStream (path);
+				InputStream is = ClassLoader.getSystemResourceAsStream (filePath);
 				Scanner scanner = new Scanner (is) ) {
 			while (scanner.hasNextLine ()) {
 				line = scanner.nextLine ();

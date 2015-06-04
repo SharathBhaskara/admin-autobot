@@ -57,16 +57,16 @@ public class ConfigLoader {
 	 */
 	public void loadApplicationConfig(Properties props) {
 		for (String configKey : props.stringPropertyNames ()) {
-			setConfigForKey (configKey);
+			setConfigForKey (configKey,props.getProperty (configKey));
 		}
 	}
 
-	protected void setConfigForKey(String configKey) {
+	protected void setConfigForKey(String configKey,String value) {
 		ConfigurationProperty configProperty = ConfigurationProperty.fromKey (configKey);
 		if (configProperty == null)
 			logger.warn ("Unknown property defined in the system config properties {}", configKey);
 		else
-			identifyAndSetConfigProperty (configProperty, props.getProperty (configKey));
+			identifyAndSetConfigProperty (configProperty, value);
 	}
 
 	private void identifyAndSetConfigProperty(ConfigurationProperty configProperty, String value) {

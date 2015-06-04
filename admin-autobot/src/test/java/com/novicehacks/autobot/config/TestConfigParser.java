@@ -11,7 +11,11 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import com.novicehacks.autobot.categories.UnitTest;
-
+/**
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ *
+ */
 public class TestConfigParser {
 	private static ConfigParser parser;
 	Logger logger = LogManager.getLogger ();

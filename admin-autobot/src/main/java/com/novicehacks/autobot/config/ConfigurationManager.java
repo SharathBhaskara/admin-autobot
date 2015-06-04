@@ -15,6 +15,30 @@ public class ConfigurationManager {
 	private static Logger logger = LogManager.getLogger (ConfigurationManager.class);
 
 	/**
+	 * Shared Singleton implementation
+	 */
+
+	ConfigurationManager () {}
+
+	private static class ConfigurationManagerSingleton {
+		private static final ConfigurationManager instance = new ConfigurationManager ();
+
+		private static ConfigurationManager getInstance() {
+			return instance;
+		}
+	}
+
+	/**
+	 * Gets the singleton instance of the object. Do not guarantee only one
+	 * instance of this object exist, as constructor is not private.
+	 * 
+	 * @return
+	 */
+	public static ConfigurationManager getSharedInstance() {
+		return ConfigurationManagerSingleton.getInstance ();
+	}
+
+	/**
 	 * Loads the configuration properties from config file to
 	 * {@link ApplicationConfig} bean.
 	 * 
@@ -25,15 +49,27 @@ public class ConfigurationManager {
 	 * @see ConfigParser
 	 * @see ConfigLoader
 	 */
-	public static ApplicationConfig loadSystemConfig() {
+	public ApplicationConfig loadSystemConfig() {
 		logger.entry ();
-		ConfigParser parser = ConfigParser.getIntance ();
+		ConfigParser parser = getConfigParser ();
 		Properties configProperties = parser.getConfigProperties ();
-		ConfigLoader loader = new ConfigLoader (configProperties);
-		loader.loadApplicationConfig ();
+		ConfigLoader loader = getConfigLoader ();
+		loader.loadApplicationConfig (configProperties);
 		AppConfigNotLoaded.set (false);
 		logger.exit ();
 		return ApplicationConfig.getInstance ();
+	}
+
+	private ConfigLoader getConfigLoader() {
+		ConfigLoader loader;
+		loader = new ConfigLoader ();
+		return loader;
+	}
+
+	protected ConfigParser getConfigParser() {
+		ConfigParser parser;
+		parser = ConfigParser.getIntance ();
+		return parser;
 	}
 
 	/**
@@ -42,14 +78,14 @@ public class ConfigurationManager {
 	 * 
 	 * @see ResourceConfigLoader
 	 */
-	public static ResourceConfig loadResourceConfig() {
+	public ResourceConfig loadResourceConfig() {
 		if (AppConfigNotLoaded.get ())
 			loadSystemConfig ();
 		loadConfigAndHandleExceptionsIfAny ();
 		return ResourceConfig.getInstance ();
 	}
 
-	private static void loadConfigAndHandleExceptionsIfAny() {
+	private void loadConfigAndHandleExceptionsIfAny() {
 		logger.entry ();
 		ResourceConfigLoader configLoader = new ResourceConfigLoader ();
 		try {

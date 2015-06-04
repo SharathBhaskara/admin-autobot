@@ -17,7 +17,7 @@ public class TestCommandExecutorTask {
 		CommandExecutorTask task;
 		task = new CommandExecutorTask ();
 		try {
-			ConfigurationManager.loadResourceConfig ();
+			ConfigurationManager.getSharedInstance ().loadResourceConfig ();
 			task.run ();
 		} catch (Exception ex) {
 			ex.printStackTrace ();

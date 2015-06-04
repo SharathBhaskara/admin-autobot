@@ -37,7 +37,7 @@ public class SSHCommandExecutorServiceTaskFunctionalTest {
 	@BeforeClass
 	public static void loadConfig() throws InterruptedException, ExecutionException,
 			TimeoutException {
-		ConfigurationManager.loadResourceConfig ();
+		ConfigurationManager.getSharedInstance ().loadResourceConfig ();
 	}
 
 	@Before
