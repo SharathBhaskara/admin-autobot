@@ -1,5 +1,6 @@
 package com.novicehacks.autobot.executor;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -21,7 +22,7 @@ public class TestCommandExecutorTask {
 		} catch (Exception ex) {
 			ex.printStackTrace ();
 			System.out.println (ex.getSuppressed ());
-			// TODO fail ("Exception raised while command execution");
+			Assert.fail ("Exception raised while command execution");
 		}
 	}
 }

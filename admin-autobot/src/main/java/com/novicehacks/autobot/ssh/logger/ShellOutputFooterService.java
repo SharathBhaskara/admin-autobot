@@ -1,6 +1,6 @@
 package com.novicehacks.autobot.ssh.logger;
 
-import com.novicehacks.autobot.core.services.impl.DefaultOutputFooterService;
+import com.novicehacks.autobot.services.impl.DefaultOutputFooterService;
 
 public final class ShellOutputFooterService extends DefaultOutputFooterService {
 	@Override

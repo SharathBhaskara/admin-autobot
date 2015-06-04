@@ -8,8 +8,8 @@ import org.junit.experimental.categories.Category;
 
 import com.novicehacks.autobot.categories.FunctionalTest;
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.core.services.OutputFooterService;
-import com.novicehacks.autobot.core.services.impl.DefaultOutputFooterService;
+import com.novicehacks.autobot.services.OutputFooterService;
+import com.novicehacks.autobot.services.impl.DefaultOutputFooterService;
 
 public class ShellOutputFooterServiceTest {
 

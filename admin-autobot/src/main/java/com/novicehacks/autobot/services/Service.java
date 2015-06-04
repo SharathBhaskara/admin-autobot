@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.services;
 
 import java.util.ServiceLoader;
 

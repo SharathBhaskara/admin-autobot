@@ -1,8 +1,12 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.services;
 
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
-
+/**
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ *
+ */
 public interface CommandExecutorService extends Service {
 
 	public void executeCommands();

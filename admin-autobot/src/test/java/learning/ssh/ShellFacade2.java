@@ -187,7 +187,7 @@ public class ShellFacade2 {
 	 * @param len
 	 * @throws IOException
 	 */
-	private void addText(char[] buff) throws IOException {
+	protected void addText(char[] buff) throws IOException {
 		String data = String.copyValueOf(buff);
 		addText(data.getBytes());
 	}
@@ -215,7 +215,6 @@ public class ShellFacade2 {
 				// do nothing...
 			}
 			try {
-				String line;
 				/* Loop for ever */
 				while (true) {
 					shellLock.lockInterruptibly();

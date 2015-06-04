@@ -1,6 +1,6 @@
 package com.novicehacks.autobot.core.types;
 
-import com.novicehacks.autobot.core.services.CommandExecutorService;
+import com.novicehacks.autobot.services.CommandExecutorService;
 
 /**
  * A Server is a remote machine, where the commands can be exeuted. It is

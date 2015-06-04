@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.core.services.impl;
+package com.novicehacks.autobot.services.impl;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,13 +9,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.novicehacks.autobot.core.BotUtils;
-import com.novicehacks.autobot.core.services.ContentWriterService;
-import com.novicehacks.autobot.core.services.OutputFooterService;
-import com.novicehacks.autobot.core.services.OutputHeaderService;
-import com.novicehacks.autobot.core.services.OutputLoggerService;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.RunnableTask;
 import com.novicehacks.autobot.core.types.Server;
+import com.novicehacks.autobot.services.ContentWriterService;
+import com.novicehacks.autobot.services.OutputFooterService;
+import com.novicehacks.autobot.services.OutputHeaderService;
+import com.novicehacks.autobot.services.OutputLoggerService;
 import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
 import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
 

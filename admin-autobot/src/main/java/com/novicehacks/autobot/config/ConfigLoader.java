@@ -43,13 +43,11 @@ public class ConfigLoader {
 	}
 
 	/**
-	 * Loads the {@link ApplicationConfig} frmo the properties defined during
+	 * Loads the {@link ApplicationConfig} from the properties defined during
 	 * initialization.
 	 */
 	public void loadApplicationConfig() {
-		for (String configKey : props.stringPropertyNames ()) {
-			setConfigForKey (configKey);
-		}
+		loadApplicationConfig(this.props);
 	}
 
 	/**

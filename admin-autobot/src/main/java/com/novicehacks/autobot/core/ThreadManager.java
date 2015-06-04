@@ -9,7 +9,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+/**
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ *
+ */
 public class ThreadManager {
 
 	private ExecutorService		executorService		= Executors.newCachedThreadPool ();

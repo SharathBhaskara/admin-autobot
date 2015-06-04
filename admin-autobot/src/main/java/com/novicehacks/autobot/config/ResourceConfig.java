@@ -83,6 +83,16 @@ public final class ResourceConfig {
 		this.serverMap = Collections.unmodifiableMap (this.serverMap);
 		this.logger.exit ();
 	}
+	/**
+	 * Unloads the configuration.
+	 */
+	public void unload(){
+		this.servers = null;
+		this.commands = null;
+		this.executables = null;
+		this.serverMap = null;
+		this.commandMap = null;
+	}
 
 	public Set<Server> servers() {
 		return this.servers;

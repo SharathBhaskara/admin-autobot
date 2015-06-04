@@ -58,14 +58,13 @@ public class ParallelCommandExecutorTaskTest {
 	@Category (UnitTest.class)
 	public void nullCommandToTask() throws IOException {
 		// given
-		ParallelExecutorTask commandExecutor;
 		this.server = mock (Server.class);
 		this.connection = mock (SSHConnection.class);
 		// when
 		this.command = null;
 		// then
 		this.exception.expect (CommandExecutionException.class);
-		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
+		new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		fail ("Command cannot be null");
 	}
@@ -74,14 +73,13 @@ public class ParallelCommandExecutorTaskTest {
 	@Category (UnitTest.class)
 	public void nullConnectionToTask() {
 		// given
-		ParallelExecutorTask commandExecutor;
 		this.server = mock (Server.class);
 		this.command = mock (Command.class);
 		// when connection is set to null;
 		this.connection = null;
 		// then
 		this.exception.expect (CommandExecutionException.class);
-		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
+		new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		fail ("Connection cannot be null");
 	}
@@ -90,14 +88,13 @@ public class ParallelCommandExecutorTaskTest {
 	@Category (UnitTest.class)
 	public void nullServerToTask() throws IOException {
 		// given
-		ParallelExecutorTask commandExecutor;
 		this.command = mock (Command.class);
 		this.connection = mock (SSHConnection.class);
 		// when
 		this.server = null;
 		// then
 		this.exception.expect (CommandExecutionException.class);
-		commandExecutor = new ParallelExecutorTask (this.connection, this.server,
+		new ParallelExecutorTask (this.connection, this.server,
 				this.command);
 		fail ("Server cannot be null");
 	}

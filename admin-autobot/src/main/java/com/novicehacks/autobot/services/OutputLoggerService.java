@@ -1,7 +1,11 @@
-package com.novicehacks.autobot.core.services;
+package com.novicehacks.autobot.services;
 
 import java.nio.file.Path;
-
+/**
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ *
+ */
 public interface OutputLoggerService extends Service {
 	/**
 	 * Final content that is about to be written by this thread.
