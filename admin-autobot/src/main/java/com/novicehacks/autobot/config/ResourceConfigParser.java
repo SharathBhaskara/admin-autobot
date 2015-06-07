@@ -1,17 +1,13 @@
-package com.novicehacks.autobot.config.parser;
+package com.novicehacks.autobot.config;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.novicehacks.autobot.config.ApplicationConfig;
 
 /**
  * Creates a map of lines with tokens, after reading them from a file.
@@ -24,19 +20,19 @@ import com.novicehacks.autobot.config.ApplicationConfig;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  * @param <T>
- * @see ServerParser
- * @see CommandParser
- * @see ExecutableParser
+ * @see ServerConfigLoader
+ * @see CommandConfigLoader
+ * @see ExecutableConfigLoader
  */
-public abstract class Parser<T> implements Callable<Set<T>> {
-	private Logger logger = LogManager.getLogger (Parser.class);
+public class ResourceConfigParser {
+	private Logger logger = LogManager.getLogger (ResourceConfigParser.class);
 	String filePath;
 
-	protected Parser (String path) {
+	protected ResourceConfigParser (String path) {
 		this.filePath = path;
 	}
 
-	Parser () {}
+	ResourceConfigParser () {}
 
 	void setFilePath(String path) {
 		this.filePath = path;
@@ -50,26 +46,22 @@ public abstract class Parser<T> implements Callable<Set<T>> {
 	 * @return A List of String tokens in the file.
 	 * @throws IOException
 	 */
-	public Map<String, String[]> getTokensFromFile() throws IOException {
+	public Set<String> getConfigFromFile() throws IOException {
 		String line;
-		String tokenSeperator;
 		logger.entry ();
-		tokenSeperator = ApplicationConfig.getInstance ().tokenSeperator ();
-		Map<String, String[]> tokenList = new HashMap<String, String[]> ();
-		logger.trace ("Reading the resource file : {} and using '{}' as token seperator", filePath,
-				tokenSeperator);
+		Set<String> configSet = new HashSet<String> ();
+		logger.trace ("Reading the resource file : {} ", filePath);
 		try (
 				InputStream is = ClassLoader.getSystemResourceAsStream (filePath);
 				Scanner scanner = new Scanner (is) ) {
 			while (scanner.hasNextLine ()) {
 				line = scanner.nextLine ();
-				logger.debug ("Creation token for Line : {}", line);
-				String[] tokens = line.split (tokenSeperator);
-				tokenList.put (line, tokens);
+				logger.trace ("Reading line {} from filepath [{}]", line, filePath);
+				configSet.add (line);
 			}
 		}
 		logger.exit ();
-		return tokenList;
+		return configSet;
 	}
 
 }

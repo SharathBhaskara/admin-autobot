@@ -45,4 +45,15 @@ public class Executable implements Comparable<Executable> {
 	public int compareTo(Executable o) {
 		return o.getLine ().compareTo (getLine ());
 	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Executable) {
+			Executable temp = (Executable) object;
+			if (temp.getLine ().equals (getLine ())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

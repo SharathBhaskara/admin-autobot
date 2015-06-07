@@ -75,5 +75,4 @@ public abstract class DefaultServer implements Server {
 	public String toString() {
 		return this.parsedServerLine;
 	}
-
 }

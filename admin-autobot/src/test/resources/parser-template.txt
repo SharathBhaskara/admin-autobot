@@ -1,2 +1,2 @@
-abcd;defg;123,546
-gh	i;ab 123;def12
+abcd:defg:123,546
+gh	i:ab 123:def12

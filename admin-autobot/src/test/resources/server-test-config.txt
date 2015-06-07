@@ -1,0 +1,8 @@
+serverid1:servername1:ipaddress1
+serverid2:servername2:ipaddress2:username
+serverid3:servername3:ipaddress3:username:password
+serverid4:servername4:ipaddress4:init#command1:username1
+serverid5:servername5:ipaddress5:username1:password1:username2:password2
+serverid6:servername6:ipaddress6:init#command1:init#command2:username1:password1
+serverid7:servername7:ipaddress7:init#command1:init#command2:init#command3:username:password
+serverid8:servername8:ipaddress8:init#command1:init#command2:username1:password1:username2:password2

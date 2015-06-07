@@ -55,4 +55,15 @@ public abstract class DefaultCommand implements Command {
 		return this.parsedCommandLine;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof DefaultCommand) {
+			DefaultCommand temp = (DefaultCommand) object;
+			if (temp.parsedCommandLine.equals (this.parsedCommandLine)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

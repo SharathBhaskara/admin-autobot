@@ -13,10 +13,6 @@ import javax.management.monitor.Monitor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.novicehacks.autobot.config.parser.CommandParser;
-import com.novicehacks.autobot.config.parser.ExecutableParser;
-import com.novicehacks.autobot.config.parser.Parser;
-import com.novicehacks.autobot.config.parser.ServerParser;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Executable;
 import com.novicehacks.autobot.core.types.Server;
@@ -25,14 +21,15 @@ import com.novicehacks.autobot.core.types.Server;
  * Loads the resouce configuration to the {@link ResourceConfig} bean.
  * 
  * <p>
- * Uses the corresponding &lt;Resource&gt; {@link Parser} for reading the
- * configurations and loads them in the bean. <strong>Note:</strong> Uses
- * {@link ConfigParser} to get the information about the location of the
- * resource configuration file
+ * uses the config loaders {@link ServerConfigLoader},
+ * {@link CommandConfigLoader} and {@link ExecutableConfigLoader} to load the
+ * user configuration into {@link ResourceConfig}. <strong>Note:</strong> Before
+ * loading the {@link ResourceConfig} the {@link ApplicationConfig} needs to be
+ * loaded
  * </p>
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks
- * @see Parser
+ * @see ResourceConfigParser
  * @see ResourceConfig
  * @see ConfigParser
  *
@@ -54,7 +51,7 @@ public class ResourceConfigLoader {
 
 	private static Logger logger = LogManager.getLogger (ResourceConfigLoader.class);
 
-	protected ResourceConfigLoader () {}
+	ResourceConfigLoader () {}
 
 	/**
 	 * Loads the resource configurations into {@link ResouceConfig} after
@@ -64,7 +61,7 @@ public class ResourceConfigLoader {
 	 * @throws ExecutionException
 	 * @throws TimeoutException
 	 */
-	public ResourceConfig loadResourceConfig() throws InterruptedException, ExecutionException,
+	ResourceConfig loadResourceConfig() throws InterruptedException, ExecutionException,
 			TimeoutException {
 		logger.entry ();
 		startParsingConfigurations ();
@@ -76,35 +73,45 @@ public class ResourceConfigLoader {
 	}
 
 	private void startParsingConfigurations() {
-		executorService = Executors.newCachedThreadPool ();
+		executorService = createThreadPool ();
 
 		startParsingServerConfiguration ();
 		startParsingCommandConfiguration ();
 		startParsingExecutableConfiguration ();
 	}
 
+	ExecutorService createThreadPool() {
+		return Executors.newCachedThreadPool ();
+	}
+
 	private void startParsingServerConfiguration() {
-		String serverConfigPath;
-		Parser<Server> serverParser;
-		serverConfigPath = ConfigParser.getIntance ().serverResource ();
-		serverParser = new ServerParser (serverConfigPath);
+		ServerConfigLoader serverParser;
+		serverParser = getServerConfigLoader ();
 		serverConfigFuture = executorService.submit (serverParser);
 	}
 
+	ServerConfigLoader getServerConfigLoader() {
+		return new ServerConfigLoader ();
+	}
+
 	private void startParsingCommandConfiguration() {
-		String commandConfigPath;
-		Parser<Command> commandParser;
-		commandConfigPath = ConfigParser.getIntance ().serverResource ();
-		commandParser = new CommandParser (commandConfigPath);
+		CommandConfigLoader commandParser;
+		commandParser = getCommandConfigLoader ();
 		commandConfigFuture = executorService.submit (commandParser);
 	}
 
+	CommandConfigLoader getCommandConfigLoader() {
+		return new CommandConfigLoader ();
+	}
+
 	private void startParsingExecutableConfiguration() {
-		String executableConfigPath;
-		Parser<Executable> executableParser;
-		executableConfigPath = ConfigParser.getIntance ().serverResource ();
-		executableParser = new ExecutableParser (executableConfigPath);
+		ExecutableConfigLoader executableParser;
+		executableParser = getExecutableConfigLoader ();
 		executableConfigFuture = executorService.submit (executableParser);
+	}
+
+	ExecutableConfigLoader getExecutableConfigLoader() {
+		return new ExecutableConfigLoader ();
 	}
 
 	private void waitForParsingToComplete() throws InterruptedException {
@@ -114,33 +121,40 @@ public class ResourceConfigLoader {
 
 	private void collectConfigFromParsers() throws InterruptedException, ExecutionException,
 			TimeoutException {
-		collectServerConfigurations ();
-		collectCommandConfigurations ();
-		collectExecutableConfigurations ();
+		this.serverConfig = getFutureObjectConfig (serverConfigFuture);
+		this.commandConfig = getFutureObjectConfig (commandConfigFuture);
+		this.executableConfig = getFutureObjectConfig (executableConfigFuture);
 	}
 
-	private void collectServerConfigurations() throws InterruptedException, ExecutionException,
-			TimeoutException {
+	<T> Set<T> getFutureObjectConfig(Future<Set<T>> futureObject) throws InterruptedException,
+			ExecutionException, TimeoutException {
+		Set<T> setOfConfigurations;
+		setOfConfigurations = futureObject.get (ParsingTimeout, TimeUnit.MINUTES);
+		return setOfConfigurations;
+	}
+
+	Set<Server> getServerConfig() throws InterruptedException, ExecutionException, TimeoutException {
 		Set<Server> setOfConfigurations;
 		setOfConfigurations = serverConfigFuture.get (ParsingTimeout, TimeUnit.MINUTES);
-		this.serverConfig = setOfConfigurations;
+		return setOfConfigurations;
 	}
 
-	private void collectCommandConfigurations() throws InterruptedException, ExecutionException,
+	Set<Command> getCommandConfig() throws InterruptedException, ExecutionException,
 			TimeoutException {
 		Set<Command> setOfConfigurations;
 		setOfConfigurations = commandConfigFuture.get (ParsingTimeout, TimeUnit.MINUTES);
-		this.commandConfig = setOfConfigurations;
+		return setOfConfigurations;
 	}
 
-	private void collectExecutableConfigurations() throws InterruptedException, ExecutionException,
+	Set<Executable> getExecutableConfig() throws InterruptedException, ExecutionException,
 			TimeoutException {
 		Set<Executable> setOfConfigurations;
 		setOfConfigurations = executableConfigFuture.get (ParsingTimeout, TimeUnit.MINUTES);
-		this.executableConfig = setOfConfigurations;
+		return setOfConfigurations;
 	}
 
 	private void loadParsedConfigurations() {
 		resourceConfig.loadConfig (serverConfig, commandConfig, executableConfig);
 	}
+
 }

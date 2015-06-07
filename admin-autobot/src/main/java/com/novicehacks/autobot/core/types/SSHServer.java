@@ -30,4 +30,15 @@ public class SSHServer extends DefaultServer {
 		return null;
 	}
 
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof SSHServer) {
+			SSHServer temp = (SSHServer) object;
+			if (temp.parserdServerLine ().equals (this.parserdServerLine ())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

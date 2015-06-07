@@ -1,6 +1,7 @@
 package com.novicehacks.autobot.executor;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -17,12 +18,13 @@ public class TestCommandExecutorTask {
 		CommandExecutorTask task;
 		task = new CommandExecutorTask ();
 		try {
+			ConfigurationManager.getSharedInstance ().loadSystemConfig ();
 			ConfigurationManager.getSharedInstance ().loadResourceConfig ();
 			task.run ();
 		} catch (Exception ex) {
 			ex.printStackTrace ();
 			System.out.println (ex.getSuppressed ());
-			Assert.fail ("Exception raised while command execution");
+			fail ("Exception raised while command execution" + ex);
 		}
 	}
 }
