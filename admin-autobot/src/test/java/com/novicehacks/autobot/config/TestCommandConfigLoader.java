@@ -1,6 +1,7 @@
 package com.novicehacks.autobot.config;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -103,6 +104,16 @@ public class TestCommandConfigLoader {
 
 		Set<Command> commandConfigSet = commandConfigLoader.getCommandConfig ();
 		assertCommandConfigurations (commandConfigSet, configData1, configData2);
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void testResouceNotFoundInConfigParser() throws IOException {
+		when (configParser.getConfigFromFile ()).thenThrow (new IOException ("Resource not found"));
+
+		expectedException.expect (IOException.class);
+		expectedException.expectMessage ("Resource not found");
+		commandConfigLoader.loadCommandConfig ();
 	}
 
 	private void assertCommandConfigurations(	Set<Command> actualCommandConfigSet,

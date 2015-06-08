@@ -1,5 +1,6 @@
 package com.novicehacks.autobot.config;
 
+import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -44,13 +45,51 @@ public class TestResourceConfigLoader {
 	}
 
 	private void setUpStubs() throws Exception {
+		when (serverConfigLoader.call ()).thenReturn (mockedServerConfig ());
+		when (commandConfigLoader.call ()).thenReturn (mockedCommandConfig ());
+		when (executableConfigLoader.call ()).thenReturn (mockedExecutableConfig ());
 		when (resourceConfigLoader.getServerConfigLoader ()).thenReturn (serverConfigLoader);
 		when (resourceConfigLoader.getCommandConfigLoader ()).thenReturn (commandConfigLoader);
 		when (resourceConfigLoader.getExecutableConfigLoader ())
 				.thenReturn (executableConfigLoader);
-		when(serverConfigLoader.call ()).thenReturn (mockedServerConfig());
-		when(commandConfigLoader.call ()).thenReturn (mockedCommandConfig());
-		when(executableConfigLoader.call ()).thenReturn (mockedExecutableConfig());
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void testExceptionInReadingServerConfigFiles() throws IOException, InterruptedException,
+			ExecutionException, TimeoutException {
+		when (serverConfigLoader.call ()).thenThrow (
+				new IOException ("Server resource file not found"));
+
+		exception.expect (ExecutionException.class);
+		exception.expectCause (isA (IOException.class));
+		exception.expectMessage ("Server resource file not found");
+		resourceConfigLoader.loadResourceConfig ();
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void testExceptionInReadingCommandConfigFiles() throws Exception {
+		when (commandConfigLoader.call ()).thenThrow (
+				new IOException ("Command resource file not found"));
+
+		exception.expect (ExecutionException.class);
+		exception.expectCause (isA (IOException.class));
+		exception.expectMessage ("Command resource file not found");
+		resourceConfigLoader.loadResourceConfig ();
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void testExceptionInReadingExecutableConfigFiles() throws IOException,
+			InterruptedException, ExecutionException, TimeoutException {
+		when (executableConfigLoader.call ()).thenThrow (
+				new IOException ("Command resource file not found"));
+
+		exception.expect (ExecutionException.class);
+		exception.expectCause (isA (IOException.class));
+		exception.expectMessage ("Command resource file not found");
+		resourceConfigLoader.loadResourceConfig ();
 	}
 
 	@Test
@@ -61,15 +100,6 @@ public class TestResourceConfigLoader {
 		assertCommandConfig ();
 		assertServerConfig ();
 		assertExecutableConfig ();
-	}
-
-	@Test
-	@Category (UnitTest.class)
-	public void testLoadingResourceConfigWithoutMock() throws InterruptedException,
-			ExecutionException, TimeoutException {
-		ConfigurationManager.getSharedInstance ().loadSystemConfig ();
-		ResourceConfigLoader configLoader = new ResourceConfigLoader ();
-		configLoader.loadResourceConfig ();
 	}
 
 	private void assertExecutableConfig() {

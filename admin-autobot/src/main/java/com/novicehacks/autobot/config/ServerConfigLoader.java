@@ -158,7 +158,7 @@ public class ServerConfigLoader implements Callable<Set<Server>> {
 	}
 
 	ResourceConfigParser getResourceConfigParser() {
-		String serverConfigFilename = ConfigParser.getIntance ().serverResource ();
+		String serverConfigFilename = ApplicationConfigParser.getIntance ().absoluteServerResourcePath ();
 		ResourceConfigParser configParser = new ResourceConfigParser (serverConfigFilename);
 		return configParser;
 	}

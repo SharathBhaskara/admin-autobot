@@ -13,13 +13,13 @@ import org.junit.experimental.categories.Category;
 import com.novicehacks.autobot.categories.UnitTest;
 
 public class TestConfigurationManager {
-	ConfigParser parser;
-	ConfigLoader loader;
+	ApplicationConfigParser parser;
+	ApplicationConfigLoader loader;
 
 	@Before
 	public void setup() {
-		parser = mock (ConfigParser.class);
-		loader = mock (ConfigLoader.class);
+		parser = mock (ApplicationConfigParser.class);
+		loader = mock (ApplicationConfigLoader.class);
 		ApplicationConfig.getInstance ().unload ();
 		ResourceConfig.getInstance ().unload ();
 	}

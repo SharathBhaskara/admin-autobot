@@ -78,7 +78,7 @@ public class CommandConfigLoader implements Callable<Set<Command>> {
 	}
 
 	ResourceConfigParser getResourceConfigParser() {
-		String configFilename = ConfigParser.getIntance ().commandResource ();
+		String configFilename = ApplicationConfigParser.getIntance ().absoluteCommandResourcePath ();
 		ResourceConfigParser configParser = new ResourceConfigParser (configFilename);
 		return configParser;
 	}

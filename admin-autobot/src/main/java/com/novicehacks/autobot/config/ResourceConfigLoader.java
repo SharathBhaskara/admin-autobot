@@ -31,7 +31,7 @@ import com.novicehacks.autobot.core.types.Server;
  * @author Sharath Chand Bhaskara for NoviceHacks
  * @see ResourceConfigParser
  * @see ResourceConfig
- * @see ConfigParser
+ * @see ApplicationConfigParser
  *
  */
 public class ResourceConfigLoader {

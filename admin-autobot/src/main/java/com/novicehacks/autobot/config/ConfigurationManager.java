@@ -43,32 +43,32 @@ public class ConfigurationManager {
 	 * {@link ApplicationConfig} bean.
 	 * 
 	 * <p>
-	 * uses {@link ConfigParser} to fetch the configurations from file and uses
-	 * {@link ConfigLoader} to load them to ApplicationConfig bean.
+	 * uses {@link ApplicationConfigParser} to fetch the configurations from file and uses
+	 * {@link ApplicationConfigLoader} to load them to ApplicationConfig bean.
 	 * 
-	 * @see ConfigParser
-	 * @see ConfigLoader
+	 * @see ApplicationConfigParser
+	 * @see ApplicationConfigLoader
 	 */
 	public ApplicationConfig loadSystemConfig() {
 		logger.entry ();
-		ConfigParser parser = getConfigParser ();
+		ApplicationConfigParser parser = getConfigParser ();
 		Properties configProperties = parser.getConfigProperties ();
-		ConfigLoader loader = getConfigLoader ();
+		ApplicationConfigLoader loader = getConfigLoader ();
 		loader.loadApplicationConfig (configProperties);
 		AppConfigNotLoaded.set (false);
 		logger.exit ();
 		return ApplicationConfig.getInstance ();
 	}
 
-	private ConfigLoader getConfigLoader() {
-		ConfigLoader loader;
-		loader = new ConfigLoader ();
+	private ApplicationConfigLoader getConfigLoader() {
+		ApplicationConfigLoader loader;
+		loader = new ApplicationConfigLoader ();
 		return loader;
 	}
 
-	protected ConfigParser getConfigParser() {
-		ConfigParser parser;
-		parser = ConfigParser.getIntance ();
+	protected ApplicationConfigParser getConfigParser() {
+		ApplicationConfigParser parser;
+		parser = ApplicationConfigParser.getIntance ();
 		return parser;
 	}
 

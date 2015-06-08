@@ -2,12 +2,12 @@ package com.novicehacks.autobot.core.stubs;
 
 import java.util.Properties;
 
-import com.novicehacks.autobot.config.ConfigLoader;
+import com.novicehacks.autobot.config.ApplicationConfigLoader;
 
 public class ConfigManagerDelegate {
 
 	private Properties properties;
-	private ConfigLoader configManager;
+	private ApplicationConfigLoader configManager;
 
 	public ConfigManagerDelegate () {
 		this.properties = new Properties ();

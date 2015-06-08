@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
  * @author Sharath Chand Bhaskara for NoviceHacks
  *
  */
-public class ConfigParser {
+public class ApplicationConfigParser {
 	/**
 	 * All the below constants define the property names in autobot.properties,
 	 * and are used to populate the state of SysConfig
@@ -31,13 +31,13 @@ public class ConfigParser {
 	private static final String ExecutableResourceFileName = "ExecutableFileName";
 	private static final String MonitorResourceFileName = "MonitorsFileName";
 
-	private Logger logger = LogManager.getLogger (ConfigParser.class);
+	private Logger logger = LogManager.getLogger (ApplicationConfigParser.class);
 	private Properties properties;
 
 	private static class ConfigParserSingleton {
-		private static ConfigParser instance = new ConfigParser ();
+		private static ApplicationConfigParser instance = new ApplicationConfigParser ();
 
-		public static ConfigParser instance() {
+		public static ApplicationConfigParser instance() {
 			return instance;
 		}
 	}
@@ -47,7 +47,7 @@ public class ConfigParser {
 	 * 
 	 * @return object instance
 	 */
-	public static ConfigParser getIntance() {
+	public static ApplicationConfigParser getIntance() {
 		return ConfigParserSingleton.instance ();
 	}
 
@@ -58,7 +58,7 @@ public class ConfigParser {
 	 * @throws IllegalStateException
 	 *         when unable to load the properties from config file
 	 */
-	private ConfigParser () throws IllegalStateException {
+	private ApplicationConfigParser () throws IllegalStateException {
 		loadProperitesFromFile ();
 	}
 
@@ -115,7 +115,7 @@ public class ConfigParser {
 	 * @return Absolute path of the server resource
 	 * 
 	 */
-	public String serverResource() {
+	public String absoluteServerResourcePath() {
 		String fileName = ServerResourceFileName;
 		String filePath = getAbsolutePathAsString (fileName);
 		return filePath;
@@ -135,7 +135,7 @@ public class ConfigParser {
 	 * @return Absolute path of the Command resource
 	 * 
 	 */
-	public String commandResource() {
+	public String absoluteCommandResourcePath() {
 		String fileName = CommandResourceFileName;
 		String filePath = getAbsolutePathAsString (fileName);
 		return filePath;
@@ -148,7 +148,7 @@ public class ConfigParser {
 	 * @return Absolute path of the server resource
 	 * 
 	 */
-	public String executableResource() {
+	public String absoluteExecutableResourcePath() {
 		String fileName = ExecutableResourceFileName;
 		String filePath = getAbsolutePathAsString (fileName);
 		return filePath;
@@ -161,7 +161,7 @@ public class ConfigParser {
 	 * @return Absolute path of the monitors resource
 	 * 
 	 */
-	public String monitorResource() {
+	public String absoluteMonitorResourcePath() {
 		String fileName = MonitorResourceFileName;
 		String filePath = getAbsolutePathAsString (fileName);
 		return filePath;

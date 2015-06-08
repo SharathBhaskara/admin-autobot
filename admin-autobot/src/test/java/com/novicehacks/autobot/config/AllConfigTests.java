@@ -5,9 +5,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith (Suite.class)
-@SuiteClasses ({ TestConfigParser.class, TestConfigLoader.class, TestConfigurationManager.class,
-		TestServerConfigLoader.class, TestCommandConfigLoader.class,
-		TestExecutableConfigLoader.class })
+@SuiteClasses ({ TestApplicationConfig.class, TestCommandConfigLoader.class,
+		TestApplicationConfigLoader.class, TestApplicationConfigParser.class, TestConfigurationManager.class,
+		TestExecutableConfigLoader.class, TestResourceConfigLoader.class,
+		TestResourceConfigParser.class, TestServerConfigLoader.class })
 public class AllConfigTests {
 
 }

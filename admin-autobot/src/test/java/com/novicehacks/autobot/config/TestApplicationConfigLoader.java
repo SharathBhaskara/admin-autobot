@@ -16,7 +16,7 @@ import com.novicehacks.autobot.categories.UnitTest;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class TestConfigLoader {
+public class TestApplicationConfigLoader {
 
 	@Before
 	public void setup() {
@@ -33,7 +33,7 @@ public class TestConfigLoader {
 	public void loadingResourceFolderConfigThroughConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("ResourceFolder", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -53,7 +53,7 @@ public class TestConfigLoader {
 	public void loadingServerFileNameThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("ServerFileName", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -67,7 +67,7 @@ public class TestConfigLoader {
 	public void loadingExecutableFileNameThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("ExecutableFileName", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -81,7 +81,7 @@ public class TestConfigLoader {
 	public void loadingMonitorsFileNameThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("MonitorsFileName", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -95,7 +95,7 @@ public class TestConfigLoader {
 	public void loadingTokenSeperatorThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("TokenSeperator", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -109,7 +109,7 @@ public class TestConfigLoader {
 	public void loadingShellConsoleFolderThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("ShellConsoleFolder", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -123,7 +123,7 @@ public class TestConfigLoader {
 	public void loadingServerConnectionTimeoutThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("ServerConnectionTimeout", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -137,7 +137,7 @@ public class TestConfigLoader {
 	public void loadingExecutableDelayThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("ExecutableDelay", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -151,7 +151,7 @@ public class TestConfigLoader {
 	public void loadingMonitoringEnabledThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("MonitoringEnabled", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -165,7 +165,7 @@ public class TestConfigLoader {
 	public void loadingExecutableTimeoutThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("ExecutableTimeout", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -179,7 +179,7 @@ public class TestConfigLoader {
 	public void loadingCommandFilenameThroghConstructor() {
 		// given
 		Properties props = wrapIntoProperites ("CommandFileName", "abcd");
-		ConfigLoader loader = new ConfigLoader (props);
+		ApplicationConfigLoader loader = new ApplicationConfigLoader (props);
 		// when
 		loader.loadApplicationConfig ();
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -193,7 +193,7 @@ public class TestConfigLoader {
 	public void loadingResourceFolderConfig() {
 		// given
 		Properties props = wrapIntoProperites ("ResourceFolder", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -207,7 +207,7 @@ public class TestConfigLoader {
 	public void loadingServerFileName() {
 		// given
 		Properties props = wrapIntoProperites ("ServerFileName", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -221,7 +221,7 @@ public class TestConfigLoader {
 	public void loadingExecutableFileName() {
 		// given
 		Properties props = wrapIntoProperites ("ExecutableFileName", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -235,7 +235,7 @@ public class TestConfigLoader {
 	public void loadingMonitorsFileName() {
 		// given
 		Properties props = wrapIntoProperites ("MonitorsFileName", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -249,7 +249,7 @@ public class TestConfigLoader {
 	public void loadingTokenSeperator() {
 		// given
 		Properties props = wrapIntoProperites ("TokenSeperator", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -263,7 +263,7 @@ public class TestConfigLoader {
 	public void loadingShellConsoleFolder() {
 		// given
 		Properties props = wrapIntoProperites ("ShellConsoleFolder", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -277,7 +277,7 @@ public class TestConfigLoader {
 	public void loadingServerConnectionTimeout() {
 		// given
 		Properties props = wrapIntoProperites ("ServerConnectionTimeout", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -291,7 +291,7 @@ public class TestConfigLoader {
 	public void loadingExecutableDelay() {
 		// given
 		Properties props = wrapIntoProperites ("ExecutableDelay", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -305,7 +305,7 @@ public class TestConfigLoader {
 	public void loadingMonitoringEnabled() {
 		// given
 		Properties props = wrapIntoProperites ("MonitoringEnabled", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -319,7 +319,7 @@ public class TestConfigLoader {
 	public void loadingExecutableTimeout() {
 		// given
 		Properties props = wrapIntoProperites ("ExecutableTimeout", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();
@@ -333,7 +333,7 @@ public class TestConfigLoader {
 	public void loadingCommandFilename() {
 		// given
 		Properties props = wrapIntoProperites ("CommandFileName", "abcd");
-		ConfigLoader loader = new ConfigLoader ();
+		ApplicationConfigLoader loader = new ApplicationConfigLoader ();
 		// when
 		loader.loadApplicationConfig (props);
 		ApplicationConfig config = ApplicationConfig.getInstance ();

@@ -32,7 +32,6 @@ public class ExecutableConfigLoader implements Callable<Set<Executable>> {
 
 	private Logger logger = LogManager.getLogger (ExecutableConfigLoader.class);
 
-	private static final int TokenCount = 2;
 	private static final String InvalidTokenCountMsg = "Invalid count of tokens for executable";
 
 	ExecutableConfigLoader () {
@@ -51,7 +50,7 @@ public class ExecutableConfigLoader implements Callable<Set<Executable>> {
 	}
 
 	public void loadExecutableConfig() throws IOException {
-		ResourceConfigParser parser = getConfigParser ();
+		ResourceConfigParser parser = getResourceConfigParser ();
 		Set<String> userConfigSet = parser.getConfigFromFile ();
 		executableConfigSet = new HashSet<Executable> ();
 		for (String userConfig : userConfigSet) {
@@ -80,14 +79,14 @@ public class ExecutableConfigLoader implements Callable<Set<Executable>> {
 		return ApplicationConfig.getInstance ().tokenSeperator ();
 	}
 
-	ResourceConfigParser getConfigParser() {
+	ResourceConfigParser getResourceConfigParser() {
 		String configFile = getConfigFilePath ();
 		ResourceConfigParser parser = new ResourceConfigParser (configFile);
 		return parser;
 	}
 
 	String getConfigFilePath() {
-		return ConfigParser.getIntance ().executableResource ();
+		return ApplicationConfigParser.getIntance ().absoluteExecutableResourcePath ();
 	}
 
 }

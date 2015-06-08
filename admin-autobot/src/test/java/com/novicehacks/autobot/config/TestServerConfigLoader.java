@@ -217,6 +217,16 @@ public class TestServerConfigLoader {
 		assertCredentialConfiguration (server, true, passwords);
 	}
 
+	@Test
+	@Category (UnitTest.class)
+	public void testResouceNotFoundInConfigParser() throws IOException {
+		when (parser.getConfigFromFile ()).thenThrow (new IOException ("Resource not found"));
+
+		exception.expect (IOException.class);
+		exception.expectMessage ("Resource not found");
+		serverConfigLoader.loadServerConfiguration ();
+	}
+
 	private Set<String> mockedServerConfig(int datasetIndex) {
 		String config = DataSet[datasetIndex];
 		Set<String> configSet = new HashSet<String> ();

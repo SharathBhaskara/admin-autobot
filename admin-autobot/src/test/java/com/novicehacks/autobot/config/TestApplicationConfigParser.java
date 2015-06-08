@@ -16,26 +16,26 @@ import com.novicehacks.autobot.categories.UnitTest;
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *
  */
-public class TestConfigParser {
-	private static ConfigParser parser;
+public class TestApplicationConfigParser {
+	private static ApplicationConfigParser parser;
 	Logger logger = LogManager.getLogger ();
 
 	@BeforeClass
 	public static void setup() {
-		parser = ConfigParser.getIntance ();
+		parser = ApplicationConfigParser.getIntance ();
 	}
 
 	@Test
 	@Category (UnitTest.class)
 	public void testConfigLoading() {
-		logger.debug ("Command Resource: [{}]", parser.commandResource ());
-		assertNotNull (parser.commandResource ());
-		logger.debug ("Executable Resource: [{}]", parser.executableResource ());
-		assertNotNull (parser.executableResource ());
-		logger.debug ("Monitor Resource: [{}]", parser.monitorResource ());
-		assertNotNull (parser.monitorResource ());
-		logger.debug ("Server Resource: [{}]", parser.serverResource ());
-		assertNotNull (parser.serverResource ());
+		logger.debug ("Command Resource: [{}]", parser.absoluteCommandResourcePath ());
+		assertNotNull (parser.absoluteCommandResourcePath ());
+		logger.debug ("Executable Resource: [{}]", parser.absoluteExecutableResourcePath ());
+		assertNotNull (parser.absoluteExecutableResourcePath ());
+		logger.debug ("Monitor Resource: [{}]", parser.absoluteMonitorResourcePath ());
+		assertNotNull (parser.absoluteMonitorResourcePath ());
+		logger.debug ("Server Resource: [{}]", parser.absoluteServerResourcePath ());
+		assertNotNull (parser.absoluteServerResourcePath ());
 	}
 
 	@Test

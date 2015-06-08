@@ -1,6 +1,7 @@
 package com.novicehacks.autobot.config;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class TestExecutableConfigLoader {
 	public void setUp() {
 		mockParser = Mockito.mock (ResourceConfigParser.class);
 		executableConfigLoader = Mockito.spy (ExecutableConfigLoader.class);
-		Mockito.when (executableConfigLoader.getConfigParser ()).thenReturn (mockParser);
+		Mockito.when (executableConfigLoader.getResourceConfigParser ()).thenReturn (mockParser);
 	}
 
 	@Test
@@ -83,6 +84,16 @@ public class TestExecutableConfigLoader {
 
 		Set<Executable> loadedConfig = executableConfigLoader.getExecutableConfig ();
 		assertLoadedConfig (loadedConfig, dataSetIndex);
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void testResouceNotFoundInConfigParser() throws IOException {
+		when (mockParser.getConfigFromFile ()).thenThrow (new IOException ("Resource not found"));
+
+		exception.expect (IOException.class);
+		exception.expectMessage ("Resource not found");
+		executableConfigLoader.loadExecutableConfig ();
 	}
 
 	private void assertLoadedConfig(Set<Executable> loadedConfig, int... dataSetIndex) {

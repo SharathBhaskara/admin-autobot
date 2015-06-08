@@ -9,15 +9,15 @@ import org.apache.logging.log4j.Logger;
  * loads the {@link ApplicationConfig} bean from the properties
  * 
  * <p>
- * The properties will be supplied by the {@link ConfigParser}, after reading the
+ * The properties will be supplied by the {@link ApplicationConfigParser}, after reading the
  * content from the property files.
  * </p>
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
- * @see ConfigParser
+ * @see ApplicationConfigParser
  */
-public class ConfigLoader {
-	private Logger logger = LogManager.getLogger (ConfigLoader.class);
+public class ApplicationConfigLoader {
+	private Logger logger = LogManager.getLogger (ApplicationConfigLoader.class);
 	private ApplicationConfig config = ApplicationConfig.getInstance ();
 	private Properties props;
 
@@ -28,7 +28,7 @@ public class ConfigLoader {
 	 * @param props
 	 * @see #loadApplicationConfig()
 	 */
-	protected ConfigLoader (Properties properties) {
+	protected ApplicationConfigLoader (Properties properties) {
 		this.props = properties;
 	}
 
@@ -38,7 +38,7 @@ public class ConfigLoader {
 	 * 
 	 * @see #loadApplicationConfig(Properties)
 	 */
-	protected ConfigLoader () {
+	protected ApplicationConfigLoader () {
 		this.props = new Properties ();
 	}
 

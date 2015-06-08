@@ -2,7 +2,7 @@ package com.novicehacks.autobot.config;
 
 /**
  * ApplicationConfig is a singleton bean loaded during the launch of the
- * application by {@link ConfigLoader}.
+ * application by {@link ApplicationConfigLoader}.
  * 
  * <p>
  * If the configuration for any of the property is not loaded or set to null
@@ -13,7 +13,7 @@ package com.novicehacks.autobot.config;
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
  * @see ConfigurationProperty
- * @see ConfigLoader
+ * @see ApplicationConfigLoader
  */
 public class ApplicationConfig {
 
