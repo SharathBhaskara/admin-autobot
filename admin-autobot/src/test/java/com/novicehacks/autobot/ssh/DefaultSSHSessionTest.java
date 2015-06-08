@@ -1,6 +1,7 @@
 package com.novicehacks.autobot.ssh;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -16,7 +17,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
 
 import ch.ethz.ssh2.Session;
 
@@ -145,7 +145,7 @@ public class DefaultSSHSessionTest {
 	public void startShellAfterExecutingCommand() throws IOException {
 		// when command executed on session
 		this.sshSession.execCommand ("df -k");
-		verify (this.remoteSession).execCommand (Mockito.anyString ());
+		verify (this.remoteSession).execCommand (anyString ());
 		// then
 		this.exception.expect (IllegalStateException.class);
 		this.sshSession.startShell ();
@@ -194,7 +194,7 @@ public class DefaultSSHSessionTest {
 		this.exception.expect (IllegalStateException.class);
 		this.sshSession.execCommand ("df -k");
 
-		verify (this.remoteSession, never ()).execCommand (Mockito.anyString ());
+		verify (this.remoteSession, never ()).execCommand (anyString ());
 		fail ("Command cannot be executed after starting shell on same session");
 	}
 
@@ -256,7 +256,7 @@ public class DefaultSSHSessionTest {
 	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void requestTerminalBeforeExecuteCommand() throws IOException {
 		// given
-		verify (this.remoteSession, never ()).execCommand (Mockito.anyString ());
+		verify (this.remoteSession, never ()).execCommand (anyString ());
 		// when no commands executed
 		this.sshSession.getTerminal ();
 		// then
@@ -281,7 +281,7 @@ public class DefaultSSHSessionTest {
 	@Category (UnitTest.class)
 	public void requestMultipleTerminalBeforeShellStartOrCommandExecute() throws IOException {
 		// given
-		verify (this.remoteSession, never ()).execCommand (Mockito.anyString ());
+		verify (this.remoteSession, never ()).execCommand (anyString ());
 		verify (this.remoteSession, never ()).startShell ();
 		// when terminal already requested
 		this.sshSession.getTerminal ();

@@ -2,6 +2,7 @@ package com.novicehacks.autobot.config;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.Properties;
@@ -45,7 +46,7 @@ public class TestConfigurationManager {
 	}
 
 	private ConfigurationManager mockedConfigurationManager(Properties mockConfig) {
-		ConfigurationManager manager = mock (ConfigurationManager.class);
+		ConfigurationManager manager = spy (ConfigurationManager.class);
 		when (manager.loadSystemConfig ()).thenCallRealMethod ();
 		when (manager.getConfigParser ()).thenReturn (parser);
 		when (parser.getConfigProperties ()).thenReturn (mockConfig);

@@ -1,6 +1,10 @@
 package com.novicehacks.autobot.config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -13,12 +17,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
 
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.config.ExecutableConfigLoader;
-import com.novicehacks.autobot.config.ResourceConfigParser;
-import com.novicehacks.autobot.config.ResourceLoadingException;
 import com.novicehacks.autobot.core.types.Executable;
 
 public class TestExecutableConfigLoader {
@@ -31,16 +31,17 @@ public class TestExecutableConfigLoader {
 
 	@Before
 	public void setUp() {
-		mockParser = Mockito.mock (ResourceConfigParser.class);
-		executableConfigLoader = Mockito.spy (ExecutableConfigLoader.class);
-		Mockito.when (executableConfigLoader.getResourceConfigParser ()).thenReturn (mockParser);
+		mockParser = mock (ResourceConfigParser.class);
+		executableConfigLoader = spy (ExecutableConfigLoader.class);
+		when(executableConfigLoader.getTokenSeperator ()).thenReturn (":");
+		when (executableConfigLoader.getResourceConfigParser ()).thenReturn (mockParser);
 	}
 
 	@Test
 	@Category (UnitTest.class)
 	public void testLoadingConfigWithOneToken() throws IOException {
 		int dataSetIndex = 0;
-		Mockito.when (mockParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (mockParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		exception.expect (ResourceLoadingException.class);
 		exception.expectMessage ("Invalid count of tokens for executable:");
@@ -53,7 +54,7 @@ public class TestExecutableConfigLoader {
 	@Category (UnitTest.class)
 	public void testLoadingConfigWithExtraTokens() throws IOException {
 		int dataSetIndex = 2;
-		Mockito.when (mockParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (mockParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		exception.expect (ResourceLoadingException.class);
 		exception.expectMessage ("Invalid count of tokens for executable:");
@@ -66,7 +67,7 @@ public class TestExecutableConfigLoader {
 	@Category (UnitTest.class)
 	public void testLoadingConfig() throws IOException {
 		int dataSetIndex = 1;
-		Mockito.when (mockParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (mockParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		executableConfigLoader.loadExecutableConfig ();
 
@@ -78,7 +79,7 @@ public class TestExecutableConfigLoader {
 	@Category (UnitTest.class)
 	public void testLoadingMultipleConfig() throws IOException {
 		int[] dataSetIndex = { 1, 3 };
-		Mockito.when (mockParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (mockParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		executableConfigLoader.loadExecutableConfig ();
 

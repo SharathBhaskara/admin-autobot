@@ -1,6 +1,8 @@
 package com.novicehacks.autobot.config;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -14,12 +16,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
 
 import com.novicehacks.autobot.categories.UnitTest;
-import com.novicehacks.autobot.config.CommandConfigLoader;
-import com.novicehacks.autobot.config.ResourceConfigParser;
-import com.novicehacks.autobot.config.ResourceLoadingException;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.ShellCommand;
 
@@ -33,17 +31,17 @@ public class TestCommandConfigLoader {
 
 	@Before
 	public void setup() {
-		commandConfigLoader = Mockito.spy (CommandConfigLoader.class);
-		configParser = Mockito.mock (ResourceConfigParser.class);
-		Mockito.when (commandConfigLoader.getResourceConfigParser ()).thenReturn (configParser);
-		Mockito.when (commandConfigLoader.getTokenSeperator ()).thenReturn (":");
+		commandConfigLoader = spy (CommandConfigLoader.class);
+		configParser = mock (ResourceConfigParser.class);
+		when (commandConfigLoader.getResourceConfigParser ()).thenReturn (configParser);
+		when (commandConfigLoader.getTokenSeperator ()).thenReturn (":");
 	}
 
 	@Test
 	@Category (UnitTest.class)
 	public void testCommandConfigWithOneToken() throws IOException {
 		int dataSetIndex = 0;
-		Mockito.when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		expectedException.expect (ResourceLoadingException.class);
 		expectedException.expectMessage ("Command Config token count is invalid");
@@ -56,7 +54,7 @@ public class TestCommandConfigLoader {
 	@Category (UnitTest.class)
 	public void testCommandConfigWithTwoTokens() throws IOException {
 		int dataSetIndex = 1;
-		Mockito.when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		expectedException.expect (ResourceLoadingException.class);
 		expectedException.expectMessage ("Command Config token count is invalid");
@@ -69,7 +67,7 @@ public class TestCommandConfigLoader {
 	@Category (UnitTest.class)
 	public void testCommandConfig() throws IOException {
 		int dataSetIndex = 2;
-		Mockito.when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		commandConfigLoader.loadCommandConfig ();
 
@@ -81,7 +79,7 @@ public class TestCommandConfigLoader {
 	@Category (UnitTest.class)
 	public void testCommandConfigWithExtraTokens() throws IOException {
 		int dataSetIndex = 3;
-		Mockito.when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		expectedException.expect (ResourceLoadingException.class);
 		expectedException.expectMessage ("Command Config token count is invalid");
@@ -98,7 +96,7 @@ public class TestCommandConfigLoader {
 		Set<String> mockedConfig = new HashSet<String> ();
 		mockedConfig.add (configData1);
 		mockedConfig.add (configData2);
-		Mockito.when (configParser.getConfigFromFile ()).thenReturn (mockedConfig);
+		when (configParser.getConfigFromFile ()).thenReturn (mockedConfig);
 
 		commandConfigLoader.loadCommandConfig ();
 
@@ -140,7 +138,7 @@ public class TestCommandConfigLoader {
 	@Category (UnitTest.class)
 	public void testCommandConfigWithExtraToken() throws IOException {
 		int dataSetIndex = 0;
-		Mockito.when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
+		when (configParser.getConfigFromFile ()).thenReturn (mockedConfig (dataSetIndex));
 
 		expectedException.expect (ResourceLoadingException.class);
 		expectedException.expectMessage ("Command Config token count is invalid");
