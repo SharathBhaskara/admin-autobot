@@ -203,7 +203,7 @@ public class TestBotUtils {
 		// when
 		Future<?> f = ThreadManager.getInstance ().submitTaskToThreadPool (parentTask);
 		// then TODO BotUtils, threadgroup interrupt disabled.
-		//this.exception.expect (InterruptedException.class);
+		// this.exception.expect (InterruptedException.class);
 		Object any = f.get ();
 		System.out.println (any);
 	}
@@ -299,13 +299,42 @@ public class TestBotUtils {
 
 	@Test
 	@Category ({ UnitTest.class })
-	public void testStringToBooleanConversion() {
-
+	public void testStringToBooleanConversionFromtrue() {
+		final String booleanStr = "true";
+		boolean actual = BotUtils.convertStringToBoolean (booleanStr);
+		assertTrue ("String conversion to boolean failed", actual);
 	}
 
 	@Test
 	@Category ({ UnitTest.class })
-	public void testStringToLongConversion() {
-
+	public void testStringToBooleanConversionFromfalse() {
+		final String booleanStr = "false";
+		boolean actual = BotUtils.convertStringToBoolean (booleanStr);
+		assertFalse ("String conversion to boolean failed", actual);
 	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void testStringToBooleanConversionFromFALSE() {
+		final String booleanStr = "FALSE";
+		boolean actual = BotUtils.convertStringToBoolean (booleanStr);
+		assertFalse ("String conversion to boolean failed", actual);
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void testStringToBooleanConversionFromTRUE() {
+		final String booleanStr = "TRUE";
+		boolean actual = BotUtils.convertStringToBoolean (booleanStr);
+		assertTrue ("String conversion to boolean failed", actual);
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void testStringToBooleanConversionFromArbitraryText() {
+		final String booleanStr = "abc123";
+		boolean actual = BotUtils.convertStringToBoolean (booleanStr);
+		assertFalse ("String conversion to boolean failed", actual);
+	}
+
 }
