@@ -28,7 +28,7 @@ public class CommandExecutorTask implements RunnableTask {
 
 	public CommandExecutorTask () {
 		this.executableFutures = new LinkedList<Future<?>> ();
-		this.errorCollector = new RuntimeException ();
+		this.errorCollector = new RuntimeException ("Exception while executing commands on server");
 	}
 
 	@Override

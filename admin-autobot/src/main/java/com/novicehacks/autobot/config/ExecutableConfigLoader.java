@@ -25,8 +25,9 @@ import com.novicehacks.autobot.core.types.Executable;
  *
  */
 public class ExecutableConfigLoader implements Callable<Set<Executable>> {
-	private static final int CommaindIdTokenIndex = 0;
-	private static final int ServerIdTokenIndex = 1;
+	private static final int ServerIdTokenIndex = 0;
+	private static final int CommaindIdTokenIndex = 1;
+
 	private static final int MinTokenCount = 2;
 	private Set<Executable> executableConfigSet;
 

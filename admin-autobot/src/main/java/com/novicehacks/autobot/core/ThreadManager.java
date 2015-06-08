@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 /**
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
@@ -16,16 +17,16 @@ import org.apache.logging.log4j.Logger;
  */
 public class ThreadManager {
 
-	private ExecutorService		executorService		= Executors.newCachedThreadPool ();
-	private final ReentrantLock	executorServiceLock	= new ReentrantLock (true);
-	private Logger				logger				= LogManager.getLogger (ThreadManager.class);
+	private ExecutorService executorService = Executors.newCachedThreadPool ();
+	private final ReentrantLock executorServiceLock = new ReentrantLock (true);
+	private Logger logger = LogManager.getLogger (ThreadManager.class);
 
 	private ThreadManager () {
 		Thread.setDefaultUncaughtExceptionHandler (new GenericUncaughtExceptionHandler ());
 	}
 
 	private static class ThreadManagerSingleton {
-		private static final ThreadManager	instance	= new ThreadManager ();
+		private static final ThreadManager instance = new ThreadManager ();
 
 		public static ThreadManager getInstance() {
 			return instance;

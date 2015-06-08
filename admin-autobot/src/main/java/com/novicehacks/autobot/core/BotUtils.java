@@ -78,7 +78,7 @@ public class BotUtils {
 	 */
 	public static void PropogateInterruptIfExist(Exception exception) {
 		if (exception instanceof InterruptedException || Thread.interrupted ()) {
-			Thread.currentThread ().getThreadGroup ().interrupt ();
+			Thread.currentThread ()/*.getThreadGroup ()*/.interrupt ();
 		}
 	}
 
