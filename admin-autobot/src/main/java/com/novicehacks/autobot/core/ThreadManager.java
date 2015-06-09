@@ -11,6 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
+ * The single place where all the threads are executed, and handled in the admin
+ * autobot application.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
  *

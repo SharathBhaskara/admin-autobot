@@ -73,12 +73,14 @@ public class BotUtils {
 	/**
 	 * Propogates the Interrupted Exception if the exception is
 	 * InterruptedException or Thread is interrupted.
+	 * TODO commented interrupthing the ThreadGroup, now its similar to
+	 * {@link #DoNotPropogateInterrupt(Exception)}
 	 * 
 	 * @param ex
 	 */
 	public static void PropogateInterruptIfExist(Exception exception) {
 		if (exception instanceof InterruptedException || Thread.interrupted ()) {
-			Thread.currentThread ()/*.getThreadGroup ()*/.interrupt ();
+			Thread.currentThread ()/* .getThreadGroup () */.interrupt ();
 		}
 	}
 
@@ -88,12 +90,17 @@ public class BotUtils {
 	 * 
 	 * @param exception
 	 */
-	public static void DoNotPropogateInterrupt(InterruptedException exception) {
+	public static void DoNotPropogateInterrupt(Exception exception) {
 		if (exception instanceof InterruptedException || Thread.interrupted ()) {
 			Thread.currentThread ().interrupt ();
 		}
 	}
 
+	/**
+	 * Returns the system line separator, to write contents into the files.
+	 * 
+	 * @return
+	 */
 	public static String newLine() {
 		return System.lineSeparator ();
 	}
@@ -123,16 +130,36 @@ public class BotUtils {
 		return false;
 	}
 
+	/**
+	 * Converts a string to integer
+	 * 
+	 * @param integerStr
+	 * @return
+	 */
 	public static int convertStringToInt(final String integerStr) {
 		return convertStringToInt (integerStr, DecimalRadix.Decimal);
 	}
 
+	/**
+	 * Converts a string to integer using the decial radix. Used to create,
+	 * octal, hexadecimal and binary numbers.
+	 * 
+	 * @param integerStr
+	 * @param radix
+	 * @return
+	 */
 	public static int convertStringToInt(final String integerStr, final DecimalRadix radix) {
 		int value;
 		value = Integer.parseInt (integerStr, radix.value ());
 		return value;
 	}
 
+	/**
+	 * Converts a string to boolean
+	 * 
+	 * @param booleanStr
+	 * @return
+	 */
 	public static boolean convertStringToBoolean(String booleanStr) {
 		if (booleanStr == null)
 			return false;
