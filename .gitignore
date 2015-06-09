@@ -1,6 +1,7 @@
 /target-classes/
 /log/
 /settings/
+/temp-console/
 .classpath
 
 *.class
