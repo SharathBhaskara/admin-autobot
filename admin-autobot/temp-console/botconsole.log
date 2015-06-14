@@ -1,0 +1,421 @@
+
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : T001 (null)
+Command : TC01 (df -k)
+Execution Timestamp : 1433870775 (2015-06-09T17:26:15.940Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+command output
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : T001 (null)
+Command : TC01 (df -k)
+Execution Timestamp : 1433870822 (2015-06-09T17:27:02.316Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+command output
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0001 (df -k)
+Execution Timestamp : 1433870831 (2015-06-09T17:27:11.007Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+df -k
+Filesystem    1K-blocks       Used      Avail %Cap Mounted on
+/dev/wd0a      71768512    4853944   63326144   7% /
+ol1:/sys       70654382   64352162    6302220  91% /sys
+ol1:/udd       70660478   48165030   22495448  68% /udd
+ol1:/ftp       70654382   28967700   41686682  40% /ftp
+ol1:/com       19857846    6654544   12210410  35% /com
+ol1:/arpa/af  142249776   78414056   63835720  55% /arpa/af
+ol1:/arpa/gm   70022090   68152374    1869716  97% /arpa/gm
+ol1:/arpa/ns   70654382   51211980   19442402  72% /arpa/ns
+ol1:/arpa/tz   70022090   23365102   46656988  33% /arpa/tz
+ol1:/www/af   142249776   71295580   70954196  50% /www/af
+ol1:/www/gm    70654382   61003972    9650410  86% /www/gm
+ol1:/www/nz    69587532   67990908    1596624  97% /www/nz
+mx1:/mail     290671236  262176932   28494304  90% /mail
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0002 (ls -lrt)
+Execution Timestamp : 1433870832 (2015-06-09T17:27:12.516Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ls -lrt
+total 368
+-rw-------     1 novicehacks  users      67 Jan  5 19:34 .signature
+-rw-------     1 novicehacks  users       0 Jan  5 19:34 .hushlogin
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:10 .4248
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:12 .3323
+-rw-r--r--     1 novicehacks  users       1 Jan  9 14:57 .4681
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:54 .24940
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:56 .26273
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:58 .14262
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:00 .27954
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:04 .5603
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:06 .11797
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:09 .29858
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:11 .29516
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:12 .27313
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:13 .29477
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:45 .8800
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:50 .29391
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:52 .18850
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:54 .10912
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:55 .25438
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:56 .29255
+-rw-r--r--     1 novicehacks  users       0 Jan 10 16:36 .22858
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:29 .17724
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:31 .16449
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:32 .29172
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:35 .11585
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:36 .26146
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:37 .20810
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:39 .6308
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .7393
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .22171
+-rw-r--r--     1 novicehacks  users     512 Jan 10 18:49 .14045
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .15172
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .9949
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:59 .2209
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:02 .21249
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:04 .11784
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:23 .16495
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:33 .12825
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:39 .329
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:40 .26759
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .3115
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .29773
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:47 .9154
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:49 .9776
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:53 .25167
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:56 .13874
+-rw-r--r--     1 novicehacks  users       0 Jan 11 21:00 .12920
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:29 .18328
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:32 .1301
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:41 .25769
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:45 .19286
+-rw-r--r--     1 novicehacks  users       0 Feb  5 01:00 .24799
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:00 .493
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:02 .29059
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:03 .23786
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:15 .27051
+-rw-r--r--     1 novicehacks  users       0 Feb  8 08:37 .3790
+-rw-r--r--     1 novicehacks  users       0 Feb 23 20:09 .4994
+drwxr-xr-x  1582 new          wheel   28672 Jun  9 14:54 ..
+drwx------     2 novicehacks  users    1024 Jun  9 17:26 .
+-rw-r--r--     1 novicehacks  users  143916 Jun  9 17:27 .history
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S010 (QAServer)
+Command : C003 ( df -kh)
+Execution Timestamp : 1433870841 (2015-06-09T17:27:21.833Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+df -kh
+Filesystem         Size       Used      Avail %Cap Mounted on
+/dev/wd0a           68G       4.6G        60G   7% /
+ol1:/sys            67G        61G       6.0G  91% /sys
+ol1:/udd            67G        46G        21G  68% /udd
+ol1:/ftp            67G        28G        40G  40% /ftp
+ol1:/com            19G       6.3G        12G  35% /com
+ol1:/arpa/af       136G        75G        61G  55% /arpa/af
+ol1:/arpa/gm        67G        65G       1.8G  97% /arpa/gm
+ol1:/arpa/ns        67G        49G        19G  72% /arpa/ns
+ol1:/arpa/tz        67G        22G        44G  33% /arpa/tz
+ol1:/www/af        136G        68G        68G  50% /www/af
+ol1:/www/gm         67G        58G       9.2G  86% /www/gm
+ol1:/www/nz         66G        65G       1.5G  97% /www/nz
+mx1:/mail          277G       250G        27G  90% /mail
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S010 (QAServer)
+Command : C002 (ps -eaf | grep sh)
+Execution Timestamp : 1433870843 (2015-06-09T17:27:23.339Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ps -eaf | grep sh
+You are on sdf among 750 users.  ('validate' to see usernames)
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : T001 (null)
+Command : TC01 (df -k)
+Execution Timestamp : 1433962707 (2015-06-10T18:58:27.059Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+command output
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0001 (df -k)
+Execution Timestamp : 1433962716 (2015-06-10T18:58:36.109Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+df -k
+Filesystem    1K-blocks       Used      Avail %Cap Mounted on
+/dev/wd0a      71768512    4860446   63319642   7% /
+ol1:/sys       70654382   64532336    6122046  91% /sys
+ol1:/udd       70660478   48227936   22432542  68% /udd
+ol1:/ftp       70654382   28939852   41714530  40% /ftp
+ol1:/com       19857846    6728204   12136750  35% /com
+ol1:/arpa/af  142249776   78500480   63749296  55% /arpa/af
+ol1:/arpa/gm   70022090   68144644    1877446  97% /arpa/gm
+ol1:/arpa/ns   70654382   51045430   19608952  72% /arpa/ns
+ol1:/arpa/tz   70022090   23318732   46703358  33% /arpa/tz
+ol1:/www/af   142249776   71296592   70953184  50% /www/af
+ol1:/www/gm    70654382   61037780    9616602  86% /www/gm
+ol1:/www/nz    69587532   68248588    1338944  98% /www/nz
+mx1:/mail     290671236  262558032   28113204  90% /mail
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0002 (ls -lrt)
+Execution Timestamp : 1433962717 (2015-06-10T18:58:37.621Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ls -lrt
+total 368
+-rw-------     1 novicehacks  users      67 Jan  5 19:34 .signature
+-rw-------     1 novicehacks  users       0 Jan  5 19:34 .hushlogin
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:10 .4248
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:12 .3323
+-rw-r--r--     1 novicehacks  users       1 Jan  9 14:57 .4681
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:54 .24940
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:56 .26273
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:58 .14262
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:00 .27954
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:04 .5603
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:06 .11797
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:09 .29858
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:11 .29516
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:12 .27313
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:13 .29477
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:45 .8800
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:50 .29391
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:52 .18850
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:54 .10912
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:55 .25438
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:56 .29255
+-rw-r--r--     1 novicehacks  users       0 Jan 10 16:36 .22858
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:29 .17724
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:31 .16449
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:32 .29172
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:35 .11585
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:36 .26146
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:37 .20810
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:39 .6308
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .7393
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .22171
+-rw-r--r--     1 novicehacks  users     512 Jan 10 18:49 .14045
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .15172
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .9949
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:59 .2209
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:02 .21249
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:04 .11784
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:23 .16495
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:33 .12825
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:39 .329
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:40 .26759
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .3115
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .29773
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:47 .9154
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:49 .9776
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:53 .25167
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:56 .13874
+-rw-r--r--     1 novicehacks  users       0 Jan 11 21:00 .12920
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:29 .18328
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:32 .1301
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:41 .25769
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:45 .19286
+-rw-r--r--     1 novicehacks  users       0 Feb  5 01:00 .24799
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:00 .493
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:02 .29059
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:03 .23786
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:15 .27051
+-rw-r--r--     1 novicehacks  users       0 Feb  8 08:37 .3790
+-rw-r--r--     1 novicehacks  users       0 Feb 23 20:09 .4994
+drwxr-xr-x  1584 new          wheel   28672 Jun 10 05:41 ..
+drwx------     2 novicehacks  users    1024 Jun 10 18:58 .
+-rw-r--r--     1 novicehacks  users  144753 Jun 10 18:58 .history
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S010 (QAServer)
+Command : C003 ( df -kh)
+Execution Timestamp : 1433962726 (2015-06-10T18:58:46.914Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+df -kh
+Filesystem         Size       Used      Avail %Cap Mounted on
+/dev/wd0a           68G       4.6G        60G   7% /
+ol1:/sys            67G        62G       5.8G  91% /sys
+ol1:/udd            67G        46G        21G  68% /udd
+ol1:/ftp            67G        28G        40G  40% /ftp
+ol1:/com            19G       6.4G        12G  35% /com
+ol1:/arpa/af       136G        75G        61G  55% /arpa/af
+ol1:/arpa/gm        67G        65G       1.8G  97% /arpa/gm
+ol1:/arpa/ns        67G        49G        19G  72% /arpa/ns
+ol1:/arpa/tz        67G        22G        45G  33% /arpa/tz
+ol1:/www/af        136G        68G        68G  50% /www/af
+ol1:/www/gm         67G        58G       9.2G  86% /www/gm
+ol1:/www/nz         66G        65G       1.3G  98% /www/nz
+mx1:/mail          277G       250G        27G  90% /mail
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S010 (QAServer)
+Command : C002 (ps -eaf | grep sh)
+Execution Timestamp : 1433962728 (2015-06-10T18:58:48.418Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ps -eaf | grep sh
+You are on sdf among 782 users.  ('validate' to see usernames)
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : T001 (null)
+Command : TC01 (df -k)
+Execution Timestamp : 1433962742 (2015-06-10T18:59:02.970Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+command output
+
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0001 (df -k)
+Execution Timestamp : 1433962751 (2015-06-10T18:59:11.641Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+df -k
+Filesystem    1K-blocks       Used      Avail %Cap Mounted on
+/dev/wd0a      71768512    4860462   63319626   7% /
+ol1:/sys       70654382   64532336    6122046  91% /sys
+ol1:/udd       70660478   48227938   22432540  68% /udd
+ol1:/ftp       70654382   28939852   41714530  40% /ftp
+ol1:/com       19857846    6728224   12136730  35% /com
+ol1:/arpa/af  142249776   78500480   63749296  55% /arpa/af
+ol1:/arpa/gm   70022090   68145202    1876888  97% /arpa/gm
+ol1:/arpa/ns   70654382   51045430   19608952  72% /arpa/ns
+ol1:/arpa/tz   70022090   23318912   46703178  33% /arpa/tz
+ol1:/www/af   142249776   71296584   70953192  50% /www/af
+ol1:/www/gm    70654382   61037780    9616602  86% /www/gm
+ol1:/www/nz    69587532   68248600    1338932  98% /www/nz
+mx1:/mail     290671236  262558232   28113004  90% /mail
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S001 (test server)
+Command : 0002 (ls -lrt)
+Execution Timestamp : 1433962753 (2015-06-10T18:59:13.144Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ls -lrt
+total 372
+-rw-------     1 novicehacks  users      67 Jan  5 19:34 .signature
+-rw-------     1 novicehacks  users       0 Jan  5 19:34 .hushlogin
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:10 .4248
+-rw-r--r--     1 novicehacks  users       0 Jan  6 21:12 .3323
+-rw-r--r--     1 novicehacks  users       1 Jan  9 14:57 .4681
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:54 .24940
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:56 .26273
+-rw-r--r--     1 novicehacks  users       0 Jan 10 05:58 .14262
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:00 .27954
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:04 .5603
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:06 .11797
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:09 .29858
+-rw-r--r--     1 novicehacks  users     512 Jan 10 06:11 .29516
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:12 .27313
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:13 .29477
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:45 .8800
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:50 .29391
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:52 .18850
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:54 .10912
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:55 .25438
+-rw-r--r--     1 novicehacks  users       0 Jan 10 06:56 .29255
+-rw-r--r--     1 novicehacks  users       0 Jan 10 16:36 .22858
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:29 .17724
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:31 .16449
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:32 .29172
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:35 .11585
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:36 .26146
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:37 .20810
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:39 .6308
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .7393
+-rw-r--r--     1 novicehacks  users       0 Jan 10 18:40 .22171
+-rw-r--r--     1 novicehacks  users     512 Jan 10 18:49 .14045
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .15172
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:57 .9949
+-rw-r--r--     1 novicehacks  users       0 Jan 11 19:59 .2209
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:02 .21249
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:04 .11784
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:23 .16495
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:33 .12825
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:39 .329
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:40 .26759
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .3115
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:44 .29773
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:47 .9154
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:49 .9776
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:53 .25167
+-rw-r--r--     1 novicehacks  users       0 Jan 11 20:56 .13874
+-rw-r--r--     1 novicehacks  users       0 Jan 11 21:00 .12920
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:29 .18328
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:32 .1301
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:41 .25769
+-rw-r--r--     1 novicehacks  users       0 Jan 11 23:45 .19286
+-rw-r--r--     1 novicehacks  users       0 Feb  5 01:00 .24799
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:00 .493
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:02 .29059
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:03 .23786
+-rw-r--r--     1 novicehacks  users       0 Feb  5 18:15 .27051
+-rw-r--r--     1 novicehacks  users       0 Feb  8 08:37 .3790
+-rw-r--r--     1 novicehacks  users       0 Feb 23 20:09 .4994
+drwxr-xr-x  1584 new          wheel   28672 Jun 10 05:41 ..
+drwx------     2 novicehacks  users    1024 Jun 10 18:58 .
+-rw-r--r--     1 novicehacks  users  145524 Jun 10 18:59 .history
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S010 (QAServer)
+Command : C002 (ps -eaf | grep sh)
+Execution Timestamp : 1433962762 (2015-06-10T18:59:22.382Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ps -eaf | grep sh
+You are on sdf among 782 users.  ('validate' to see usernames)
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
+++++++++++++++++++++++++++++++++++++++++++++++++++
+Server : S010 (QAServer)
+Command : C003 ( df -kh)
+Execution Timestamp : 1433962763 (2015-06-10T18:59:23.890Z)
+++++++++++++++++++++++++++++++++++++++++++++++++++
+df -kh
+Filesystem         Size       Used      Avail %Cap Mounted on
+/dev/wd0a           68G       4.6G        60G   7% /
+ol1:/sys            67G        62G       5.8G  91% /sys
+ol1:/udd            67G        46G        21G  68% /udd
+ol1:/ftp            67G        28G        40G  40% /ftp
+ol1:/com            19G       6.4G        12G  35% /com
+ol1:/arpa/af       136G        75G        61G  55% /arpa/af
+ol1:/arpa/gm        67G        65G       1.8G  97% /arpa/gm
+ol1:/arpa/ns        67G        49G        19G  72% /arpa/ns
+ol1:/arpa/tz        67G        22G        45G  33% /arpa/tz
+ol1:/www/af        136G        68G        68G  50% /www/af
+ol1:/www/gm         67G        58G       9.2G  86% /www/gm
+ol1:/www/nz         66G        65G       1.3G  98% /www/nz
+mx1:/mail          277G       250G        27G  90% /mail
+sdf:/udd/n/novicehacks>
+**************************************************
+**************************************************
