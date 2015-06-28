@@ -7,7 +7,7 @@ import java.util.HashSet;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
 
-public class ServerExecutableCommandMap extends HashMap<Server, Collection<Command>> {
+public class ServerExecutableMap extends HashMap<Server, Collection<Command>> {
 
 	private static final long	serialVersionUID	= 1L;
 

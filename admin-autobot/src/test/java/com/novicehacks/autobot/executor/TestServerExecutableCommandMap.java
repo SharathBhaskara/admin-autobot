@@ -23,14 +23,14 @@ public class TestServerExecutableCommandMap {
 	@Test
 	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testInitialization() {
-		ServerExecutableCommandMap map = new ServerExecutableCommandMap ();
+		ServerExecutableMap map = new ServerExecutableMap ();
 		assertFalse (map.containsKey (null));
 	}
 
 	@Test
 	@Category (UnitTest.class)
 	public void testPutWithNullKey() {
-		ServerExecutableCommandMap map = new ServerExecutableCommandMap ();
+		ServerExecutableMap map = new ServerExecutableMap ();
 		map.put (null, new ShellCommand (null));
 		assertTrue (map.containsKey (null));
 	}
@@ -39,7 +39,7 @@ public class TestServerExecutableCommandMap {
 	@Category ({ UnitTest.class, FunctionalTest.class })
 	public void testPutMultipleValuesCheckSize() {
 		Server server = new SSHServer ("123");
-		ServerExecutableCommandMap map = new ServerExecutableCommandMap ();
+		ServerExecutableMap map = new ServerExecutableMap ();
 		map.put (server, new ShellCommand ("abc"));
 		map.put (server, new ShellCommand ("def"));
 		assertTrue (map.containsKey (server));
@@ -55,7 +55,7 @@ public class TestServerExecutableCommandMap {
 		Command command1 = new ShellCommand ("abc");
 		Command command2 = new ShellCommand ("def");
 		Command command3 = new ShellCommand ("ghi");
-		ServerExecutableCommandMap map = new ServerExecutableCommandMap ();
+		ServerExecutableMap map = new ServerExecutableMap ();
 		collection = map.put (server, command1);
 		assertEquals (1, collection.size ());
 		collection = map.put (server, command2);

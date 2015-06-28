@@ -18,10 +18,24 @@ import com.novicehacks.autobot.core.types.RunnableTask;
 import com.novicehacks.autobot.core.types.Server;
 import com.novicehacks.autobot.ssh.commandexecutor.SSHCommandExecutorServiceTask;
 
+/**
+ * It will execute the commmands on servers from the {@link ServerExecutableMap}
+ * asynchronously.
+ * 
+ * <p>
+ * Uses executable map generator to create the {@link ServerExecutableMap} from
+ * {@link ResourceConfig}. And executes commands on each server in a separate
+ * thread.
+ * </p>
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ * @see ServerExecutableMapGenerator
+ * @see SSHCommandExecutorServiceTask
+ */
 public class CommandExecutorTask implements RunnableTask {
 	private static final long ServerExecutionTimeoutInMinutes = 10;
 	private Collection<Future<?>> executableFutures;
-	private ServerExecutableCommandMap executableMap;
+	private ServerExecutableMap executableMap;
 	private RuntimeException errorCollector;
 	private boolean threadStarted = false;
 	private Logger logger = LogManager.getLogger (CommandExecutorTask.class);
@@ -41,69 +55,84 @@ public class CommandExecutorTask implements RunnableTask {
 	}
 
 	private void loadExecutables() {
+		logger.entry ("Started loading server executable map");
 		try {
-			loadExecutableMap ();
+			ServerExecutableMapGenerator executableCommandGenerator = getExecutableGeneratorInstance ();
+			this.executableMap = executableCommandGenerator.generateServerCommandMap ();
 		} catch (InterruptedException ex) {
-			this.logger.error ("Thread Interrupted", ex);
+			this.logger.error ("Thread Interrupted while creating server executable map", ex);
 			BotUtils.PropogateInterruptIfExist (ex);
 		}
+		logger.exit ();
 	}
 
-	private void loadExecutableMap() throws InterruptedException {
-		ServerExecutableCommandGenerator executableCommandGenerator;
-		executableCommandGenerator = ServerExecutableCommandGenerator.getInstance ();
-		this.executableMap = executableCommandGenerator.generateServerCommandMap ();
+	private ServerExecutableMapGenerator getExecutableGeneratorInstance() {
+		return ServerExecutableMapGenerator.getSharedInstance ();
 	}
 
 	private void startExecution() {
+		logger.entry ("Server executable execution started");
 		for (Server server : this.executableMap.keySet ())
 			executeCommandsOnServerAndSaveFutures (server);
+		logger.exit ();
 	}
 
 	private void executeCommandsOnServerAndSaveFutures(Server server) {
-		Future<?> executableFuture;
-		Collection<Command> commands;
-		commands = this.executableMap.get (server);
-		executableFuture = createAndSubmitCommandProcessor (server, commands);
+		logger.entry (server);
+		Collection<Command> commands = this.executableMap.get (server);
+		Future<?> executableFuture = createAndSubmitCommandProcessor (server, commands);
 		this.executableFutures.add (executableFuture);
+		logger.exit ();
 	}
 
 	private Future<?> createAndSubmitCommandProcessor(Server server, Collection<Command> commands) {
-		Future<?> executableFuture;
-		SSHCommandExecutorServiceTask serverCommandProcessor;
-		serverCommandProcessor = new SSHCommandExecutorServiceTask (server, commands);
-		executableFuture = ThreadManager.getInstance ().submitTaskToThreadPool (
-				serverCommandProcessor);
+		RunnableTask commandProcessorTask = getCommandExecutorTaskInstance (server, commands);
+		Future<?> executableFuture = getThreadManagerInstance ().submitTaskToThreadPool (
+				commandProcessorTask);
 		return executableFuture;
 	}
 
+	RunnableTask getCommandExecutorTaskInstance(Server server, Collection<Command> commands) {
+		return new SSHCommandExecutorServiceTask (server, commands);
+	}
+
+	ThreadManager getThreadManagerInstance() {
+		return ThreadManager.getInstance ();
+	}
+
 	private void waitForCompletion() {
+		logger.entry ();
 		Iterator<Future<?>> executableFutureIterator;
 		executableFutureIterator = this.executableFutures.iterator ();
 		while (executableFutureIterator.hasNext ()) {
 			waitForFutureCompletion (executableFutureIterator.next ());
 		}
+		logger.exit ();
 	}
 
-	private void waitForFutureCompletion(Future<?> next) {
-		this.logger.entry ();
+	private void waitForFutureCompletion(Future<?> taskFuture) {
+		this.logger.entry (taskFuture);
 		try {
-			next.get (ServerExecutionTimeoutInMinutes, TimeUnit.MINUTES);
+			taskFuture.get (ServerExecutionTimeoutInMinutes, TimeUnit.MINUTES);
 		} catch (InterruptedException | ExecutionException | TimeoutException e) {
-			handleFutureExceptions (e);
+			handleEaskExecutiaonExceptions (e);
 		}
 		this.logger.exit ();
 	}
 
-	private void handleFutureExceptions(Exception e) {
+	private void handleEaskExecutiaonExceptions(Exception e) {
 		this.logger.error (e);
 		BotUtils.PropogateInterruptIfExist (e);
 		this.errorCollector.addSuppressed (e);
+		logger.exit ();
 	}
 
 	private void alarmIfExceptionsCaught() {
+		logger.entry ("Count of suppressed exception: {}",
+				this.errorCollector.getSuppressed ().length);
 		if (this.errorCollector.getSuppressed ().length > 0)
 			throw this.errorCollector;
+		logger.exit ();
 	}
 
 	@Override
