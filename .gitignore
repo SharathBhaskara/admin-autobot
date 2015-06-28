@@ -2,6 +2,7 @@
 /log/
 /settings/
 /temp-console/
+/temp-console/*
 .classpath
 
 *.class

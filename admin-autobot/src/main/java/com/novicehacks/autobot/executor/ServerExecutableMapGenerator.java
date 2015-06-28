@@ -14,47 +14,64 @@ import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Executable;
 import com.novicehacks.autobot.core.types.Server;
 
-public final class ServerExecutableCommandGenerator {
+public final class ServerExecutableMapGenerator {
 
 	private Set<Executable> executables;
 	private Map<String, Server> servers;
 	private Map<String, Command> commands;
-	private ServerExecutableCommandMap executableMap;
+	private ServerExecutableMap executableMap;
 	private Lock generatorLock = new ReentrantLock ();
 	private static int GeneratorTimeoutInSeconds = 15;
-	private Logger logger = LogManager.getLogger (ServerExecutableCommandGenerator.class);
+	private Logger logger = LogManager.getLogger (ServerExecutableMapGenerator.class);
 
-	private ServerExecutableCommandGenerator () {
+	/**
+	 * Singleton implementation
+	 */
+	ServerExecutableMapGenerator () {
 		ResourceConfig resourceConfig;
-		resourceConfig = ResourceConfig.getInstance ();
+		resourceConfig = getResourceConfig ();
 		this.servers = resourceConfig.serverMap ();
 		this.commands = resourceConfig.commandMap ();
 		this.executables = resourceConfig.executables ();
-		this.executableMap = new ServerExecutableCommandMap ();
+		this.executableMap = new ServerExecutableMap ();
 	}
 
 	private static class ServerExecutableCommandGeneratorSingleton {
-		private static ServerExecutableCommandGenerator instance = new ServerExecutableCommandGenerator ();
+		private static ServerExecutableMapGenerator instance = new ServerExecutableMapGenerator ();
 
-		private static ServerExecutableCommandGenerator getInstance() {
+		private static ServerExecutableMapGenerator getInstance() {
 			return instance;
 		}
 	}
 
-	public static ServerExecutableCommandGenerator getInstance() {
+	public static ServerExecutableMapGenerator getSharedInstance() {
 		return ServerExecutableCommandGeneratorSingleton.getInstance ();
 	}
 
-	public ServerExecutableCommandMap generateServerCommandMap() throws InterruptedException {
-		this.logger.entry ();
-		this.generatorLock.tryLock (GeneratorTimeoutInSeconds, TimeUnit.SECONDS);
-		populateServerCommandMapIfNeeded (false);
-		this.generatorLock.unlock ();
-		this.logger.exit (this.executableMap);
-		return this.executableMap;
+	ResourceConfig getResourceConfig() {
+		return ResourceConfig.getInstance ();
 	}
 
-	public ServerExecutableCommandMap generateServerCommandMap(boolean forced)
+	/**
+	 * Same as calling {@link #generateServerCommandMap(false)}.
+	 * 
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public ServerExecutableMap generateServerCommandMap() throws InterruptedException {
+		return generateServerCommandMap (false);
+	}
+
+	/**
+	 * Creates a new map of server executable map or returns if one exist
+	 * already.
+	 * 
+	 * @param forced
+	 *        if set to true will create the map if when one exist already.
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public ServerExecutableMap generateServerCommandMap(boolean forced)
 			throws InterruptedException {
 		this.logger.entry ();
 		this.generatorLock.tryLock (GeneratorTimeoutInSeconds, TimeUnit.SECONDS);
