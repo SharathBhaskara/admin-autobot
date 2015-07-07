@@ -34,7 +34,7 @@ public class TestCommandConfigLoader {
 		commandConfigLoader = spy (CommandConfigLoader.class);
 		configParser = mock (ResourceConfigParser.class);
 		when (commandConfigLoader.getResourceConfigParser ()).thenReturn (configParser);
-		when (commandConfigLoader.getTokenSeperator ()).thenReturn (":");
+		when (commandConfigLoader.tokenSeperator ()).thenReturn (":");
 	}
 
 	@Test

@@ -78,18 +78,47 @@ public class ApplicationConfig {
 		return computedValue;
 	}
 
+	/**
+	 * filename only will be return, not the path. use
+	 * {@link ApplicationConfigParser#absoluteCommandResourcePath()} for reading
+	 * its contents
+	 * 
+	 * @return
+	 */
 	public String commandFilename() {
 		return computedValue (this.commandFilename, ConfigurationProperty.CommandFileName);
 	}
 
+	/**
+	 * filename only will be return, not the path. use
+	 * {@link ApplicationConfigParser#absoluteServerResourcePath()} for reading
+	 * its contents
+	 * 
+	 * @return
+	 */
 	public String serverFilename() {
 		return computedValue (this.serverFilename, ConfigurationProperty.ServerFileName);
 	}
 
+	/**
+	 * filename only will be return, not the path. use
+	 * {@link ApplicationConfigParser#absoluteExecutableResourcePath()} for
+	 * reading
+	 * its contents
+	 * 
+	 * @return
+	 */
 	public String executableFilename() {
 		return computedValue (this.executableFilename, ConfigurationProperty.ExecutableFileName);
 	}
 
+	/**
+	 * filename only will be return, not the path. use
+	 * {@link ApplicationConfigParser#absoluteMonitorResourcePath()} for reading
+	 * its contents
+	 * 
+	 * @return
+	 */
 	public String monitorFilename() {
 		return computedValue (this.monitorFilename, ConfigurationProperty.MonitorsFileName);
 	}

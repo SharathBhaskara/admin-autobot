@@ -109,8 +109,8 @@ public class ApplicationConfigParser {
 	}
 
 	/**
-	 * Handler to return the location of server resource from config
-	 * properties.
+	 * Returns the complete path of the server resource, appending resource
+	 * folder appended to it.
 	 * 
 	 * @return Absolute path of the server resource
 	 * 
@@ -129,8 +129,8 @@ public class ApplicationConfigParser {
 	}
 
 	/**
-	 * Handler to return the location of command resource from config
-	 * properties.
+	 * Returns the complete path of the command resource, appending resource
+	 * folder appended to it
 	 * 
 	 * @return Absolute path of the Command resource
 	 * 
@@ -142,8 +142,8 @@ public class ApplicationConfigParser {
 	}
 
 	/**
-	 * Handler to return the location of executable resource from config
-	 * properties.
+	 * Returns the complete path of the executable resource, appending resource
+	 * folder appended to it
 	 * 
 	 * @return Absolute path of the server resource
 	 * 
@@ -155,8 +155,8 @@ public class ApplicationConfigParser {
 	}
 
 	/**
-	 * Handler to return the location of monitor resource from config
-	 * properties.
+	 * Returns the complete path of the monitors resource, appending resource
+	 * folder appended to it
 	 * 
 	 * @return Absolute path of the monitors resource
 	 * 

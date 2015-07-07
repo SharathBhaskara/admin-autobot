@@ -50,7 +50,7 @@ public class CommandConfigLoader implements Callable<Set<Command>> {
 	}
 
 	private Command createCommandConfigFromUserString(String commandConfigStr) {
-		String[] configTokens = commandConfigStr.split (getTokenSeperator ());
+		String[] configTokens = commandConfigStr.split (tokenSeperator ());
 		checkAndRaiseExceptionForMinimumTokens (configTokens);
 		String commandDescription = configTokens[CommandDescriptionTokenIndex];
 		String commandString = configTokens[CommandStrTokenIndex];
@@ -83,7 +83,7 @@ public class CommandConfigLoader implements Callable<Set<Command>> {
 		return configParser;
 	}
 
-	String getTokenSeperator() {
+	String tokenSeperator() {
 		return ApplicationConfig.getInstance ().tokenSeperator ();
 	}
 

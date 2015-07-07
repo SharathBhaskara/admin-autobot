@@ -6,11 +6,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * loads the {@link ApplicationConfig} bean from the properties
+ * loads the {@link ApplicationConfig} bean from the properties object passed to
+ * it.
  * 
  * <p>
- * The properties will be supplied by the {@link ApplicationConfigParser}, after reading the
- * content from the property files.
+ * The properties will be supplied by the {@link ApplicationConfigParser}, after
+ * reading the content from the property files.
  * </p>
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
@@ -47,7 +48,7 @@ public class ApplicationConfigLoader {
 	 * initialization.
 	 */
 	public void loadApplicationConfig() {
-		loadApplicationConfig(this.props);
+		loadApplicationConfig (this.props);
 	}
 
 	/**
@@ -57,11 +58,11 @@ public class ApplicationConfigLoader {
 	 */
 	public void loadApplicationConfig(Properties props) {
 		for (String configKey : props.stringPropertyNames ()) {
-			setConfigForKey (configKey,props.getProperty (configKey));
+			setConfigForKey (configKey, props.getProperty (configKey));
 		}
 	}
 
-	protected void setConfigForKey(String configKey,String value) {
+	protected void setConfigForKey(String configKey, String value) {
 		ConfigurationProperty configProperty = ConfigurationProperty.fromKey (configKey);
 		if (configProperty == null)
 			logger.warn ("Unknown property defined in the system config properties {}", configKey);
