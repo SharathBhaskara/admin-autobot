@@ -1,6 +1,6 @@
 package com.novicehacks.autobot.core.types;
 
-import com.novicehacks.autobot.services.CommandExecutorService;
+import com.novicehacks.autobot.executor.CommandExecutorService;
 
 /**
  * SSHServer has capability of executing commands on SSH terminal.

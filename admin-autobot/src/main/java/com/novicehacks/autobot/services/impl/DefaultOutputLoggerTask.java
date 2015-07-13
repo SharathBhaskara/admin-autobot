@@ -12,12 +12,12 @@ import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.RunnableTask;
 import com.novicehacks.autobot.core.types.Server;
+import com.novicehacks.autobot.executor.ssh.exception.UnixOutputLoggingException;
+import com.novicehacks.autobot.executor.ssh.logger.ShellOutputLoggerTask;
 import com.novicehacks.autobot.services.ContentWriterService;
 import com.novicehacks.autobot.services.OutputFooterService;
 import com.novicehacks.autobot.services.OutputHeaderService;
 import com.novicehacks.autobot.services.OutputLoggerService;
-import com.novicehacks.autobot.ssh.exception.UnixOutputLoggingException;
-import com.novicehacks.autobot.ssh.logger.ShellOutputLoggerTask;
 
 public class DefaultOutputLoggerTask implements OutputLoggerService, RunnableTask {
 	private Server server;

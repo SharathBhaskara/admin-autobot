@@ -16,7 +16,7 @@ import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.RunnableTask;
 import com.novicehacks.autobot.core.types.Server;
-import com.novicehacks.autobot.ssh.commandexecutor.SSHCommandExecutorServiceTask;
+import com.novicehacks.autobot.executor.ssh.commandexecutor.SSHCommandExecutorServiceTask;
 
 /**
  * It will execute the commmands on servers from the {@link ServerExecutableMap}
