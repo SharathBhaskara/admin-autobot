@@ -7,13 +7,17 @@ import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
 import com.novicehacks.autobot.services.OutputHeaderService;
 
-public class DefaultOutputHeaderService implements OutputHeaderService {
+/**
+ * Default implementation of the {@link OutputHeaderService}
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ *
+ */
+public abstract class DefaultOutputHeaderService implements OutputHeaderService {
 	private Server server;
 	private Command command;
 	private StringBuilder buffer;
-	private final int seperatorLength = 50;
-	private String headerSeparatorContent;
-
+	
 	public DefaultOutputHeaderService (Server server, Command command) {
 		validateParams (server, command);
 		this.server = server;
@@ -28,13 +32,9 @@ public class DefaultOutputHeaderService implements OutputHeaderService {
 	@Override
 	public String header() {
 		this.buffer = new StringBuilder ();
-		this.buffer.append (BotUtils.newLine ());
-		this.buffer.append (getHeaderSeperator ());
-		this.buffer.append (BotUtils.newLine ());
+		this.buffer.append (headerSeparator ());
 		this.buffer.append (getHeading ());
-		this.buffer.append (BotUtils.newLine ());
-		this.buffer.append (getHeaderSeperator ());
-		this.buffer.append (BotUtils.newLine ());
+		this.buffer.append (headerSeparator ());
 		return this.buffer.toString ();
 	}
 
@@ -85,17 +85,6 @@ public class DefaultOutputHeaderService implements OutputHeaderService {
 
 	Instant getInstantTime() {
 		return Instant.now ();
-	}
-
-	private String getHeaderSeperator() {
-		StringBuilder buffer = new StringBuilder ();
-		if (this.headerSeparatorContent != null)
-			return this.headerSeparatorContent;
-		for (int count = 0; count < this.seperatorLength; count++) {
-			buffer.append ("+");
-		}
-		this.headerSeparatorContent = buffer.toString ();
-		return buffer.toString ();
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.executor.ssh.commandexecutor;
+package com.novicehacks.autobot.executor.ssh;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -16,12 +16,24 @@ import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
+import com.novicehacks.autobot.core.types.ShellCommand;
 import com.novicehacks.autobot.executor.CommandExecutorService;
-import com.novicehacks.autobot.executor.ssh.DefaultSSHConnection;
-import com.novicehacks.autobot.executor.ssh.commandexecutor.parallel.ParallelExecutorTask;
-import com.novicehacks.autobot.executor.ssh.commandexecutor.sequential.ShellExecutorTask;
 import com.novicehacks.autobot.executor.ssh.exception.CommandExecutionException;
+import com.novicehacks.autobot.executor.ssh.parallel.ParallelExecutorTask;
+import com.novicehacks.autobot.executor.ssh.sequential.ShellExecutorTask;
 
+/**
+ * SSHCommandExecutorService is responsible for executing the ShellCommands on
+ * Unix servers.
+ * 
+ * Based on the {@link Server#initCommands()} this executor will either select
+ * sequential or parallel execution of the {@link ShellCommand}s.
+ * 
+ * @author Sharath Chand Bhaskara for NoviceHacks!
+ * @see ParallelExecutorTask
+ * @see ShellExecutorTask
+ * 
+ */
 public class SSHCommandExecutorService implements CommandExecutorService {
 
 	private Server server;
@@ -175,8 +187,8 @@ public class SSHCommandExecutorService implements CommandExecutorService {
 
 	private void waitForSequentialExecitionCompletion() {
 		try {
-			this.sequentialCommandFuture.get (TimeDelay.largeDelayInMins.delay (),
-					TimeUnit.MINUTES);
+			this.sequentialCommandFuture
+					.get (TimeDelay.largeDelayInMins.delay (), TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
 			this.logger.error ("Thread Interrupted", e);
 			BotUtils.PropogateInterruptIfExist (e);

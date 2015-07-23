@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.executor.ssh.commandexecutor;
+package com.novicehacks.autobot.executor.ssh;
 
 import java.util.Collection;
 
@@ -8,17 +8,13 @@ import org.apache.logging.log4j.Logger;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.RunnableTask;
 import com.novicehacks.autobot.core.types.Server;
-import com.novicehacks.autobot.executor.ssh.commandexecutor.parallel.ParallelExecutorTask;
-import com.novicehacks.autobot.executor.ssh.commandexecutor.sequential.ShellExecutorTask;
 
 /**
- * The Master Task to execute the commands on the SSHserver.
+ * Runnable wrapper implementation of {@link SSHCommandExecutorService} so that
+ * it can run in multiple threads.
  * 
  * @author Sharath Chand Bhaskara for NoviceHacks!
- * 
- * @see ParallelExecutorTask
- * @see ShellExecutorTask
- * 
+ * @see SSHCommandExecutorService
  */
 public final class SSHCommandExecutorServiceTask extends SSHCommandExecutorService implements
 		RunnableTask {
@@ -34,7 +30,7 @@ public final class SSHCommandExecutorServiceTask extends SSHCommandExecutorServi
 	 * @throws IllegalArgumentException
 	 *         if unixServer parameter is null
 	 */
-	public SSHCommandExecutorServiceTask (final Server unixServer,
+	public SSHCommandExecutorServiceTask (	final Server unixServer,
 											final Collection<Command> unixCommands) {
 		super (unixServer, unixCommands);
 	}

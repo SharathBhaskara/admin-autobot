@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.executor.ssh.commandexecutor.sequential;
+package com.novicehacks.autobot.executor.ssh.sequential;
 
 import java.io.PrintStream;
 

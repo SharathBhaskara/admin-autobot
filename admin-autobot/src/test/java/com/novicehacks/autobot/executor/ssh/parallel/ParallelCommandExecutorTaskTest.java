@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.executor.ssh.commandexecutor.parallel;
+package com.novicehacks.autobot.executor.ssh.parallel;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -34,9 +34,9 @@ import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
 import com.novicehacks.autobot.executor.ssh.SSHConnection;
 import com.novicehacks.autobot.executor.ssh.SSHSession;
-import com.novicehacks.autobot.executor.ssh.commandexecutor.parallel.ParallelExecutorTask;
 import com.novicehacks.autobot.executor.ssh.exception.CommandExecutionException;
 import com.novicehacks.autobot.executor.ssh.logger.ShellOutputLoggerTask;
+import com.novicehacks.autobot.executor.ssh.parallel.ParallelExecutorTask;
 
 public class ParallelCommandExecutorTaskTest {
 	private Server server;

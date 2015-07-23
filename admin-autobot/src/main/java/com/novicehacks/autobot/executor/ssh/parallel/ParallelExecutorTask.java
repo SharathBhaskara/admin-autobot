@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.executor.ssh.commandexecutor.parallel;
+package com.novicehacks.autobot.executor.ssh.parallel;
 
 import java.io.BufferedReader;
 import java.io.IOException;

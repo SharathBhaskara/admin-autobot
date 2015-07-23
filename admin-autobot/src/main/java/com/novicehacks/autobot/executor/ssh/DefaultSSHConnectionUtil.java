@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.executor.ssh.commandexecutor;
+package com.novicehacks.autobot.executor.ssh;
 
 import java.io.IOException;
 
@@ -9,7 +9,6 @@ import com.novicehacks.autobot.config.ApplicationConfig;
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.core.types.Server;
 import com.novicehacks.autobot.core.types.ServerCredential;
-import com.novicehacks.autobot.executor.ssh.DefaultSSHConnection;
 import com.novicehacks.autobot.executor.ssh.exception.ServerConnectionException;
 
 /**

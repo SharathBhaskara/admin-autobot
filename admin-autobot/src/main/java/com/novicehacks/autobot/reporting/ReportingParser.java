@@ -1,5 +1,9 @@
 package com.novicehacks.autobot.reporting;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Place Holder class for reporting feature.
  * 
@@ -7,6 +11,10 @@ package com.novicehacks.autobot.reporting;
  *
  */
 
-public class ReportingParser {
+public interface ReportingParser {
+
+	public List<CommandOutputBean> readCommandOutput();
+
+	public Set<ReportingBean> reportingBeanList(Collection<CommandOutputBean> outputBeanCollection);
 
 }

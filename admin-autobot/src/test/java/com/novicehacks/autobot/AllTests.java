@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import com.novicehacks.autobot.config.AllConfigTests;
 import com.novicehacks.autobot.core.AllCoreTests;
 import com.novicehacks.autobot.executor.AllExecutorTests;
-import com.novicehacks.autobot.executor.ssh.AllSSHTests;
+import com.novicehacks.autobot.executor.AllSSHTests;
 
 /**
  * Includes both parameterized and unit tests.

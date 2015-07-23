@@ -1,30 +1,33 @@
 package com.novicehacks.autobot.services.impl;
 
+import java.time.Instant;
+
 import com.novicehacks.autobot.core.BotUtils;
 import com.novicehacks.autobot.services.OutputFooterService;
 
-public class DefaultOutputFooterService implements OutputFooterService {
-	private final int seperatorLength = 50;
-	private String footerSeparatorContent;
+public abstract class DefaultOutputFooterService implements OutputFooterService {
 
 	@Override
 	public String footer() {
 		StringBuilder buffer;
 		buffer = new StringBuilder ();
-		buffer.append (getFooterSeperator ());
-		buffer.append (BotUtils.newLine ());
-		buffer.append (getFooterSeperator ());
+		buffer.append (footerSeparator ());
+		buffer.append (footerContent ());
+		buffer.append (footerSeparator ());
 		return buffer.toString ();
 	}
 
-	private String getFooterSeperator() {
+	private Object footerContent() {
 		StringBuilder buffer = new StringBuilder ();
-		if (this.footerSeparatorContent != null)
-			return this.footerSeparatorContent;
-		for (int count = 0; count < this.seperatorLength; count++) {
-			buffer.append ("*");
-		}
-		this.footerSeparatorContent = buffer.toString ();
+		buffer.append (BotUtils.newLine ());
+		buffer.append ("timestamp : ");
+		buffer.append (timeStamp ().getEpochSecond ());
+		buffer.append (BotUtils.newLine ());
 		return buffer.toString ();
 	}
+
+	Instant timeStamp() {
+		return Instant.now ();
+	}
+
 }

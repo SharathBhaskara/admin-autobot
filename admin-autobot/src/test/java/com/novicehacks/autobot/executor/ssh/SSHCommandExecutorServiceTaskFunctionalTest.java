@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.executor.ssh.commandexecutor;
+package com.novicehacks.autobot.executor.ssh;
 
 import static org.mockito.Mockito.when;
 
@@ -22,7 +22,7 @@ import com.novicehacks.autobot.core.ThreadManager;
 import com.novicehacks.autobot.core.types.Command;
 import com.novicehacks.autobot.core.types.Server;
 import com.novicehacks.autobot.core.types.ServerCredential;
-import com.novicehacks.autobot.executor.ssh.commandexecutor.SSHCommandExecutorServiceTask;
+import com.novicehacks.autobot.executor.ssh.SSHCommandExecutorServiceTask;
 
 public class SSHCommandExecutorServiceTaskFunctionalTest {
 	@Mock

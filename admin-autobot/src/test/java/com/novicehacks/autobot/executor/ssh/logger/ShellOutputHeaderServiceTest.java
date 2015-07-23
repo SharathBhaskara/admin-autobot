@@ -3,6 +3,8 @@ package com.novicehacks.autobot.executor.ssh.logger;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,5 +78,25 @@ public class ShellOutputHeaderServiceTest {
 		boolean status = this.headerService.equals (otherService);
 		// then
 		assertFalse ("Should not be equal because of two different commands", status);
+	}
+
+	@Test
+	@Category ({ UnitTest.class })
+	public void testWrappingHeader() {
+		// given
+		Server server = mock (Server.class);
+		Command command = mock (Command.class);
+		OutputHeaderService headerService = new ShellOutputHeaderService (server, command);
+		headerService = spy (headerService);
+
+		final String headerSeparator = "-";
+		when (headerService.headerSeparator ()).thenReturn (headerSeparator);
+		// when
+		String header = headerService.header ();
+		// then
+		assertTrue ("Header should be start with header separator",
+				header.startsWith (headerSeparator));
+		assertTrue ("Header should be end with header separator", header.endsWith (headerSeparator));
+
 	}
 }

@@ -19,7 +19,7 @@ import com.novicehacks.autobot.services.OutputFooterService;
 import com.novicehacks.autobot.services.OutputHeaderService;
 import com.novicehacks.autobot.services.OutputLoggerService;
 
-public class DefaultOutputLoggerTask implements OutputLoggerService, RunnableTask {
+public abstract class DefaultOutputLoggerTask implements OutputLoggerService, RunnableTask {
 	private Server server;
 	private Command command;
 	private String commandOutput;
@@ -94,13 +94,6 @@ public class DefaultOutputLoggerTask implements OutputLoggerService, RunnableTas
 		this.content += footerService ().footer ();
 	}
 
-	@Override
-	public OutputHeaderService headerService() {
-		OutputHeaderService service;
-		service = new DefaultOutputHeaderService (this.server, this.command);
-		return service;
-	}
-
 	private String getFormattedCommandOutput() {
 		this.logger.entry ();
 		StringBuilder contentBuffer;
@@ -109,13 +102,6 @@ public class DefaultOutputLoggerTask implements OutputLoggerService, RunnableTas
 		contentBuffer.append (BotUtils.newLine ());
 		this.logger.exit ();
 		return contentBuffer.toString ();
-	}
-
-	@Override
-	public OutputFooterService footerService() {
-		OutputFooterService service;
-		service = new DefaultOutputFooterService ();
-		return service;
 	}
 
 	private void writeContent(String content) {

@@ -1,4 +1,4 @@
-package com.novicehacks.autobot.executor.ssh.commandexecutor.sequential;
+package com.novicehacks.autobot.executor.ssh.sequential;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
