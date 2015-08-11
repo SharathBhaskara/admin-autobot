@@ -43,4 +43,9 @@ public class TestCommandExecutorTask {
 			fail ("Exception raised while command execution" + ex);
 		}
 	}
+	
+	@Test
+	public void simpleTest(){
+		assertTrue("Simple test to check the staus",true);
+	}
 }
