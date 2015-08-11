@@ -89,7 +89,7 @@ public class SysBotApp {
 		ScheduledFuture<?> future = service.scheduleWithFixedDelay (new CommandExecutorTask (), 0,
 				executableDelay, TimeUnit.MINUTES);
 		try {
-			System.out.println (future.getDelay (TimeUnit.MINUTES));
+			logger.debug (future.getDelay (TimeUnit.MINUTES));
 			future.get (TimeDelay.largeDelayInMins.delay (), TimeUnit.MINUTES);
 		} catch (InterruptedException | TimeoutException e) {
 			logger.info ("Scheduled Future Timedout / Interrupted : {}", e);

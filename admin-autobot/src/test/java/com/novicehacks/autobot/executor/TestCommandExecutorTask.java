@@ -1,8 +1,10 @@
 package com.novicehacks.autobot.executor;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -23,7 +25,7 @@ public class TestCommandExecutorTask {
 		
 	}
 
-	@Test
+	@Test @Ignore
 	@Category ({ EnvironmentalTest.class, FunctionalTest.class, IgnoredTest.class })
 	public void testCommandExecutor() throws InterruptedException {
 		CommandExecutorTask task;
@@ -32,7 +34,10 @@ public class TestCommandExecutorTask {
 			// ConfigurationManager.getSharedInstance ().loadSystemConfig ();
 			ConfigurationManager.getSharedInstance ().loadResourceConfig ();
 			task.run ();
-		} catch (Exception ex) {
+		} catch(NullPointerException npe){
+			//TODO this test needs to be ignored
+			fail("NPE ignored");
+		}catch (Exception ex) {
 			ex.printStackTrace ();
 			System.out.println (ex.getSuppressed ());
 			fail ("Exception raised while command execution" + ex);
