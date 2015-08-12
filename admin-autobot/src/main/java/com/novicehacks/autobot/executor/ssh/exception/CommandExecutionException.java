@@ -4,8 +4,8 @@ import java.util.Collection;
 
 public class CommandExecutionException extends WrappingRuntimeException {
 
-	private static final long		serialVersionUID	= 461409950894065199L;
-	private Collection<Throwable>	multipleReasons;
+	private static final long serialVersionUID = 461409950894065199L;
+	private transient Collection<Throwable> multipleReasons;
 
 	public CommandExecutionException (String message, Throwable reason) {
 		super (message, reason);

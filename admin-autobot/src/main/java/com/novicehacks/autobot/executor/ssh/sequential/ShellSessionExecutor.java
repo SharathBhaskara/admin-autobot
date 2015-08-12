@@ -24,8 +24,8 @@ public class ShellSessionExecutor {
 	private Logger logger = LogManager.getLogger (ShellSessionExecutor.class);
 
 	protected ShellSessionExecutor (Server server,
-											Command[] executableCommands,
-											ShellSessionController controller) {
+									Command[] executableCommands,
+									ShellSessionController controller) {
 		this.server = server;
 		this.executableCommands = executableCommands;
 		this.sessionController = controller;
@@ -58,7 +58,7 @@ public class ShellSessionExecutor {
 		try {
 			waitUntilTheRemoteOutputIsConsumed ();
 		} catch (CommandExecutionCompleteException e) {
-			this.logger.debug ("Command Execution Complete");
+			this.logger.debug ("Command Execution Complete : {}", e);
 		}
 	}
 

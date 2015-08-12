@@ -51,6 +51,11 @@
 					<reportOutputDirectory>${basedir}/../apidocs</reportOutputDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>2.3</version>
+			</plugin>
 		</plugins>
 	</build>
 	<organization>

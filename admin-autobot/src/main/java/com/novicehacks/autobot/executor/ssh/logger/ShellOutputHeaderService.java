@@ -41,4 +41,9 @@ public class ShellOutputHeaderService extends DefaultOutputHeaderService {
 			}
 		return false;
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode ();
+	}
 }

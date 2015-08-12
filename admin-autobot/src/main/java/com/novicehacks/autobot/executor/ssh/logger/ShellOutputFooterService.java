@@ -4,7 +4,7 @@ import com.novicehacks.autobot.services.impl.DefaultOutputFooterService;
 
 public class ShellOutputFooterService extends DefaultOutputFooterService {
 	private final int seperatorLength = 50;
-	private String footerSeparatorContent;
+	private String footerSeparatorContent = "";
 
 	@Override
 	public String footerSeparator() {
@@ -24,5 +24,10 @@ public class ShellOutputFooterService extends DefaultOutputFooterService {
 			if (obj instanceof ShellOutputFooterService)
 				return true;
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.footerSeparatorContent.hashCode () + 432 - 500;
 	}
 }

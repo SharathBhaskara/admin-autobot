@@ -46,6 +46,6 @@ public class TestCommandExecutorTask {
 	
 	@Test
 	public void simpleTest(){
-		assertTrue("Simple test to check the staus",true);
+		assertTrue("Simple test to check the staus",true);	
 	}
 }
