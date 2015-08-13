@@ -9,7 +9,10 @@
 	<properties>
 		<sonar.projectKey>local:admin-autobot</sonar.projectKey>
 		<sonar.projectName>dev-admin-autobot</sonar.projectName>
-	</properties>
+		<sonar.sources>src/main/java</sonar.sources>
+		<sonar.testSources>src/test/java</sonar.testSources>
+		<sonar.jacoco.reportPath>target/coverage-reports/jacoco-unit.exec</sonar.jacoco.reportPath>
+		</properties>
 	<dependencies>
 		<dependency>
 			<groupId>ch.ethz.ganymed</groupId>
@@ -67,6 +70,30 @@
 				<configuration>
 					<reportOutputDirectory>${basedir}/../apidocs</reportOutputDirectory>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.5.5.201112152213</version>
+				<configuration>
+					<destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+					<dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
