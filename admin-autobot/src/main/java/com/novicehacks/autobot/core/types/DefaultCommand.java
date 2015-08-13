@@ -65,5 +65,10 @@ public abstract class DefaultCommand implements Command {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode(){
+		return super.hashCode ();
+	}
 
 }

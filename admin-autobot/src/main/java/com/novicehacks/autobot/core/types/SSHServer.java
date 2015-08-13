@@ -41,4 +41,9 @@ public class SSHServer extends DefaultServer {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		return super.hashCode ();
+	}
+
 }

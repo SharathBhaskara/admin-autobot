@@ -18,6 +18,8 @@ package com.novicehacks.autobot.config;
 public class ApplicationConfig {
 
 	private static class ApplicationConfigSingleton {
+		private ApplicationConfigSingleton () {}
+
 		private static final ApplicationConfig instance = new ApplicationConfig ();
 
 		public static ApplicationConfig getInstance() {

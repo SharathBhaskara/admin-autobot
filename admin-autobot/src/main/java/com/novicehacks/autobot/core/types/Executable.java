@@ -56,4 +56,9 @@ public class Executable implements Comparable<Executable> {
 		}
 		return false;
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode ();
+	}
 }
