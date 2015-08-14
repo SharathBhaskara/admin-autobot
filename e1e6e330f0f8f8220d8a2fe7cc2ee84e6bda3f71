@@ -1,11 +1,11 @@
 {
   "built_on": "master",
-  "duration": 9.80300001,
-  "full_display_name": "admin-autobot-regression #1",
-  "id": "1",
-  "number": 1,
-  "result": "FAILURE",
+  "duration": 90.024999992,
+  "full_display_name": "admin-autobot-regression #2",
+  "id": "2",
+  "number": 2,
+  "result": "SUCCESS",
   "status_message": "?",
-  "time": "2015-08-14 14:11:31 -0700",
-  "url": "job/admin-autobot-regression/1/"
+  "time": "2015-08-14 14:15:37 -0700",
+  "url": "job/admin-autobot-regression/2/"
 }
