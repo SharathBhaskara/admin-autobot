@@ -12,7 +12,8 @@
 		<sonar.sources>src/main/java</sonar.sources>
 		<sonar.testSources>src/test/java</sonar.testSources>
 		<sonar.jacoco.reportPath>target/coverage-reports/jacoco-unit.exec</sonar.jacoco.reportPath>
-		</properties>
+		
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>ch.ethz.ganymed</groupId>

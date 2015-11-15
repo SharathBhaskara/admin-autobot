@@ -43,8 +43,9 @@ public class ConfigurationManager {
 	 * {@link ApplicationConfig} bean.
 	 * 
 	 * <p>
-	 * uses {@link ApplicationConfigParser} to fetch the configurations from file and uses
-	 * {@link ApplicationConfigLoader} to load them to ApplicationConfig bean.
+	 * uses {@link ApplicationConfigParser} to fetch the configurations from
+	 * file and uses {@link ApplicationConfigLoader} to load them to
+	 * ApplicationConfig bean.
 	 * 
 	 * @see ApplicationConfigParser
 	 * @see ApplicationConfigLoader
@@ -87,14 +88,18 @@ public class ConfigurationManager {
 
 	private void loadConfigAndHandleExceptionsIfAny() {
 		logger.entry ();
-		ResourceConfigLoader configLoader = new ResourceConfigLoader ();
+		ResourceConfigLoader configLoader = getResourceConfigLoader ();
 		try {
 			configLoader.loadResourceConfig ();
 		} catch (InterruptedException | ExecutionException | TimeoutException e) {
 			logger.fatal ("Unable to load resource configurations, SYSTEM will exit", e);
 			e.printStackTrace ();
-			System.exit (ExitStatusCode.ResourceLoadingFailed.value ());
+			throw new ConfigLoadingFailureException (ExitStatusCode.ResourceLoadingFailed.value () + "", e);
 		}
 		logger.exit ();
+	}
+
+	ResourceConfigLoader getResourceConfigLoader() {
+		return new ResourceConfigLoader ();
 	}
 }

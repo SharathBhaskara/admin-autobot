@@ -1,15 +1,21 @@
 package com.novicehacks.autobot.config;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.ExpectedException;
 
 import com.novicehacks.autobot.categories.UnitTest;
 
@@ -193,4 +199,52 @@ public class TestConfigurationManager {
 				config.executableTimeoutInMins ());
 	}
 
+	@Rule
+	public ExpectedException exception = ExpectedException.none ();
+
+	@Test
+	@Category (UnitTest.class)
+	public void testResourceConfigLoadingFailure() throws InterruptedException, ExecutionException,
+			TimeoutException {
+		ConfigurationManager manager = spy (ConfigurationManager.class);
+		ResourceConfigLoader mockedConfigLoader = mock (ResourceConfigLoader.class);
+		when (manager.getResourceConfigLoader ()).thenReturn (mockedConfigLoader);
+		when (mockedConfigLoader.loadResourceConfig ()).thenThrow (new InterruptedException ());
+
+		exception.expect (ConfigLoadingFailureException.class);
+		exception.expectCause (CoreMatchers.isA (InterruptedException.class));
+		manager.loadResourceConfig ();
+		fail ("Interrupted exception wrapped in a Runtime Exception expected");
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void testResourceConfigLoadingFailureWithTimeoutException() throws InterruptedException,
+			ExecutionException, TimeoutException {
+		ConfigurationManager manager = spy (ConfigurationManager.class);
+		ResourceConfigLoader mockedConfigLoader = mock (ResourceConfigLoader.class);
+		when (manager.getResourceConfigLoader ()).thenReturn (mockedConfigLoader);
+		when (mockedConfigLoader.loadResourceConfig ()).thenThrow (new TimeoutException ());
+
+		exception.expect (ConfigLoadingFailureException.class);
+		exception.expectCause (CoreMatchers.isA (TimeoutException.class));
+		manager.loadResourceConfig ();
+		fail ("Timeout exception wrapped in a Runtime Exception expected");
+	}
+
+	@Test
+	@Category (UnitTest.class)
+	public void testResourceConfigLoadingFailureWithExecutionException()
+			throws InterruptedException, ExecutionException, TimeoutException {
+		ConfigurationManager manager = spy (ConfigurationManager.class);
+		ResourceConfigLoader mockedConfigLoader = mock (ResourceConfigLoader.class);
+		when (manager.getResourceConfigLoader ()).thenReturn (mockedConfigLoader);
+		when (mockedConfigLoader.loadResourceConfig ()).thenThrow (
+				new ExecutionException ("", null));
+
+		exception.expect (ConfigLoadingFailureException.class);
+		exception.expectCause (CoreMatchers.isA (ExecutionException.class));
+		manager.loadResourceConfig ();
+		fail ("Execution exception wrapped in a Runtime Exception expected");
+	}
 }
